@@ -1,0 +1,3 @@
+pub fn main() -> List[Text] {
+    [int_text(-7 div 3), int_text(-7 % 3), int_text(7 % -3)]
+}

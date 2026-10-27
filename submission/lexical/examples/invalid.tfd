@@ -1,0 +1,4 @@
+// Intentionally invalid: E101, E102, E103, E105, E104.
+@ 09 1e+ "bad\q" 'ab'
+let recovered = 3;
+/* unfinished

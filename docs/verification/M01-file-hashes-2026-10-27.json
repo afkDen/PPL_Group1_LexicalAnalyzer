@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "task": "M01",
+  "purpose": "Accepted implementation file hashes for interruption recovery",
+  "files": {
+    "src/ternfold/frontend/source.py": "db8e73b1d3e5865b1133d0913ad5abbf47256fc9762cadc6338161aa34921968",
+    "src/ternfold/frontend/__init__.py": "f2644a569ed054cd10aa71c98f2beb0a9e40741369dbe6cf8cae675362000c9d",
+    "tests/test_source.py": "ab6256b0c35a2f1483f442c4468d6f7b3eefa9e957b5cca9864d47c55aff746e"
+  }
+}

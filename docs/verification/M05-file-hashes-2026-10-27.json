@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "task": "M05",
+  "purpose": "Accepted resolution files before M06 edits",
+  "files": {
+    "src/ternfold/analysis/modules.py": "5916965b93b80ec2386c524f2404dbdb3ce7fae249f63fa8e7ad794a986a3604",
+    "src/ternfold/analysis/resolve.py": "9f9dba8e7ead124a6faabb4df35978aae426261decaa60c73d417134adccc58d",
+    "src/ternfold/driver.py": "6eda031ed01804071e66352fc53551fbfe6cf367a667201348511515bd875bd8",
+    "src/ternfold/cli.py": "3487e4361e20059c9ea114b8cec8b09e53e8328372baf0cc44ed445926da7df8",
+    "tests/test_resolution.py": "26e0a45c5d8225a9262defd2d15d736a9d5972d025ef7a9fbb3f3a192d39fcde",
+    "tests/test_modules.py": "61fc64cecb1084e18274d773242e7b5d17a478d0735c51f182274e6267e74836",
+    "tests/test_check_cli.py": "3ee51571372aa03f026bcc77911c538a1a16e75885cf82e788539b82a4aca679"
+  }
+}

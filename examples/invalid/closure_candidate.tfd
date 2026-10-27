@@ -1,0 +1,4 @@
+machine Hidden(request: Int) yields Int rejects Text {
+    state a: Int = 0;
+    next a = (fn () -> Int { next.a })();
+}

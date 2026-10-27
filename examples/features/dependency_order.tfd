@@ -1,0 +1,13 @@
+machine Scale(delta: Int) yields Int rejects Text {
+    state a: Int = 0;
+    state b: Int = 0;
+    next b = next.a * 2;
+    next a = a + delta;
+    emit next.b;
+}
+pub fn main() -> List[Text] {
+    match step(Scale(), 7) {
+        Decision::Accept(snapshot, values) => { [int_text(snapshot.b)] },
+        Decision::Reject(snapshot, reason) => { [reason] }
+    }
+}

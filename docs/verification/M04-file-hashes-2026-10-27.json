@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "task": "M04",
+  "purpose": "Accepted AST/parser/CLI hashes before M05 edits",
+  "files": {
+    "src/ternfold/frontend/ast.py": "e3d8a4b87e083281960c238c6c7109b710417de1f11df7475d880574e254e728",
+    "src/ternfold/frontend/parser.py": "2d70175789caad60d4514ae406abee8d1f82ca2fa6099bc5f2548699146efcae",
+    "src/ternfold/frontend/ast_dump.py": "b3178815659faae8d01002e65a02f202fa1f4cc4d3b80827d3ab412c08b4339e",
+    "src/ternfold/cli.py": "72cfa5a2717f57c842ad7b26e243b4eab8c3901843a5ac5871e075ab080c64b6",
+    "tests/test_parser.py": "d0972678230f6918b689679c330479ac63bfb1dfd992693775441f955767ef47",
+    "tests/test_ast_cli.py": "6e63cea4d123c8cbd3aa43192b7bfd988648191dab5d40afeb97020a013de73a",
+    "tests/fixtures/parser/recovery.json": "ef5906bac536bbf88981945c31f739ef4c9e07c9ab0f49f843a37b9c545eee6c",
+    "tests/fixtures/parser/recovery.tfd": "6d88ba254d449fc2c2f6c3e2bd0b8c4cdd7043bf9edd748a0b3ffefd0c92e48b",
+    "tests/fixtures/parser/surface.json": "300ef138e38c5af7231334dcf5032f9c0cf809f5c42baea2fc29c7a457e0d5b9",
+    "tests/fixtures/parser/surface.tfd": "2700fa9efc97f680f6d9a11605f95822642fe83bba5f4c03165714ad5b0f94b3"
+  }
+}

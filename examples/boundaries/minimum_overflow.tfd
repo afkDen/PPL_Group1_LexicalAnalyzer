@@ -1,0 +1,4 @@
+pub fn main() -> List[Text] {
+    let minimum = -9223372036854775808;
+    [int_text(minimum div -1)]
+}

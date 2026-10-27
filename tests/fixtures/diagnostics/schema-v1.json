@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ternfold diagnostics version 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "has_errors", "diagnostics", "suppressed"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "has_errors": {"type": "boolean"},
+    "diagnostics": {"type": "array", "items": {"$ref": "#/$defs/diagnostic"}},
+    "suppressed": {"type": "array", "items": {"$ref": "#/$defs/suppression"}}
+  },
+  "$defs": {
+    "position": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["byte", "line", "column"],
+      "properties": {
+        "byte": {"type": "integer", "minimum": 0},
+        "line": {"type": ["integer", "null"], "minimum": 1},
+        "column": {"type": ["integer", "null"], "minimum": 1}
+      }
+    },
+    "span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "source_id", "source_valid", "start", "end"],
+      "properties": {
+        "file": {"type": "string"},
+        "source_id": {"type": "integer", "minimum": 0},
+        "source_valid": {"type": "boolean"},
+        "start": {"$ref": "#/$defs/position"},
+        "end": {"$ref": "#/$defs/position"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"source_valid": {"const": true}}},
+          "then": {
+            "properties": {
+              "start": {"properties": {"line": {"type": "integer"}, "column": {"type": "integer"}}},
+              "end": {"properties": {"line": {"type": "integer"}, "column": {"type": "integer"}}}
+            }
+          },
+          "else": {
+            "properties": {
+              "start": {"properties": {"line": {"type": "null"}, "column": {"type": "null"}}},
+              "end": {"properties": {"line": {"type": "null"}, "column": {"type": "null"}}}
+            }
+          }
+        }
+      ]
+    },
+    "label": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["span", "message"],
+      "properties": {"span": {"$ref": "#/$defs/span"}, "message": {"type": "string"}}
+    },
+    "edit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["span", "replacement"],
+      "properties": {
+        "span": {"$ref": "#/$defs/span", "properties": {"source_valid": {"const": true}}},
+        "replacement": {"type": "string"}
+      }
+    },
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "severity", "message", "primary", "secondary", "notes", "help", "edits"],
+      "properties": {
+        "code": {"type": "string", "pattern": "^[A-Z][0-9]{3}$"},
+        "severity": {"enum": ["error", "warning", "note"]},
+        "message": {"type": "string", "minLength": 1},
+        "primary": {"$ref": "#/$defs/label"},
+        "secondary": {"type": "array", "items": {"$ref": "#/$defs/label"}},
+        "notes": {"type": "array", "items": {"type": "string"}},
+        "help": {"type": "array", "items": {"type": "string"}},
+        "edits": {"type": "array", "items": {"$ref": "#/$defs/edit"}}
+      }
+    },
+    "suppression": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "source_id", "count", "error_count", "message"],
+      "properties": {
+        "file": {"type": "string"},
+        "source_id": {"type": "integer", "minimum": 0},
+        "count": {"type": "integer", "minimum": 1},
+        "error_count": {"type": "integer", "minimum": 0},
+        "message": {"type": "string"}
+      }
+    }
+  }
+}

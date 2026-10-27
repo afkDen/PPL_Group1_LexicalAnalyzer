@@ -1,0 +1,7 @@
+machine Cycle(request: Unit) yields Int rejects Text {
+    state a: Int = 0;
+    state b: Int = 0;
+    next a = next.b;
+    next b = next.a;
+    emit next.a;
+}

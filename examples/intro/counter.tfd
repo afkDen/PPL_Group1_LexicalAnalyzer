@@ -1,0 +1,12 @@
+machine Counter(delta: Int) yields Int rejects Text {
+    state value: Int = 0;
+    next value = value + delta;
+    guard next.value >= 0 else "negative count";
+    emit next.value;
+}
+pub fn main() -> List[Text] {
+    match step(Counter(), 4) {
+        Decision::Accept(counter, values) => { [int_text(counter.value)] },
+        Decision::Reject(counter, reason) => { [reason] }
+    }
+}

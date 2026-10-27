@@ -1,0 +1,10 @@
+machine CandidateFirst(request: Int) yields Int rejects Text {
+    state value: Int = 0;
+    next value = 1 div request;
+    guard request != 0 else "not reached for zero";
+    emit next.value;
+}
+pub fn main() -> List[Text] {
+    let result = step(CandidateFirst(), 0);
+    ["must not print"]
+}

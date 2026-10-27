@@ -1,0 +1,657 @@
+{
+  "file": "recovery.tfd",
+  "has_errors": true,
+  "missing_tokens": [
+    {
+      "kind": "RPAREN",
+      "node_type": "MissingToken",
+      "span": {
+        "end": {
+          "byte": 17,
+          "column": 18,
+          "line": 1
+        },
+        "start": {
+          "byte": 17,
+          "column": 18,
+          "line": 1
+        }
+      }
+    },
+    {
+      "kind": "SEMICOLON",
+      "node_type": "MissingToken",
+      "span": {
+        "end": {
+          "byte": 67,
+          "column": 5,
+          "line": 4
+        },
+        "start": {
+          "byte": 67,
+          "column": 5,
+          "line": 4
+        }
+      }
+    }
+  ],
+  "program": {
+    "declarations": [
+      {
+        "body": {
+          "close_span": {
+            "end": {
+              "byte": 75,
+              "column": 2,
+              "line": 5
+            },
+            "start": {
+              "byte": 74,
+              "column": 1,
+              "line": 5
+            }
+          },
+          "node_id": 18,
+          "node_type": "BlockExpr",
+          "open_span": {
+            "end": {
+              "byte": 25,
+              "column": 26,
+              "line": 1
+            },
+            "start": {
+              "byte": 24,
+              "column": 25,
+              "line": 1
+            }
+          },
+          "result": {
+            "node_id": 17,
+            "node_type": "PathExpr",
+            "path": {
+              "node_id": 16,
+              "node_type": "Path",
+              "parts": [
+                {
+                  "node_id": 15,
+                  "node_type": "Name",
+                  "span": {
+                    "end": {
+                      "byte": 73,
+                      "column": 11,
+                      "line": 4
+                    },
+                    "start": {
+                      "byte": 67,
+                      "column": 5,
+                      "line": 4
+                    }
+                  },
+                  "spelling": "second"
+                }
+              ],
+              "span": {
+                "end": {
+                  "byte": 73,
+                  "column": 11,
+                  "line": 4
+                },
+                "start": {
+                  "byte": 67,
+                  "column": 5,
+                  "line": 4
+                }
+              }
+            },
+            "span": {
+              "end": {
+                "byte": 73,
+                "column": 11,
+                "line": 4
+              },
+              "start": {
+                "byte": 67,
+                "column": 5,
+                "line": 4
+              }
+            }
+          },
+          "span": {
+            "end": {
+              "byte": 75,
+              "column": 2,
+              "line": 5
+            },
+            "start": {
+              "byte": 24,
+              "column": 25,
+              "line": 1
+            }
+          },
+          "statements": [
+            {
+              "annotation": null,
+              "name": {
+                "node_id": 9,
+                "node_type": "Name",
+                "span": {
+                  "end": {
+                    "byte": 39,
+                    "column": 14,
+                    "line": 2
+                  },
+                  "start": {
+                    "byte": 34,
+                    "column": 9,
+                    "line": 2
+                  }
+                },
+                "spelling": "first"
+              },
+              "node_id": 11,
+              "node_type": "Binding",
+              "span": {
+                "end": {
+                  "byte": 43,
+                  "column": 18,
+                  "line": 2
+                },
+                "start": {
+                  "byte": 30,
+                  "column": 5,
+                  "line": 2
+                }
+              },
+              "value": {
+                "message": "expected expression",
+                "node_id": 10,
+                "node_type": "ErrorExpr",
+                "span": {
+                  "end": {
+                    "byte": 42,
+                    "column": 17,
+                    "line": 2
+                  },
+                  "start": {
+                    "byte": 42,
+                    "column": 17,
+                    "line": 2
+                  }
+                }
+              }
+            },
+            {
+              "annotation": null,
+              "name": {
+                "node_id": 12,
+                "node_type": "Name",
+                "span": {
+                  "end": {
+                    "byte": 58,
+                    "column": 15,
+                    "line": 3
+                  },
+                  "start": {
+                    "byte": 52,
+                    "column": 9,
+                    "line": 3
+                  }
+                },
+                "spelling": "second"
+              },
+              "node_id": 14,
+              "node_type": "Binding",
+              "span": {
+                "end": {
+                  "byte": 67,
+                  "column": 5,
+                  "line": 4
+                },
+                "start": {
+                  "byte": 48,
+                  "column": 5,
+                  "line": 3
+                }
+              },
+              "value": {
+                "kind": "INT",
+                "literal_span": {
+                  "end": {
+                    "byte": 62,
+                    "column": 19,
+                    "line": 3
+                  },
+                  "start": {
+                    "byte": 61,
+                    "column": 18,
+                    "line": 3
+                  }
+                },
+                "node_id": 13,
+                "node_type": "LiteralExpr",
+                "span": {
+                  "end": {
+                    "byte": 62,
+                    "column": 19,
+                    "line": 3
+                  },
+                  "start": {
+                    "byte": 61,
+                    "column": 18,
+                    "line": 3
+                  }
+                },
+                "value": {
+                  "decimal": "2"
+                }
+              }
+            }
+          ]
+        },
+        "name": {
+          "node_id": 0,
+          "node_type": "Name",
+          "span": {
+            "end": {
+              "byte": 9,
+              "column": 10,
+              "line": 1
+            },
+            "start": {
+              "byte": 3,
+              "column": 4,
+              "line": 1
+            }
+          },
+          "spelling": "broken"
+        },
+        "node_id": 19,
+        "node_type": "FunctionDecl",
+        "parameters": [
+          {
+            "annotation": {
+              "arguments": [],
+              "node_id": 4,
+              "node_type": "NamedType",
+              "path": {
+                "node_id": 3,
+                "node_type": "Path",
+                "parts": [
+                  {
+                    "node_id": 2,
+                    "node_type": "Name",
+                    "span": {
+                      "end": {
+                        "byte": 16,
+                        "column": 17,
+                        "line": 1
+                      },
+                      "start": {
+                        "byte": 13,
+                        "column": 14,
+                        "line": 1
+                      }
+                    },
+                    "spelling": "Int"
+                  }
+                ],
+                "span": {
+                  "end": {
+                    "byte": 16,
+                    "column": 17,
+                    "line": 1
+                  },
+                  "start": {
+                    "byte": 13,
+                    "column": 14,
+                    "line": 1
+                  }
+                }
+              },
+              "span": {
+                "end": {
+                  "byte": 16,
+                  "column": 17,
+                  "line": 1
+                },
+                "start": {
+                  "byte": 13,
+                  "column": 14,
+                  "line": 1
+                }
+              }
+            },
+            "name": {
+              "node_id": 1,
+              "node_type": "Name",
+              "span": {
+                "end": {
+                  "byte": 11,
+                  "column": 12,
+                  "line": 1
+                },
+                "start": {
+                  "byte": 10,
+                  "column": 11,
+                  "line": 1
+                }
+              },
+              "spelling": "x"
+            },
+            "node_id": 5,
+            "node_type": "Parameter",
+            "span": {
+              "end": {
+                "byte": 16,
+                "column": 17,
+                "line": 1
+              },
+              "start": {
+                "byte": 10,
+                "column": 11,
+                "line": 1
+              }
+            }
+          }
+        ],
+        "public": false,
+        "return_type": {
+          "arguments": [],
+          "node_id": 8,
+          "node_type": "NamedType",
+          "path": {
+            "node_id": 7,
+            "node_type": "Path",
+            "parts": [
+              {
+                "node_id": 6,
+                "node_type": "Name",
+                "span": {
+                  "end": {
+                    "byte": 23,
+                    "column": 24,
+                    "line": 1
+                  },
+                  "start": {
+                    "byte": 20,
+                    "column": 21,
+                    "line": 1
+                  }
+                },
+                "spelling": "Int"
+              }
+            ],
+            "span": {
+              "end": {
+                "byte": 23,
+                "column": 24,
+                "line": 1
+              },
+              "start": {
+                "byte": 20,
+                "column": 21,
+                "line": 1
+              }
+            }
+          },
+          "span": {
+            "end": {
+              "byte": 23,
+              "column": 24,
+              "line": 1
+            },
+            "start": {
+              "byte": 20,
+              "column": 21,
+              "line": 1
+            }
+          }
+        },
+        "span": {
+          "end": {
+            "byte": 75,
+            "column": 2,
+            "line": 5
+          },
+          "start": {
+            "byte": 0,
+            "column": 1,
+            "line": 1
+          }
+        }
+      },
+      {
+        "body": {
+          "close_span": {
+            "end": {
+              "byte": 133,
+              "column": 2,
+              "line": 9
+            },
+            "start": {
+              "byte": 132,
+              "column": 1,
+              "line": 9
+            }
+          },
+          "node_id": 27,
+          "node_type": "BlockExpr",
+          "open_span": {
+            "end": {
+              "byte": 100,
+              "column": 25,
+              "line": 6
+            },
+            "start": {
+              "byte": 99,
+              "column": 24,
+              "line": 6
+            }
+          },
+          "result": {
+            "close_span": {
+              "end": {
+                "byte": 131,
+                "column": 7,
+                "line": 8
+              },
+              "start": {
+                "byte": 130,
+                "column": 6,
+                "line": 8
+              }
+            },
+            "node_id": 26,
+            "node_type": "UnitExpr",
+            "open_span": {
+              "end": {
+                "byte": 130,
+                "column": 6,
+                "line": 8
+              },
+              "start": {
+                "byte": 129,
+                "column": 5,
+                "line": 8
+              }
+            },
+            "span": {
+              "end": {
+                "byte": 131,
+                "column": 7,
+                "line": 8
+              },
+              "start": {
+                "byte": 129,
+                "column": 5,
+                "line": 8
+              }
+            }
+          },
+          "span": {
+            "end": {
+              "byte": 133,
+              "column": 2,
+              "line": 9
+            },
+            "start": {
+              "byte": 99,
+              "column": 24,
+              "line": 6
+            }
+          },
+          "statements": [
+            {
+              "node_id": 25,
+              "node_type": "OutputClause",
+              "phrase_span": null,
+              "span": {
+                "end": {
+                  "byte": 124,
+                  "column": 24,
+                  "line": 7
+                },
+                "start": {
+                  "byte": 105,
+                  "column": 5,
+                  "line": 7
+                }
+              },
+              "value": {
+                "kind": "TEXT",
+                "literal_span": {
+                  "end": {
+                    "byte": 123,
+                    "column": 23,
+                    "line": 7
+                  },
+                  "start": {
+                    "byte": 112,
+                    "column": 12,
+                    "line": 7
+                  }
+                },
+                "node_id": 24,
+                "node_type": "LiteralExpr",
+                "span": {
+                  "end": {
+                    "byte": 123,
+                    "column": 23,
+                    "line": 7
+                  },
+                  "start": {
+                    "byte": 112,
+                    "column": 12,
+                    "line": 7
+                  }
+                },
+                "value": "misplaced"
+              }
+            }
+          ]
+        },
+        "name": {
+          "node_id": 20,
+          "node_type": "Name",
+          "span": {
+            "end": {
+              "byte": 88,
+              "column": 13,
+              "line": 6
+            },
+            "start": {
+              "byte": 79,
+              "column": 4,
+              "line": 6
+            }
+          },
+          "spelling": "following"
+        },
+        "node_id": 28,
+        "node_type": "FunctionDecl",
+        "parameters": [],
+        "public": false,
+        "return_type": {
+          "arguments": [],
+          "node_id": 23,
+          "node_type": "NamedType",
+          "path": {
+            "node_id": 22,
+            "node_type": "Path",
+            "parts": [
+              {
+                "node_id": 21,
+                "node_type": "Name",
+                "span": {
+                  "end": {
+                    "byte": 98,
+                    "column": 23,
+                    "line": 6
+                  },
+                  "start": {
+                    "byte": 94,
+                    "column": 19,
+                    "line": 6
+                  }
+                },
+                "spelling": "Unit"
+              }
+            ],
+            "span": {
+              "end": {
+                "byte": 98,
+                "column": 23,
+                "line": 6
+              },
+              "start": {
+                "byte": 94,
+                "column": 19,
+                "line": 6
+              }
+            }
+          },
+          "span": {
+            "end": {
+              "byte": 98,
+              "column": 23,
+              "line": 6
+            },
+            "start": {
+              "byte": 94,
+              "column": 19,
+              "line": 6
+            }
+          }
+        },
+        "span": {
+          "end": {
+            "byte": 133,
+            "column": 2,
+            "line": 9
+          },
+          "start": {
+            "byte": 76,
+            "column": 1,
+            "line": 6
+          }
+        }
+      }
+    ],
+    "imports": [],
+    "node_id": 29,
+    "node_type": "Program",
+    "span": {
+      "end": {
+        "byte": 134,
+        "column": 1,
+        "line": 10
+      },
+      "start": {
+        "byte": 0,
+        "column": 1,
+        "line": 1
+      }
+    }
+  },
+  "schema_version": 1
+}

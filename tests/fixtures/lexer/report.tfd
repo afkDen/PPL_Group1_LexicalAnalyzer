@@ -1,0 +1,9 @@
+// é comment
+pub fn main() -> Unit {
+ input name: Text from stdin;
+ output "hé\u{0}" to stdout;
+ let ok = true; let n = 42 div 2 ^ 3;
+ let c: Char = 'ñ'; /* block */
+ ( /* unit */ ) @ 09 '' "\q"
+}
+/* unclosed

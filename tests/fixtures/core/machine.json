@@ -1,0 +1,974 @@
+{
+  "language_execution": false,
+  "phase": "verified-core",
+  "program": {
+    "constants": [
+      {
+        "children": [],
+        "float_bits": null,
+        "node_type": "Constant",
+        "scalar": 0,
+        "tag": null,
+        "type": {
+          "arguments": [],
+          "kind": "Int",
+          "node_type": "Type",
+          "nominal_id": null,
+          "variable": null
+        }
+      },
+      {
+        "children": [],
+        "float_bits": null,
+        "node_type": "Constant",
+        "scalar": 1,
+        "tag": null,
+        "type": {
+          "arguments": [],
+          "kind": "Int",
+          "node_type": "Type",
+          "nominal_id": null,
+          "variable": null
+        }
+      },
+      {
+        "children": [],
+        "float_bits": null,
+        "node_type": "Constant",
+        "scalar": "negative",
+        "tag": null,
+        "type": {
+          "arguments": [],
+          "kind": "Text",
+          "node_type": "Type",
+          "nominal_id": null,
+          "variable": null
+        }
+      }
+    ],
+    "entry": null,
+    "functions": [
+      {
+        "body": {
+          "bindings": [
+            {
+              "node_type": "Let",
+              "operation": {
+                "constant": 0,
+                "node_type": "Const"
+              },
+              "origin": {
+                "kind": "machine-constructor",
+                "node": 46,
+                "node_type": "Origin",
+                "span": {
+                  "end": {
+                    "byte": 158,
+                    "column": 2,
+                    "line": 5
+                  },
+                  "file": "machine.tfd",
+                  "start": {
+                    "byte": 0,
+                    "column": 1,
+                    "line": 1
+                  }
+                }
+              },
+              "type": {
+                "arguments": [],
+                "kind": "Int",
+                "node_type": "Type",
+                "nominal_id": null,
+                "variable": null
+              },
+              "value": 0
+            },
+            {
+              "node_type": "Let",
+              "operation": {
+                "constant": 1,
+                "node_type": "Const"
+              },
+              "origin": {
+                "kind": "machine-constructor",
+                "node": 46,
+                "node_type": "Origin",
+                "span": {
+                  "end": {
+                    "byte": 158,
+                    "column": 2,
+                    "line": 5
+                  },
+                  "file": "machine.tfd",
+                  "start": {
+                    "byte": 0,
+                    "column": 1,
+                    "line": 1
+                  }
+                }
+              },
+              "type": {
+                "arguments": [],
+                "kind": "Int",
+                "node_type": "Type",
+                "nominal_id": null,
+                "variable": null
+              },
+              "value": 1
+            },
+            {
+              "node_type": "Let",
+              "operation": {
+                "cells": [
+                  0,
+                  1
+                ],
+                "node_type": "MachineValue",
+                "nominal": {
+                  "declaration_index": 0,
+                  "module": {
+                    "node_type": "ModuleId",
+                    "path": "machine.tfd"
+                  },
+                  "node_type": "TypeId"
+                }
+              },
+              "origin": {
+                "kind": "machine-constructor",
+                "node": 46,
+                "node_type": "Origin",
+                "span": {
+                  "end": {
+                    "byte": 158,
+                    "column": 2,
+                    "line": 5
+                  },
+                  "file": "machine.tfd",
+                  "start": {
+                    "byte": 0,
+                    "column": 1,
+                    "line": 1
+                  }
+                }
+              },
+              "type": {
+                "arguments": [],
+                "kind": "Machine",
+                "node_type": "Type",
+                "nominal_id": {
+                  "declaration_index": 0,
+                  "module": {
+                    "node_type": "ModuleId",
+                    "path": "machine.tfd"
+                  },
+                  "node_type": "TypeId"
+                },
+                "variable": null
+              },
+              "value": 2
+            }
+          ],
+          "node_type": "Block",
+          "terminator": {
+            "node_type": "Yield",
+            "value": 2
+          }
+        },
+        "captures": [],
+        "function": 0,
+        "kind": "constructor",
+        "name": "construct:M",
+        "node_type": "Function",
+        "origin": {
+          "kind": "machine-constructor",
+          "node": 46,
+          "node_type": "Origin",
+          "span": {
+            "end": {
+              "byte": 158,
+              "column": 2,
+              "line": 5
+            },
+            "file": "machine.tfd",
+            "start": {
+              "byte": 0,
+              "column": 1,
+              "line": 1
+            }
+          }
+        },
+        "parameters": [],
+        "result": {
+          "arguments": [],
+          "kind": "Machine",
+          "node_type": "Type",
+          "nominal_id": {
+            "declaration_index": 0,
+            "module": {
+              "node_type": "ModuleId",
+              "path": "machine.tfd"
+            },
+            "node_type": "TypeId"
+          },
+          "variable": null
+        }
+      },
+      {
+        "body": {
+          "bindings": [
+            {
+              "node_type": "Let",
+              "operation": {
+                "index": 0,
+                "node_type": "Project",
+                "value": 0
+              },
+              "origin": {
+                "kind": "machine-writer",
+                "node": 46,
+                "node_type": "Origin",
+                "span": {
+                  "end": {
+                    "byte": 158,
+                    "column": 2,
+                    "line": 5
+                  },
+                  "file": "machine.tfd",
+                  "start": {
+                    "byte": 0,
+                    "column": 1,
+                    "line": 1
+                  }
+                }
+              },
+              "type": {
+                "arguments": [],
+                "kind": "Int",
+                "node_type": "Type",
+                "nominal_id": null,
+                "variable": null
+              },
+              "value": 2
+            },
+            {
+              "node_type": "Let",
+              "operation": {
+                "index": 1,
+                "node_type": "Project",
+                "value": 0
+              },
+              "origin": {
+                "kind": "machine-writer",
+                "node": 46,
+                "node_type": "Origin",
+                "span": {
+                  "end": {
+                    "byte": 158,
+                    "column": 2,
+                    "line": 5
+                  },
+                  "file": "machine.tfd",
+                  "start": {
+                    "byte": 0,
+                    "column": 1,
+                    "line": 1
+                  }
+                }
+              },
+              "type": {
+                "arguments": [],
+                "kind": "Int",
+                "node_type": "Type",
+                "nominal_id": null,
+                "variable": null
+              },
+              "value": 3
+            },
+            {
+              "node_type": "Let",
+              "operation": {
+                "left": 2,
+                "node_type": "Binary",
+                "operator": "+",
+                "right": 1
+              },
+              "origin": {
+                "kind": "machine-writer",
+                "node": 30,
+                "node_type": "Origin",
+                "span": {
+                  "end": {
+                    "byte": 93,
+                    "column": 16,
+                    "line": 3
+                  },
+                  "file": "machine.tfd",
+                  "start": {
+                    "byte": 92,
+                    "column": 15,
+                    "line": 3
+                  }
+                }
+              },
+              "type": {
+                "arguments": [],
+                "kind": "Int",
+                "node_type": "Type",
+                "nominal_id": null,
+                "variable": null
+              },
+              "value": 4
+            },
+            {
+              "node_type": "Let",
+              "operation": {
+                "constant": 0,
+                "node_type": "Const"
+              },
+              "origin": {
+                "kind": "guard",
+                "node": 39,
+                "node_type": "Origin",
+                "span": {
+                  "end": {
+                    "byte": 127,
+                    "column": 17,
+                    "line": 4
+                  },
+                  "file": "machine.tfd",
+                  "start": {
+                    "byte": 126,
+                    "column": 16,
+                    "line": 4
+                  }
+                }
+              },
+              "type": {
+                "arguments": [],
+                "kind": "Int",
+                "node_type": "Type",
+                "nominal_id": null,
+                "variable": null
+              },
+              "value": 5
+            },
+            {
+              "node_type": "Let",
+              "operation": {
+                "left": 4,
+                "node_type": "Binary",
+                "operator": ">=",
+                "right": 5
+              },
+              "origin": {
+                "kind": "guard",
+                "node": 40,
+                "node_type": "Origin",
+                "span": {
+                  "end": {
+                    "byte": 126,
+                    "column": 16,
+                    "line": 4
+                  },
+                  "file": "machine.tfd",
+                  "start": {
+                    "byte": 124,
+                    "column": 14,
+                    "line": 4
+                  }
+                }
+              },
+              "type": {
+                "arguments": [],
+                "kind": "Bool",
+                "node_type": "Type",
+                "nominal_id": null,
+                "variable": null
+              },
+              "value": 6
+            },
+            {
+              "node_type": "Let",
+              "operation": {
+                "condition": 6,
+                "node_type": "If",
+                "otherwise": {
+                  "bindings": [
+                    {
+                      "node_type": "Let",
+                      "operation": {
+                        "constant": 2,
+                        "node_type": "Const"
+                      },
+                      "origin": {
+                        "kind": "guard",
+                        "node": 41,
+                        "node_type": "Origin",
+                        "span": {
+                          "end": {
+                            "byte": 143,
+                            "column": 33,
+                            "line": 4
+                          },
+                          "file": "machine.tfd",
+                          "start": {
+                            "byte": 133,
+                            "column": 23,
+                            "line": 4
+                          }
+                        }
+                      },
+                      "type": {
+                        "arguments": [],
+                        "kind": "Text",
+                        "node_type": "Type",
+                        "nominal_id": null,
+                        "variable": null
+                      },
+                      "value": 10
+                    },
+                    {
+                      "node_type": "Let",
+                      "operation": {
+                        "node_type": "Variant",
+                        "tag": 1,
+                        "type": {
+                          "arguments": [
+                            {
+                              "arguments": [],
+                              "kind": "Machine",
+                              "node_type": "Type",
+                              "nominal_id": {
+                                "declaration_index": 0,
+                                "module": {
+                                  "node_type": "ModuleId",
+                                  "path": "machine.tfd"
+                                },
+                                "node_type": "TypeId"
+                              },
+                              "variable": null
+                            },
+                            {
+                              "arguments": [],
+                              "kind": "Int",
+                              "node_type": "Type",
+                              "nominal_id": null,
+                              "variable": null
+                            },
+                            {
+                              "arguments": [],
+                              "kind": "Text",
+                              "node_type": "Type",
+                              "nominal_id": null,
+                              "variable": null
+                            }
+                          ],
+                          "kind": "Decision",
+                          "node_type": "Type",
+                          "nominal_id": null,
+                          "variable": null
+                        },
+                        "values": [
+                          0,
+                          10
+                        ]
+                      },
+                      "origin": {
+                        "kind": "guard",
+                        "node": 42,
+                        "node_type": "Origin",
+                        "span": {
+                          "end": {
+                            "byte": 144,
+                            "column": 34,
+                            "line": 4
+                          },
+                          "file": "machine.tfd",
+                          "start": {
+                            "byte": 112,
+                            "column": 2,
+                            "line": 4
+                          }
+                        }
+                      },
+                      "type": {
+                        "arguments": [
+                          {
+                            "arguments": [],
+                            "kind": "Machine",
+                            "node_type": "Type",
+                            "nominal_id": {
+                              "declaration_index": 0,
+                              "module": {
+                                "node_type": "ModuleId",
+                                "path": "machine.tfd"
+                              },
+                              "node_type": "TypeId"
+                            },
+                            "variable": null
+                          },
+                          {
+                            "arguments": [],
+                            "kind": "Int",
+                            "node_type": "Type",
+                            "nominal_id": null,
+                            "variable": null
+                          },
+                          {
+                            "arguments": [],
+                            "kind": "Text",
+                            "node_type": "Type",
+                            "nominal_id": null,
+                            "variable": null
+                          }
+                        ],
+                        "kind": "Decision",
+                        "node_type": "Type",
+                        "nominal_id": null,
+                        "variable": null
+                      },
+                      "value": 11
+                    }
+                  ],
+                  "node_type": "Block",
+                  "terminator": {
+                    "node_type": "Yield",
+                    "value": 11
+                  }
+                },
+                "then": {
+                  "bindings": [
+                    {
+                      "node_type": "Let",
+                      "operation": {
+                        "element": {
+                          "arguments": [],
+                          "kind": "Int",
+                          "node_type": "Type",
+                          "nominal_id": null,
+                          "variable": null
+                        },
+                        "node_type": "ListValue",
+                        "values": [
+                          4
+                        ]
+                      },
+                      "origin": {
+                        "kind": "emission",
+                        "node": 45,
+                        "node_type": "Origin",
+                        "span": {
+                          "end": {
+                            "byte": 156,
+                            "column": 46,
+                            "line": 4
+                          },
+                          "file": "machine.tfd",
+                          "start": {
+                            "byte": 144,
+                            "column": 34,
+                            "line": 4
+                          }
+                        }
+                      },
+                      "type": {
+                        "arguments": [
+                          {
+                            "arguments": [],
+                            "kind": "Int",
+                            "node_type": "Type",
+                            "nominal_id": null,
+                            "variable": null
+                          }
+                        ],
+                        "kind": "List",
+                        "node_type": "Type",
+                        "nominal_id": null,
+                        "variable": null
+                      },
+                      "value": 7
+                    },
+                    {
+                      "node_type": "Let",
+                      "operation": {
+                        "cells": [
+                          4,
+                          2
+                        ],
+                        "node_type": "MachineValue",
+                        "nominal": {
+                          "declaration_index": 0,
+                          "module": {
+                            "node_type": "ModuleId",
+                            "path": "machine.tfd"
+                          },
+                          "node_type": "TypeId"
+                        }
+                      },
+                      "origin": {
+                        "kind": "emission",
+                        "node": 45,
+                        "node_type": "Origin",
+                        "span": {
+                          "end": {
+                            "byte": 156,
+                            "column": 46,
+                            "line": 4
+                          },
+                          "file": "machine.tfd",
+                          "start": {
+                            "byte": 144,
+                            "column": 34,
+                            "line": 4
+                          }
+                        }
+                      },
+                      "type": {
+                        "arguments": [],
+                        "kind": "Machine",
+                        "node_type": "Type",
+                        "nominal_id": {
+                          "declaration_index": 0,
+                          "module": {
+                            "node_type": "ModuleId",
+                            "path": "machine.tfd"
+                          },
+                          "node_type": "TypeId"
+                        },
+                        "variable": null
+                      },
+                      "value": 8
+                    },
+                    {
+                      "node_type": "Let",
+                      "operation": {
+                        "node_type": "Variant",
+                        "tag": 0,
+                        "type": {
+                          "arguments": [
+                            {
+                              "arguments": [],
+                              "kind": "Machine",
+                              "node_type": "Type",
+                              "nominal_id": {
+                                "declaration_index": 0,
+                                "module": {
+                                  "node_type": "ModuleId",
+                                  "path": "machine.tfd"
+                                },
+                                "node_type": "TypeId"
+                              },
+                              "variable": null
+                            },
+                            {
+                              "arguments": [],
+                              "kind": "Int",
+                              "node_type": "Type",
+                              "nominal_id": null,
+                              "variable": null
+                            },
+                            {
+                              "arguments": [],
+                              "kind": "Text",
+                              "node_type": "Type",
+                              "nominal_id": null,
+                              "variable": null
+                            }
+                          ],
+                          "kind": "Decision",
+                          "node_type": "Type",
+                          "nominal_id": null,
+                          "variable": null
+                        },
+                        "values": [
+                          8,
+                          7
+                        ]
+                      },
+                      "origin": {
+                        "kind": "emission",
+                        "node": 45,
+                        "node_type": "Origin",
+                        "span": {
+                          "end": {
+                            "byte": 156,
+                            "column": 46,
+                            "line": 4
+                          },
+                          "file": "machine.tfd",
+                          "start": {
+                            "byte": 144,
+                            "column": 34,
+                            "line": 4
+                          }
+                        }
+                      },
+                      "type": {
+                        "arguments": [
+                          {
+                            "arguments": [],
+                            "kind": "Machine",
+                            "node_type": "Type",
+                            "nominal_id": {
+                              "declaration_index": 0,
+                              "module": {
+                                "node_type": "ModuleId",
+                                "path": "machine.tfd"
+                              },
+                              "node_type": "TypeId"
+                            },
+                            "variable": null
+                          },
+                          {
+                            "arguments": [],
+                            "kind": "Int",
+                            "node_type": "Type",
+                            "nominal_id": null,
+                            "variable": null
+                          },
+                          {
+                            "arguments": [],
+                            "kind": "Text",
+                            "node_type": "Type",
+                            "nominal_id": null,
+                            "variable": null
+                          }
+                        ],
+                        "kind": "Decision",
+                        "node_type": "Type",
+                        "nominal_id": null,
+                        "variable": null
+                      },
+                      "value": 9
+                    }
+                  ],
+                  "node_type": "Block",
+                  "terminator": {
+                    "node_type": "Yield",
+                    "value": 9
+                  }
+                }
+              },
+              "origin": {
+                "kind": "guard",
+                "node": 42,
+                "node_type": "Origin",
+                "span": {
+                  "end": {
+                    "byte": 144,
+                    "column": 34,
+                    "line": 4
+                  },
+                  "file": "machine.tfd",
+                  "start": {
+                    "byte": 112,
+                    "column": 2,
+                    "line": 4
+                  }
+                }
+              },
+              "type": {
+                "arguments": [
+                  {
+                    "arguments": [],
+                    "kind": "Machine",
+                    "node_type": "Type",
+                    "nominal_id": {
+                      "declaration_index": 0,
+                      "module": {
+                        "node_type": "ModuleId",
+                        "path": "machine.tfd"
+                      },
+                      "node_type": "TypeId"
+                    },
+                    "variable": null
+                  },
+                  {
+                    "arguments": [],
+                    "kind": "Int",
+                    "node_type": "Type",
+                    "nominal_id": null,
+                    "variable": null
+                  },
+                  {
+                    "arguments": [],
+                    "kind": "Text",
+                    "node_type": "Type",
+                    "nominal_id": null,
+                    "variable": null
+                  }
+                ],
+                "kind": "Decision",
+                "node_type": "Type",
+                "nominal_id": null,
+                "variable": null
+              },
+              "value": 12
+            }
+          ],
+          "node_type": "Block",
+          "terminator": {
+            "node_type": "Yield",
+            "value": 12
+          }
+        },
+        "captures": [],
+        "function": 1,
+        "kind": "step",
+        "name": "step:M",
+        "node_type": "Function",
+        "origin": {
+          "kind": "guard",
+          "node": 42,
+          "node_type": "Origin",
+          "span": {
+            "end": {
+              "byte": 144,
+              "column": 34,
+              "line": 4
+            },
+            "file": "machine.tfd",
+            "start": {
+              "byte": 112,
+              "column": 2,
+              "line": 4
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "old",
+            "node_type": "Parameter",
+            "type": {
+              "arguments": [],
+              "kind": "Machine",
+              "node_type": "Type",
+              "nominal_id": {
+                "declaration_index": 0,
+                "module": {
+                  "node_type": "ModuleId",
+                  "path": "machine.tfd"
+                },
+                "node_type": "TypeId"
+              },
+              "variable": null
+            },
+            "value": 0
+          },
+          {
+            "name": "request",
+            "node_type": "Parameter",
+            "type": {
+              "arguments": [],
+              "kind": "Int",
+              "node_type": "Type",
+              "nominal_id": null,
+              "variable": null
+            },
+            "value": 1
+          }
+        ],
+        "result": {
+          "arguments": [
+            {
+              "arguments": [],
+              "kind": "Machine",
+              "node_type": "Type",
+              "nominal_id": {
+                "declaration_index": 0,
+                "module": {
+                  "node_type": "ModuleId",
+                  "path": "machine.tfd"
+                },
+                "node_type": "TypeId"
+              },
+              "variable": null
+            },
+            {
+              "arguments": [],
+              "kind": "Int",
+              "node_type": "Type",
+              "nominal_id": null,
+              "variable": null
+            },
+            {
+              "arguments": [],
+              "kind": "Text",
+              "node_type": "Type",
+              "nominal_id": null,
+              "variable": null
+            }
+          ],
+          "kind": "Decision",
+          "node_type": "Type",
+          "nominal_id": null,
+          "variable": null
+        }
+      }
+    ],
+    "node_type": "CoreProgram",
+    "nominals": [
+      {
+        "fields": [
+          {
+            "arguments": [],
+            "kind": "Int",
+            "node_type": "Type",
+            "nominal_id": null,
+            "variable": null
+          },
+          {
+            "arguments": [],
+            "kind": "Int",
+            "node_type": "Type",
+            "nominal_id": null,
+            "variable": null
+          }
+        ],
+        "input_type": {
+          "arguments": [],
+          "kind": "Int",
+          "node_type": "Type",
+          "nominal_id": null,
+          "variable": null
+        },
+        "names": [
+          "a",
+          "b"
+        ],
+        "node_type": "Nominal",
+        "output_type": {
+          "arguments": [],
+          "kind": "Int",
+          "node_type": "Type",
+          "nominal_id": null,
+          "variable": null
+        },
+        "rejection_type": {
+          "arguments": [],
+          "kind": "Text",
+          "node_type": "Type",
+          "nominal_id": null,
+          "variable": null
+        },
+        "type": {
+          "arguments": [],
+          "kind": "Machine",
+          "node_type": "Type",
+          "nominal_id": {
+            "declaration_index": 0,
+            "module": {
+              "node_type": "ModuleId",
+              "path": "machine.tfd"
+            },
+            "node_type": "TypeId"
+          },
+          "variable": null
+        },
+        "variants": []
+      }
+    ]
+  },
+  "schema_version": 1
+}

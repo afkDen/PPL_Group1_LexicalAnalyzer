@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "task": "M02",
+  "purpose": "Accepted implementation hashes for interruption recovery",
+  "files": {
+    "src/ternfold/frontend/diagnostics.py": "e5693e0d05bf7b776afbd04336428a85f8ecaae2656183603f84fedefe2957e1",
+    "src/ternfold/frontend/render.py": "976d09b98944b719735e285ace9b058adb4e1731a19c0f307de2aac39fc87cc5",
+    "tests/test_diagnostics.py": "dd8c4b4bf591f88f12614a3e3765d1885040d262da0a9280aaca0fd5edfc183e",
+    "tests/fixtures/diagnostics/clipped.txt": "c9c295a3208c8252f5151d7eba4936f103707a50442c3083367844a4e64061d2",
+    "tests/fixtures/diagnostics/raw.json": "cc7c179225cec3f3cb998d3dc18d958579f1989fc7d85f25d8f8f241a23589d4",
+    "tests/fixtures/diagnostics/raw.txt": "f9c269efc086c19f1e909c6a0d7ef05c5badc91379de834d78aad97238d3a798",
+    "tests/fixtures/diagnostics/schema-v1.json": "c90e6da262dcb47525f06e7219138c799b4103d89648dd00eafd79632b33a6b4",
+    "tests/fixtures/diagnostics/snippets.json": "422f1a1be8a252cc1d8fcb4901269adb8791cced71294545a89c028f17b4e74f",
+    "tests/fixtures/diagnostics/snippets.txt": "7f876df2e955d1729b9df29e0964814292f35490c02ac5bcc135e86a92817501"
+  }
+}

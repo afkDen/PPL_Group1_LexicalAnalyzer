@@ -1,0 +1,14 @@
+pub enum Fault { Underflow, Capacity }
+pub record Change { delta: Int }
+
+pub machine Shelf(change: Change) yields Text rejects Fault {
+    state count: Int = 3;
+    state free: Int = 7;
+    // Declaration order is not execution order: free depends on candidate count.
+    next free = 10 - next.count;
+    next count = count + change.delta;
+    guard next.count >= 0 else Fault::Underflow;
+    guard next.count <= 10 else Fault::Capacity;
+    emit "accepted count=" ++ int_text(next.count);
+    emit "free=" ++ int_text(next.free);
+}

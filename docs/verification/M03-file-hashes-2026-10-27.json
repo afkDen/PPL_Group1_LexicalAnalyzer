@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "task": "M03",
+  "purpose": "Accepted lexer/CLI files before M04 edits for interruption recovery",
+  "files": {
+    "src/ternfold/frontend/diagnostics.py": "e5693e0d05bf7b776afbd04336428a85f8ecaae2656183603f84fedefe2957e1",
+    "src/ternfold/frontend/lexer.py": "2b019a0647efd1ec798b65c532fbe320c48b72028655572b814fd309a019cab0",
+    "src/ternfold/frontend/lexical_report.py": "14a0c71e584af58a2bd358daf116f23ef96f9deee87780c3c589dbb6e2a83f1a",
+    "src/ternfold/frontend/render.py": "976d09b98944b719735e285ace9b058adb4e1731a19c0f307de2aac39fc87cc5",
+    "src/ternfold/frontend/source.py": "db8e73b1d3e5865b1133d0913ad5abbf47256fc9762cadc6338161aa34921968",
+    "src/ternfold/frontend/tokens.py": "0a6e7cae5241b614d297a1a0cbe7f9c16afec82cad94ad8d31e92b8a1f0c9f31",
+    "src/ternfold/frontend/__init__.py": "f2644a569ed054cd10aa71c98f2beb0a9e40741369dbe6cf8cae675362000c9d",
+    "src/ternfold/cli.py": "856ee0151c14cce9893155a0da9f4b0c566183412eb977a1ba10f7c7af097c4b",
+    "tests/test_lexer.py": "95aa9c4661cc2828359754dd0873fd5d4039077144f09028ae70ba4844312dc0",
+    "tests/test_tokens_cli.py": "58b03e620cdf8da31e3cb0926472cabcf10a767e5cb1ddc6e60e3f0efd09e5da",
+    "scripts/smoke_wheel.py": "c42c80264e69d5e4ad2f5fee2c9afc28ffd8fc58ff4159c7ffa1b11528e44be3",
+    "tests/fixtures/lexer/report.tfd": "11b220d771e44df460ca9101a4b8dbd69faee9f583d516c26e49213e89771017",
+    "tests/fixtures/lexer/Symbol Table.txt": "fefcb35656f5740476d01611a60061a70aa82e8b5f2600593f49a453b7f1657f",
+    "tests/fixtures/lexer/tokens.json": "f9a279a375d4047566ef54fffc3f42467716ac81f8f462089d57970a0a8fc975"
+  }
+}

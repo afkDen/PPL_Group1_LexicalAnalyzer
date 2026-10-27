@@ -1,0 +1,15 @@
+/* Professor inventory: seven arithmetic and nine Boolean/relational operations. */
+// / is real division; div is floor integer division. All values remain pure.
+fn polynomial(x: Int) -> Int { (x + 1) * 2 - 1 }
+pub fn main() -> List[Text] {
+    let real: Float = 7 / 2;
+    let whole: Int = 7 div 2;
+    let remainder: Int = 7 % 2;
+    let power: Int = 2 ^ 3;
+    let all: Bool = (3 > 2) && (2 < 3) && (2 == 2) && (2 != 3)
+                   && (3 >= 3) && (2 <= 2) && (!false || false);
+    let message: Text = "operators";
+    let marker: Char = 'T';
+    let sample: Float = 1.25e1;
+    [float_text(real), int_text(whole), int_text(remainder), int_text(power), bool_text(all)]
+}

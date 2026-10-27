@@ -1,0 +1,8 @@
+fn offset_by(offset: Int) -> fn(Int) -> Int {
+    fn (x: Int) -> Int { x + offset }
+}
+pub fn main() -> List[Text] {
+    let values = map(range(0, 4), offset_by(10));
+    let total = fold(values, 0, fn (sum: Int, x: Int) -> Int { sum + x });
+    [int_text(total)]
+}

@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "status": "specification fixtures; source execution not implemented",
+  "cases": [
+    {
+      "path": "examples/intro/hello.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "Hello, Ternfold.\n"
+    },
+    {
+      "path": "examples/intro/counter.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "4\n"
+    },
+    {
+      "path": "examples/features/snapshot_swap.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "9\n2\n"
+    },
+    {
+      "path": "examples/features/dependency_order.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "14\n"
+    },
+    {
+      "path": "examples/features/guard_short_circuit.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "first reason\n0\n"
+    },
+    {
+      "path": "examples/features/fold_and_closure.tfd",
+      "ready_after": "M12",
+      "mode": "run",
+      "stdout": "46\n"
+    },
+    {
+      "path": "examples/features/nested_patterns.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "on\nmissing\n"
+    },
+    {
+      "path": "examples/features/unicode.tfd",
+      "ready_after": "M12",
+      "mode": "run",
+      "stdout": "3\nNUL follows: \u0000end\n"
+    },
+    {
+      "path": "examples/boundaries/checked_division.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "-3\n-1\n1\n"
+    },
+    {
+      "path": "examples/boundaries/candidate_fault.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "",
+      "diagnostic": "R002"
+    },
+    {
+      "path": "examples/boundaries/minimum_overflow.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "",
+      "diagnostic": "R001"
+    },
+    {
+      "path": "examples/invalid/candidate_cycle.tfd",
+      "ready_after": "M07",
+      "mode": "check",
+      "diagnostic": "E404"
+    },
+    {
+      "path": "examples/invalid/missing_writer.tfd",
+      "ready_after": "M07",
+      "mode": "check",
+      "diagnostic": "E401"
+    },
+    {
+      "path": "examples/invalid/duplicate_writer.tfd",
+      "ready_after": "M07",
+      "mode": "check",
+      "diagnostic": "E402"
+    },
+    {
+      "path": "examples/invalid/non_bool_guard.tfd",
+      "ready_after": "M07",
+      "mode": "check",
+      "diagnostic": "E302"
+    },
+    {
+      "path": "examples/invalid/non_exhaustive.tfd",
+      "ready_after": "M06",
+      "mode": "check",
+      "diagnostic": "E310"
+    },
+    {
+      "path": "examples/invalid/closure_candidate.tfd",
+      "ready_after": "M07",
+      "mode": "check",
+      "diagnostic": "E406"
+    },
+    {
+      "path": "examples/showcase/models/shelf.tfd",
+      "ready_after": "M12",
+      "mode": "check"
+    },
+    {
+      "path": "examples/showcase/branching_inventory.tfd",
+      "ready_after": "M12",
+      "mode": "run",
+      "stdout": "Ternfold: inspect a change before accepting it\naccepted count=7\nfree=3\nrejected capacity; count=7\noriginal still=3\naccepted count=4\nfree=6\n"
+    },
+    {
+      "path": "examples/course/automata.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "Ternfold\n-3\n",
+      "language_revision": 2
+    },
+    {
+      "path": "examples/course/main_io.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdin": "Ada\n",
+      "stdout": "Hello Ada\n20\n-3\n",
+      "language_revision": 2
+    },
+    {
+      "path": "examples/course/operator_inventory.tfd",
+      "ready_after": "M09",
+      "mode": "run",
+      "stdout": "3.5e0\n3\n1\n8\ntrue\n",
+      "language_revision": 2
+    }
+  ]
+}

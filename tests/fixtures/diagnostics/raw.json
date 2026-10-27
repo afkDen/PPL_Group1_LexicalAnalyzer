@@ -1,0 +1,88 @@
+{
+  "diagnostics": [
+    {
+      "code": "E002",
+      "edits": [],
+      "help": [],
+      "message": "source must not start with a UTF-8 BOM",
+      "notes": [],
+      "primary": {
+        "message": "",
+        "span": {
+          "end": {
+            "byte": 3,
+            "column": null,
+            "line": null
+          },
+          "file": "bom.tfd",
+          "source_id": 1,
+          "source_valid": false,
+          "start": {
+            "byte": 0,
+            "column": null,
+            "line": null
+          }
+        }
+      },
+      "secondary": [],
+      "severity": "error"
+    },
+    {
+      "code": "E003",
+      "edits": [],
+      "help": [],
+      "message": "lone CR is not a source line ending",
+      "notes": [],
+      "primary": {
+        "message": "",
+        "span": {
+          "end": {
+            "byte": 3,
+            "column": null,
+            "line": null
+          },
+          "file": "cr.tfd",
+          "source_id": 2,
+          "source_valid": false,
+          "start": {
+            "byte": 2,
+            "column": null,
+            "line": null
+          }
+        }
+      },
+      "secondary": [],
+      "severity": "error"
+    },
+    {
+      "code": "E001",
+      "edits": [],
+      "help": [],
+      "message": "source is not valid UTF-8",
+      "notes": [],
+      "primary": {
+        "message": "",
+        "span": {
+          "end": {
+            "byte": 2,
+            "column": null,
+            "line": null
+          },
+          "file": "utf8.tfd",
+          "source_id": 0,
+          "source_valid": false,
+          "start": {
+            "byte": 1,
+            "column": null,
+            "line": null
+          }
+        }
+      },
+      "secondary": [],
+      "severity": "error"
+    }
+  ],
+  "has_errors": true,
+  "schema_version": 1,
+  "suppressed": []
+}

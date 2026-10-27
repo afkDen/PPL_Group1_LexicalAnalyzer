@@ -1,0 +1,16 @@
+error[E110]: unexpected token
+ --> long.tfd:1:201
+ 1 | ...xxxxxxΩyyyyyyyyyyyyy...
+   |          ^
+
+error[E110]: unexpected token
+ --> main.tfd:1:1
+  1 | line 1
+    | ^^^^^^
+  2 | line 2
+    | ^^^^^^
+    | ...
+  9 | line 9
+    | ^^^^^^
+ 10 | line 10
+    | ^^^^^^^

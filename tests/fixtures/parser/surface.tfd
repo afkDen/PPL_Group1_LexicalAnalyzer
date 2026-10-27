@@ -1,0 +1,11 @@
+import "lib.tfd" as lib;
+pub record Empty {}
+enum Choice { None, Some(Char) }
+pub fn main() -> List[Text] {
+    input visitor: Text from stdin;
+    let power = -2 ^ 3 ^ 2;
+    let mark: Char = 'ñ';
+    let matrix = for row in range(0, 2) { for col in range(0, 3) { row + col } };
+    output if true { visitor } else { "é" } to stdout;
+    [lib::show(value: (power)), (fn (x: Text) -> Text { x })(visitor)]
+}
