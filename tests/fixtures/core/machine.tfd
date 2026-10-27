@@ -1,5 +1,0 @@
-machine M(request:Int)yields Int rejects Text {
- state a:Int=0;state b:Int=1;
- next a=next.b+request;next b=a;
- guard next.a>=0 else "negative";emit next.a;
-}

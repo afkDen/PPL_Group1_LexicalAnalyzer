@@ -1,12 +1,18 @@
 # Implementation roadmap
 
-Phase 1 completed M00. The active development control plane has been adapted to Codex/ChatGPT while preserving the 0.2 spec and compiler-task status. M01–M07 are verified for their recorded contracts; C01 real-division/Float amendments are verified; M08 is complete and M09 is active. The graph and routing hints are machine-readable in [tasks.json](tasks.json); each [task brief](tasks/M01.md) contains objective, contracts, files, tests, acceptance criteria and commands. Actual status/evidence belongs to [progress.md](progress.md).
+ADR0011 makes every implementation milestone a C17 obligation. historical host acceptance
+through M08 and partial M09 are preserved historical evidence, not C completion.
+The canonical M00–M17/X01 and C00/C01/S01 identities, responsibilities,
+dependencies and acceptance intent remain. C-MIGRATION-01 delivers the immediate
+lexer slice without requiring later numerical/Core milestones for class.
+Current C statuses live in tasks.json; exact verified scope lives in progress.md.
+M15–M17/X01 are optional after M14 and never class prerequisites.
 
 | Task | Deliverable | Requires | Suggested agent | Default effort | Independent review |
 |---|---|---|---|---|---|
 | M00 | Architecture foundation | — | `reviewer` | High | High |
 | C00 | Course-scope freeze / automata / crosswalk | M00 | `reviewer` | High | High |
-| M01 | Source snapshots and byte spans | M00 | `frontend-engineer` | Medium | Medium |
+| M01 | Source snapshots and byte spans | M00, C00 | `frontend-engineer` | Medium | Medium |
 | M02 | Structured diagnostics and renderers | M01 | `frontend-engineer` | Medium | Medium |
 | M03 | Lexer and token introspection | M01, M02 | `frontend-engineer` | Medium | Medium |
 | M04 | AST, handwritten parser and recovery | M03 | `frontend-engineer` | High | High |
@@ -50,7 +56,6 @@ Use Codex worktrees for concurrent writers and inherited workspace for read-only
 ## Autonomous continuation algorithm
 
 1. Read `MASTER_IMPLEMENTATION.md`, root `AGENTS.md`, handoff and progress; inspect git/source/tests.
-2. Bootstrap/check the development environment and run `scripts/check_codex_workspace.py`.
 3. Reconcile `tasks.json`/progress against actual evidence and choose the earliest eligible incomplete task.
 4. Read its brief and relevant normative contracts; classify reasoning and decide direct/delegated execution using `$ternfold-orchestration`.
 5. Implement with valid/invalid/boundary evidence; use safe parallelism only after interfaces freeze.
@@ -62,4 +67,8 @@ A passing prior milestone remains a regression gate. If an environment boundary 
 
 ## Course-aligned target revision 2: additive implementation scope
 
-**New prerequisite C00 is complete for *specification/bootstrap only*.** M01–M07 source through planning are complete for their historical contract; C01 numerical/rubric correction is verified; M08 is complete and M09 is active. Read ADR 0009 and `docs/course-requirements.md` alongside each owning brief. M03 must implement finite-state-recognized lexical categories, both comment forms, four lexical literal families, extension policing and a real `Symbol Table.txt` emitter; M04 handles ^/div/for/main clauses; M06 types; M08/M09 Core/interpreter; M10/M11 C/ABI equivalence; M14 executed course acceptance. M05 `check` is explicitly phase-bounded: unfinished M06 types must not contaminate its verification. Do not paper over a missing feature by changing the proposal without corresponding compiler/tests.
+C00 preserves the specified course scope and automata. Historical Python M01–M08
+acceptance is retained in the backup branch; every C phase has its own evidence.
+M03 covers lexical recognition; M04 syntax; M06 types; M08/M09 Core/interpreter;
+M10/M11 runtime/backend parity; M14 complete executed conformance. Immediate
+C-MIGRATION-01 lexical delivery does not wait for later semantic milestones.

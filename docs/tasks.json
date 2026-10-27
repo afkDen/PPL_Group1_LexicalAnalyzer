@@ -1,7 +1,31 @@
 {
-  "schema": 2,
-  "target": "Ternfold 0.2 (course-aligned; new compiler target)",
+  "schema": 3,
+  "target": "Ternfold 0.2 — C17 implementation",
   "tasks": [
+    {
+      "id": "C-MIGRATION-01",
+      "title": "C17 foundation migration and immediate C lexer delivery",
+      "phase": "migration",
+      "status": "in_progress",
+      "requires": [],
+      "brief": "docs/tasks/C-MIGRATION-01.md",
+      "optional": false,
+      "orchestration": {
+        "agent": "frontend-engineer",
+        "effort": "high",
+        "skills": [
+          "ternfold-orchestration",
+          "ternfold-native-safety",
+          "ternfold-test-design",
+          "ternfold-lexical-conformance",
+          "ternfold-spec-audit",
+          "ternfold-verified-completion"
+        ],
+        "review": "high",
+        "parallel": "disjoint build/docs and sole C lexer writer; reviewers read-only"
+      },
+      "remaining": "Safe GitHub foundation publication and final evidence/archive closure."
+    },
     {
       "id": "M00",
       "title": "Architecture foundation",
@@ -17,7 +41,14 @@
         ],
         "parallel": "none",
         "review": "high"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false,
+      "evidence": [
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
+      ],
+      "verified_scope": "C17 architecture/course foundation; historical model is design evidence, not C machine execution."
     },
     {
       "id": "C00",
@@ -36,13 +67,20 @@
         ],
         "parallel": "none",
         "review": "high"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false,
+      "evidence": [
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
+      ],
+      "verified_scope": "C17 architecture/course foundation; historical model is design evidence, not C machine execution."
     },
     {
       "id": "M01",
       "title": "Source snapshots and byte spans",
       "phase": "foundation",
-      "status": "completed",
+      "status": "in_progress",
       "requires": [
         "M00",
         "C00"
@@ -58,13 +96,17 @@
         ],
         "parallel": "none",
         "review": "medium"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false,
+      "partial_scope": "Native immutable UTF-8 snapshots/spans verified for lexer; SourceManager canonical caching/no-reread guarantees remain incomplete."
     },
     {
       "id": "M02",
       "title": "Structured diagnostics and renderers",
       "phase": "foundation",
-      "status": "completed",
+      "status": "pending",
       "requires": [
         "M01"
       ],
@@ -80,13 +122,17 @@
         ],
         "parallel": "none",
         "review": "medium"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false,
+      "partial_scope": "Lexical structured code/span diagnostics exist; general labels/notes/text/JSON remain incomplete."
     },
     {
       "id": "M03",
       "title": "Lexer and token introspection",
       "phase": "foundation",
-      "status": "completed",
+      "status": "pending",
       "requires": [
         "M01",
         "M02"
@@ -103,13 +149,17 @@
         ],
         "parallel": "tests may branch after token contract freezes",
         "review": "medium"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false,
+      "partial_scope": "Standalone scanner/report verified in C-MIGRATION-01; full token introspection waits for M01/M02 contracts."
     },
     {
       "id": "M04",
       "title": "AST, handwritten parser and recovery",
       "phase": "foundation",
-      "status": "completed",
+      "status": "pending",
       "requires": [
         "M03"
       ],
@@ -126,13 +176,16 @@
         ],
         "parallel": "quality fixtures may branch after AST contract freezes",
         "review": "high"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M05",
       "title": "Module graph and name resolution",
       "phase": "foundation",
-      "status": "completed",
+      "status": "pending",
       "requires": [
         "M04"
       ],
@@ -148,13 +201,16 @@
         ],
         "parallel": "limited module fixtures only after ID/scope contracts freeze",
         "review": "high"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M06",
       "title": "Types, constants and pattern coverage",
       "phase": "foundation",
-      "status": "completed",
+      "status": "pending",
       "requires": [
         "M05"
       ],
@@ -170,13 +226,16 @@
         ],
         "parallel": "quality property cases after type representation freezes",
         "review": "high"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M07",
       "title": "Machine dependency analysis and plan command",
       "phase": "foundation",
-      "status": "completed",
+      "status": "pending",
       "requires": [
         "M06"
       ],
@@ -192,13 +251,16 @@
         ],
         "parallel": "quality graph properties after plan schema freezes",
         "review": "high"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "C01",
       "title": "Authorized real-division and lexical-rubric correction",
       "phase": "foundation",
-      "status": "completed",
+      "status": "pending",
       "requires": [
         "M07"
       ],
@@ -215,13 +277,16 @@
         ],
         "parallel": "one numerical contract writer; independent read-only audits",
         "review": "high"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "S01",
       "title": "Standalone lexical analyzer class submission",
       "phase": "foundation",
-      "status": "completed",
+      "status": "pending",
       "requires": [
         "C01"
       ],
@@ -237,13 +302,16 @@
         ],
         "parallel": "sole supervisor writer; independent read-only review",
         "review": "high"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M08",
       "title": "Core IR, lowering and verifier",
       "phase": "foundation",
-      "status": "completed",
+      "status": "pending",
       "requires": [
         "M07",
         "C01",
@@ -262,13 +330,16 @@
         ],
         "parallel": "verifier negative fixtures may branch after Core schema freezes",
         "review": "high"
-      }
+      },
+      "historical_python_status": "completed",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M09",
       "title": "Reference Core interpreter and run command",
       "phase": "foundation",
-      "status": "in_progress",
+      "status": "pending",
       "requires": [
         "M08"
       ],
@@ -285,7 +356,10 @@
         ],
         "parallel": "quality interpreter cases after Core API freezes; M10 may proceed independently when prerequisites hold",
         "review": "high"
-      }
+      },
+      "historical_python_status": "in_progress",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M10",
@@ -310,7 +384,10 @@
         ],
         "parallel": "may run alongside late M09 after Core/ABI contracts are stable",
         "review": "high"
-      }
+      },
+      "historical_python_status": "pending",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M11",
@@ -335,7 +412,10 @@
         ],
         "parallel": "quality differential generation after emitter/runtime interface freezes",
         "review": "high"
-      }
+      },
+      "historical_python_status": "pending",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M12",
@@ -358,7 +438,10 @@
         ],
         "parallel": "examples/library fixtures can branch by disjoint file ownership",
         "review": "medium"
-      }
+      },
+      "historical_python_status": "pending",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M13",
@@ -380,7 +463,10 @@
         ],
         "parallel": "scripted REPL tests may branch after session contract freezes",
         "review": "medium"
-      }
+      },
+      "historical_python_status": "pending",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M14",
@@ -403,7 +489,10 @@
         ],
         "parallel": "disjoint fuzz/property/native/package evidence may run in parallel",
         "review": "high"
-      }
+      },
+      "historical_python_status": "pending",
+      "implementation": "ISO C17",
+      "optional": false
     },
     {
       "id": "M15",
@@ -425,7 +514,10 @@
         ],
         "parallel": "may run alongside M16/M17 with explicit shared-Core ownership",
         "review": "high"
-      }
+      },
+      "historical_python_status": "pending",
+      "implementation": "ISO C17",
+      "optional": true
     },
     {
       "id": "M16",
@@ -448,7 +540,10 @@
         ],
         "parallel": "may run alongside M15/M17 with explicit shared-Core ownership",
         "review": "high"
-      }
+      },
+      "historical_python_status": "pending",
+      "implementation": "ISO C17",
+      "optional": true
     },
     {
       "id": "M17",
@@ -470,7 +565,10 @@
         ],
         "parallel": "may run alongside M15/M16 with driver/Core ownership boundaries",
         "review": "medium"
-      }
+      },
+      "historical_python_status": "pending",
+      "implementation": "ISO C17",
+      "optional": true
     },
     {
       "id": "X01",
@@ -489,7 +587,10 @@
         ],
         "parallel": "research can parallelize; production syntax changes cannot",
         "review": "high"
-      }
+      },
+      "historical_python_status": "pending",
+      "implementation": "ISO C17",
+      "optional": true
     }
   ],
   "orchestration": {
@@ -499,5 +600,12 @@
     "policy": "MASTER_IMPLEMENTATION.md"
   },
   "language_revision": 2,
-  "course_contract": "docs/course-requirements.md"
+  "course_contract": "docs/course-requirements.md",
+  "implementation_language": "ISO C17",
+  "migration": {
+    "task": "C-MIGRATION-01",
+    "historical_full_commit": "cbffadf00548a5d1a66b9eb369c1e4437f7408f2",
+    "historical_lexical_commit": "389030efe8e852b319fe87ea2fd243d58cac1859",
+    "policy": "Historical achievements do not establish C17 completion; preserve M/X backbone and optionality."
+  }
 }

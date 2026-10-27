@@ -1,3 +1,5 @@
+# C17 implementation target (ADR0011)
+
 # Runtime, C ABI, and execution equivalence
 
 Normative runtime target, **ABI 1**, not yet implemented. The language value/fault contract is in language-spec.md. This document owns native representation and lifetime rules.
@@ -8,7 +10,7 @@ Immutable acyclic values with reference-counted heap objects. Scalars Int/Float/
 
 No assignment, mutable captures, recursive local bindings, or runtime global value initialization exists, so constructed heap graphs point only to previously existing immutable values. Global functions are code IDs with no captured environment. This prevents reference cycles even though functions may recurse. Closure environments can form deep acyclic chains; destruction must not recurse on the C stack. Release uses an intrusive pending-free chain in zero-count headers, requiring no allocation during destruction. Visit child references, enqueue newly zero-count children, then free the object. Every reachable child is retained at construction.
 
-Reference counts are checked 64-bit unsigned values. A retain that would overflow reports R003 before changing ownership. No silent wrapping, saturating leak, or special immortal count in ABI 1. Constant pool heap objects are owned by the runtime context and released after program roots. Limits count live allocated bytes (default native budget 256 MiB) and language call depth (default 1,024), checking size multiplication/addition before allocating. Resource failure is R003 and must clean up owned temporaries. Python and C allocation budgets need not trigger at identical values: resource-limit equivalence is not promised.
+Reference counts are checked 64-bit unsigned values. A retain that would overflow reports R003 before changing ownership. No silent wrapping, saturating leak, or special immortal count in ABI 1. Constant pool heap objects are owned by the runtime context and released after program roots. Limits count live allocated bytes (default native budget 256 MiB) and language call depth (default 1,024), checking size multiplication/addition before allocating. Resource failure is R003 and must clean up owned temporaries. Interpreter and native allocation budgets need not trigger at identical values: resource-limit equivalence is not promised.
 
 ## Value ABI
 
@@ -29,7 +31,7 @@ Emitter uses a conservative initial lifetime discipline: allocate a function-loc
 
 ## Arithmetic and platform contract
 
-Compile C with `-std=c17 -Wall -Wextra -Werror -pedantic`. Supported initial targets are 64-bit Linux/macOS with GCC >=12 or Clang >=16 and an available exact int64_t. Windows support is experimental until CI exists. GCC 13.3 is verified in this architecture environment. Configure platform support by compile probes, not version string alone.
+Compile C with `-std=c17 -Wall -Wextra -Werror -pedantic`. Windows x64 LLVM-MinGW Clang 23.1.4 is verified for the lexical foundation. Runtime/backend platform conformance remains pending M10/M11. POSIX/GCC/MSVC support is not yet verified. Configure platform support by compile/run probes, not version string alone.
 
 Check signed overflow **before** executing C arithmetic. For addition/subtraction, compare bounds without overflowing intermediate expressions; for multiplication use division bounds with explicit sign cases, or verified compiler builtins behind a portable fallback. Integer `div`/`%` check zero and INT64_MIN/-1 before using C integer quotient/remainder. Negation checks INT64_MIN. Never use floating point to implement Int `div` or `%`; source `/` is Float real division under ADR 0010. Constant expressions in generated C must encode INT64_MIN safely, e.g. `(-INT64_C(9223372036854775807) - INT64_C(1))`. Length arithmetic uses checked size_t operations and rejects lengths exceeding Int max. Sanitizers are gates, not a replacement for reasoning about UB.
 
@@ -51,7 +53,7 @@ contraction/FMA, excess precision and flush-to-zero behavior. Use capability
 probes in addition to flags. `/` converts each Int operand independently with
 nearest-even and returns Float for all numeric pairs. Do not use Int arithmetic
 for source `/` or Float for integer division. Float `^` uses the exact checked
-reciprocal-first squaring sequence in language-spec.md; do not use C/Python
+reciprocal-first squaring sequence in language-spec.md; do not use host
 `pow`. A zero denominator is R002; any nonfinite intermediate/result is R001.
 Finite underflow is valid. Conversion to Int truncates then checks representable
 bounds before a C cast; IntMax converted to Float rounds to 2^63 and cannot
@@ -90,4 +92,4 @@ Development verification compiles/runs a small C17 toolchain probe. Runtime test
 
 `Char` is an inline Unicode scalar tag with validated range U+0000..U+10FFFF excluding surrogates, distinct from Text. Extend value equality, type tables, C union payload and verifier without changing ownership rules. Add checked Int `^` with nonnegative exponent and exponentiation by squaring and `div` with mathematical floor semantics using checked truncating C division plus signed remainder correction, never signed overflow or floating-point approximation. Fault R005 = negative exponent. R001/R002 remain the overflow/zero-divisor contract and R003 remains resource exhaustion.
 
-The driver captures stdin lines **before** starting main and passes the immutable vector through a hidden entrypoint adapter, to both Python and native modes. `input` clauses consume sequential lines or fault R006 = insufficient input. `output` clauses stage Text values privately. Host writes these staged lines followed by old `main: List[Text]` results only after complete successful evaluation. Exact newline policy: split UTF-8 input at LF, strip one trailing CR from each line, preserve empty interior lines, and do not create a synthetic final empty line for a terminal LF; unpaired CR in input data is preserved. Both execution modes must agree on input count/encoding and outputs. This boundary is intentionally **not an ambient I/O primitive** available to machines or pure functions. The hidden adapter retains existing borrowed-input/owned-output ABI invariants and C17 compatibility; native launcher captures/replays the input vector. On R006 or any other evaluation fault, suppress all staged and returned output. CLI may accept a `--stdin-file` UTF-8 path for deterministic acceptance tests.
+The driver captures stdin lines **before** starting main and passes the immutable vector through a hidden entrypoint adapter, to both interpreter and native modes. `input` clauses consume sequential lines or fault R006 = insufficient input. `output` clauses stage Text values privately. Host writes these staged lines followed by old `main: List[Text]` results only after complete successful evaluation. Exact newline policy: split UTF-8 input at LF, strip one trailing CR from each line, preserve empty interior lines, and do not create a synthetic final empty line for a terminal LF; unpaired CR in input data is preserved. Both execution modes must agree on input count/encoding and outputs. This boundary is intentionally **not an ambient I/O primitive** available to machines or pure functions. The hidden adapter retains existing borrowed-input/owned-output ABI invariants and C17 compatibility; native launcher captures/replays the input vector. On R006 or any other evaluation fault, suppress all staged and returned output. CLI may accept a `--stdin-file` UTF-8 path for deterministic acceptance tests.

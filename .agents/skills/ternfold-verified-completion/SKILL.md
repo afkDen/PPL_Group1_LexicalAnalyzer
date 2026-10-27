@@ -17,3 +17,14 @@ Do not use for generating new feature code. Reviewed upstream `obra/superpowers`
 ## Authorized numerical/rubric amendment
 
 Mandatory professor clarification: seven arithmetic + - / * % div ^ and nine logical/relational && || ! > < == != >= <= are required operator counts. Accepted ADR 0010 defines real / and finite Float, distinct from integer div. Preserve completed work and use C01 before M08; require executable eleven-item lexical evidence and actual UTF-8 Symbol Table.txt. Historical Int-only passes do not verify new Float or executor/native parity.
+
+## C17 migration workflow (ADR0011)
+
+All implementation stages and native developer tools target ISO C17. Use explicit
+ownership, checked allocation/size arithmetic, destroyable failure states, stable
+IDs/spans and immutable published records. Run `./scripts/build.ps1 check` and
+`sanitize`; intended POSIX equivalent is `sh scripts/build.sh check|sanitize`.
+Record actual compiler/platform support. Preserve M00–M17/X01 and auxiliaries;
+optional extensions never block class. Historical Python passes do not complete
+C work. No Python/Node/AI runtime or build dependency. Independent review and
+fresh extracted archive builds are required before acceptance.

@@ -1,3 +1,5 @@
+# C17 implementation target (ADR0011)
+
 # Core: one typed, structured, administrative-normal-form IR
 
 Core is justified by removing machine scheduling/guards and pattern matching exactly once. Both interpreter and C backend execute its simpler ordered semantics. It is not a textual substitution layer, a bytecode, or LLVM clone. It retains structured conditionals to generate inspectable C without requiring CFG reconstruction.
@@ -75,7 +77,7 @@ The multiplication may fault before either guard: that follows the language. The
 
 ## Reference execution
 
-Interpreter stores explicit tagged value classes (Python bool is not a Ternfold Int), an environment indexed by ValueId, and an explicit control/call frame stack to prevent Python RecursionError from becoming language behavior. Dispatch Core operations with exact Int bounds and integer quotient/remainder implemented without floating approximation. Real `/` uses ADR 0010 binary64 rules. Track step budget and language call depth; limit failures are R003. Frame contexts retain current source origin. Interpreter cannot consult TypedAST or reschedule a machine.
+Interpreter stores explicit tagged value classes (host Boolean is not a Ternfold Int), an environment indexed by ValueId, and an explicit control/call frame stack to prevent Python RecursionError from becoming language behavior. Dispatch Core operations with exact Int bounds and integer quotient/remainder implemented without floating approximation. Real `/` uses ADR 0010 binary64 rules. Track step budget and language call depth; limit failures are R003. Frame contexts retain current source origin. Interpreter cannot consult TypedAST or reschedule a machine.
 
 ## Revision 2 lowering contract
 
@@ -106,30 +108,11 @@ Source references to its resolved symbol are E208 (calls, function values,
 recursion, closure/machine references); the generated adapter is not nameable.
 A main without I/O remains callable. Apply the rule by identity, preserving
 shadowed/unrelated names. Human-approved clarification is recorded in ADR 0009;
-`tests/test_entry_boundary.py` supplies positive/negative regressions.
+C entry-boundary regressions are required in the owning implementation milestone.
 
-## Implemented M08 representation (verification active)
 
-Frozen slotted records in core/nodes.py normalize all owned sequences into tuple
-snapshots, including nested nominal payload rows. CoreProgram stores independent
-nominal layouts, constants, functions and optional hidden entry ID; no AST,
-TypedProgram or MachinePlan is available to executors. Debug Origin retains only
-source NodeId/span/kind metadata. ValueIds are function-local; branch IDs are
-unique but cannot escape lexical scope.
+## C17 implementation status
 
-The allowed structural comprehension choice is ListMap(iterable, element, body),
-which evaluates its iterable once, visits elements in order and creates a new
-list. InputAt(snapshot,index) exists only in the hidden entry adapter; output
-clauses lower into evaluated Text values and a final staged list concatenation,
-never a printing primitive. Adapter calls/references are rejected by the verifier.
-Source references to I/O-bearing main are rejected before lowering per the
-approved boundary. Pure main remains callable through an ordinary user function.
-
-verify returns structured invariant Issues with optional original Origin.
-require_verified raises VerificationError on any issue and otherwise creates a
-sealed VerifiedCore handle. A verifier failure in the CLI is internal exit70,
-not a source error or host exit2. Direct handle construction and dataclass replace
-cannot bypass verification. The verifier independently checks nominal cycles/
-layouts/headers, finite canonical constants, exact signatures, dominance, payload
-proofs and entry restrictions. The JSON dump uses schema_version1, root-relative
-origins and deterministic function/value IDs. It remains data, not execution.
+This is the target contract for M08, not a claim of current C implementation.
+Use immutable context-owned records and stable IDs; verification creates a
+distinct executable handle. Historical Python M08 remains on the backup branch.

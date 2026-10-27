@@ -1,9 +1,0 @@
-fn broken(x: Int -> Int {
-    let first = ;
-    let second = 2
-    second
-}
-fn following() -> Unit {
-    output "misplaced";
-    ()
-}

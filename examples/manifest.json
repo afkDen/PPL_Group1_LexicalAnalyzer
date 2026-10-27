@@ -129,7 +129,7 @@
       "ready_after": "M09",
       "mode": "run",
       "stdin": "Ada\n",
-      "stdout": "Hello Ada\n20\n-3\n",
+      "stdout": "Hello Ada\n26\n-3\n",
       "language_revision": 2
     },
     {

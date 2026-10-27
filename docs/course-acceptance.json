@@ -1,14 +1,20 @@
 {
-  "schema": 2,
+  "schema": 3,
   "language_target": "Ternfold 0.2",
-  "claims": "M03-M07 historical scopes and C01 amended frontend/constants/lexical demonstration verified. Core/interpreter/native execution remain specified, with separate stage evidence.",
+  "claims": "C lexical recognition/report independently verified. All parsing, typing, machine execution and interpreter/native parity requirements remain specified. Historical Python evidence is separate.",
   "requirements": [
     {
       "id": "intro",
       "title": "Programming language name and inspiration",
       "owner": "M00",
-      "status": "specified",
-      "evidence": []
+      "status": "verified",
+      "evidence": [
+        "docs/language-spec.md",
+        "docs/design-exploration.md",
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
+      ],
+      "historical_python_status": "specified",
+      "verified_scope": "Name and documented design inspiration; foundation review."
     },
     {
       "id": "sigma",
@@ -16,10 +22,14 @@
       "owner": "M03",
       "status": "verified",
       "evidence": [
-        "tests/test_lexer.py",
-        "tests/test_tokens_cli.py",
-        "docs/verification/M03-2026-10-27.md"
-      ]
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
+        "tests/fixtures/lexer/Symbol Table.txt",
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
+      ],
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "identifiers",
@@ -27,42 +37,86 @@
       "owner": "M03",
       "status": "verified",
       "evidence": [
-        "tests/test_lexer.py",
-        "tests/test_tokens_cli.py",
-        "docs/verification/M03-2026-10-27.md",
-        "submission/lexical/tests/test_lexical.py",
-        "docs/verification/S01-2026-10-28.md"
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
+        "tests/fixtures/lexer/Symbol Table.txt",
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
       ],
-      "verified_scope": "Owning frontend scope plus S01 strict DFA/standalone two-column lexical submission. No source execution/native parity claim."
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "arithmetic",
       "title": "Seven arithmetic operations, including real / and integer div",
       "owner": "M09",
       "status": "specified",
-      "evidence": []
+      "evidence": [],
+      "historical_python_status": "specified",
+      "stages": {
+        "lexical_recognition": {
+          "status": "verified",
+          "evidence": [
+            "src/lexer.c",
+            "tests/test_lexer.c",
+            "tests/test_integration.c",
+            "tests/fixtures/lexer/Symbol Table.txt",
+            "docs/verification/C-MIGRATION-01-2026-10-28.md"
+          ]
+        },
+        "execution": {
+          "status": "specified",
+          "evidence": []
+        }
+      }
     },
     {
       "id": "relational",
       "title": "Six relational operators",
       "owner": "M06",
-      "status": "verified",
-      "evidence": [
-        "tests/test_types.py",
-        "tests/test_patterns.py",
-        "tests/test_typed_cli.py",
-        "docs/verification/M06-2026-10-27.md",
-        "tests/test_float_frontend.py",
-        "docs/verification/C01-2026-10-27.md"
-      ],
-      "verified_scope": "Owning historical phase plus C01 Float/frontend amendment; no executor/native parity claim."
+      "status": "specified",
+      "evidence": [],
+      "historical_python_status": "verified",
+      "stages": {
+        "lexical_recognition": {
+          "status": "verified",
+          "evidence": [
+            "src/lexer.c",
+            "tests/test_lexer.c",
+            "tests/test_integration.c",
+            "tests/fixtures/lexer/Symbol Table.txt",
+            "docs/verification/C-MIGRATION-01-2026-10-28.md"
+          ]
+        },
+        "execution": {
+          "status": "specified",
+          "evidence": []
+        }
+      }
     },
     {
       "id": "logical",
       "title": "AND OR NOT",
       "owner": "M09",
       "status": "specified",
-      "evidence": []
+      "evidence": [],
+      "historical_python_status": "specified",
+      "stages": {
+        "lexical_recognition": {
+          "status": "verified",
+          "evidence": [
+            "src/lexer.c",
+            "tests/test_lexer.c",
+            "tests/test_integration.c",
+            "tests/fixtures/lexer/Symbol Table.txt",
+            "docs/verification/C-MIGRATION-01-2026-10-28.md"
+          ]
+        },
+        "execution": {
+          "status": "specified",
+          "evidence": []
+        }
+      }
     },
     {
       "id": "words",
@@ -70,16 +124,14 @@
       "owner": "M05",
       "status": "verified",
       "evidence": [
-        "tests/test_resolution.py",
-        "tests/test_modules.py",
-        "tests/test_check_cli.py",
-        "docs/verification/M05-2026-10-27.md",
-        "tests/test_float_frontend.py",
-        "docs/verification/C01-2026-10-27.md",
-        "submission/lexical/tests/test_lexical.py",
-        "docs/verification/S01-2026-10-28.md"
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
+        "tests/fixtures/lexer/Symbol Table.txt",
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
       ],
-      "verified_scope": "Owning frontend scope plus S01 strict DFA/standalone two-column lexical submission. No source execution/native parity claim."
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "automata",
@@ -87,15 +139,14 @@
       "owner": "M03",
       "status": "verified",
       "evidence": [
-        "tests/test_lexer.py",
-        "tests/test_tokens_cli.py",
-        "docs/verification/M03-2026-10-27.md",
-        "tests/test_float_frontend.py",
-        "docs/verification/C01-2026-10-27.md",
-        "submission/lexical/tests/test_lexical.py",
-        "docs/verification/S01-2026-10-28.md"
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
+        "tests/fixtures/lexer/Symbol Table.txt",
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
       ],
-      "verified_scope": "Owning frontend scope plus S01 strict DFA/standalone two-column lexical submission. No source execution/native parity claim."
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "noise",
@@ -103,13 +154,14 @@
       "owner": "M04",
       "status": "verified",
       "evidence": [
-        "tests/test_parser.py",
-        "tests/test_ast_cli.py",
-        "docs/verification/M04-2026-10-27.md",
-        "submission/lexical/tests/test_lexical.py",
-        "docs/verification/S01-2026-10-28.md"
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
+        "tests/fixtures/lexer/Symbol Table.txt",
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
       ],
-      "verified_scope": "Owning frontend scope plus S01 strict DFA/standalone two-column lexical submission. No source execution/native parity claim."
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "comments",
@@ -117,14 +169,14 @@
       "owner": "M03",
       "status": "verified",
       "evidence": [
-        "tests/test_lexer.py",
-        "tests/test_tokens_cli.py",
-        "docs/verification/M03-2026-10-27.md",
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
         "tests/fixtures/lexer/Symbol Table.txt",
-        "submission/lexical/tests/test_lexical.py",
-        "docs/verification/S01-2026-10-28.md"
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
       ],
-      "verified_scope": "Owning frontend scope plus S01 strict DFA/standalone two-column lexical submission. No source execution/native parity claim."
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "spaces",
@@ -132,10 +184,14 @@
       "owner": "M03",
       "status": "verified",
       "evidence": [
-        "tests/test_lexer.py",
-        "tests/test_tokens_cli.py",
-        "docs/verification/M03-2026-10-27.md"
-      ]
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
+        "tests/fixtures/lexer/Symbol Table.txt",
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
+      ],
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "delimiters",
@@ -143,13 +199,14 @@
       "owner": "M04",
       "status": "verified",
       "evidence": [
-        "tests/test_parser.py",
-        "tests/test_ast_cli.py",
-        "docs/verification/M04-2026-10-27.md",
-        "submission/lexical/tests/test_lexical.py",
-        "docs/verification/S01-2026-10-28.md"
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
+        "tests/fixtures/lexer/Symbol Table.txt",
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
       ],
-      "verified_scope": "Owning frontend scope plus S01 strict DFA/standalone two-column lexical submission. No source execution/native parity claim."
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "format",
@@ -157,10 +214,14 @@
       "owner": "M03",
       "status": "verified",
       "evidence": [
-        "tests/test_lexer.py",
-        "tests/test_tokens_cli.py",
-        "docs/verification/M03-2026-10-27.md"
-      ]
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
+        "tests/fixtures/lexer/Symbol Table.txt",
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
+      ],
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "constants",
@@ -168,72 +229,70 @@
       "owner": "M03",
       "status": "verified",
       "evidence": [
-        "tests/test_lexer.py",
-        "tests/test_tokens_cli.py",
-        "docs/verification/M03-2026-10-27.md",
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
         "tests/fixtures/lexer/Symbol Table.txt",
-        "tests/test_float_frontend.py",
-        "docs/verification/C01-2026-10-27.md",
-        "submission/lexical/tests/test_lexical.py",
-        "docs/verification/S01-2026-10-28.md"
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
       ],
-      "verified_scope": "Owning frontend scope plus S01 strict DFA/standalone two-column lexical submission. No source execution/native parity claim."
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "precedence",
       "title": "Arithmetic boolean expressions precedence",
       "owner": "M04",
-      "status": "verified",
-      "evidence": [
-        "tests/test_parser.py",
-        "tests/test_ast_cli.py",
-        "docs/verification/M04-2026-10-27.md",
-        "tests/test_float_frontend.py",
-        "docs/verification/C01-2026-10-27.md"
-      ],
-      "verified_scope": "Owning historical phase plus C01 Float/frontend amendment; no executor/native parity claim."
+      "status": "specified",
+      "evidence": [],
+      "historical_python_status": "verified"
     },
     {
       "id": "input",
       "title": "Main-only input statement with captured source",
       "owner": "M09",
       "status": "specified",
-      "evidence": []
+      "evidence": [],
+      "historical_python_status": "specified"
     },
     {
       "id": "output",
       "title": "Main-only output statement and atomic publication",
       "owner": "M09",
       "status": "specified",
-      "evidence": []
+      "evidence": [],
+      "historical_python_status": "specified"
     },
     {
       "id": "assignment",
       "title": "let bindings and next writer",
       "owner": "M07",
       "status": "specified",
-      "evidence": []
+      "evidence": [],
+      "historical_python_status": "specified"
     },
     {
       "id": "conditionals",
       "title": "if else and nested alternatives",
       "owner": "M09",
       "status": "specified",
-      "evidence": []
+      "evidence": [],
+      "historical_python_status": "specified"
     },
     {
       "id": "single_loop",
       "title": "One pure single for loop",
       "owner": "M09",
       "status": "specified",
-      "evidence": []
+      "evidence": [],
+      "historical_python_status": "specified"
     },
     {
       "id": "nested_loop",
       "title": "One nested pure for loop",
       "owner": "M09",
       "status": "specified",
-      "evidence": []
+      "evidence": [],
+      "historical_python_status": "specified"
     },
     {
       "id": "extension",
@@ -241,13 +300,14 @@
       "owner": "M03",
       "status": "verified",
       "evidence": [
-        "tests/test_lexer.py",
-        "tests/test_tokens_cli.py",
-        "docs/verification/M03-2026-10-27.md",
-        "submission/lexical/tests/test_lexical.py",
-        "docs/verification/S01-2026-10-28.md"
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
+        "tests/fixtures/lexer/Symbol Table.txt",
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
       ],
-      "verified_scope": "Owning frontend scope plus S01 strict DFA/standalone two-column lexical submission. No source execution/native parity claim."
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "invalid",
@@ -255,14 +315,14 @@
       "owner": "M03",
       "status": "verified",
       "evidence": [
-        "tests/test_lexer.py",
-        "tests/test_tokens_cli.py",
-        "docs/verification/M03-2026-10-27.md",
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
         "tests/fixtures/lexer/Symbol Table.txt",
-        "submission/lexical/tests/test_lexical.py",
-        "docs/verification/S01-2026-10-28.md"
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
       ],
-      "verified_scope": "Owning frontend scope plus S01 strict DFA/standalone two-column lexical submission. No source execution/native parity claim."
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "symbol_table",
@@ -270,33 +330,31 @@
       "owner": "M03",
       "status": "verified",
       "evidence": [
-        "tests/test_lexer.py",
-        "tests/test_tokens_cli.py",
-        "docs/verification/M03-2026-10-27.md",
+        "src/lexer.c",
+        "tests/test_lexer.c",
+        "tests/test_integration.c",
         "tests/fixtures/lexer/Symbol Table.txt",
-        "docs/verification/M03/Symbol Table.txt",
-        "tests/test_float_frontend.py",
-        "docs/verification/C01-2026-10-27.md",
-        "submission/lexical/tests/test_lexical.py",
-        "docs/verification/S01-2026-10-28.md"
+        "docs/verification/C-MIGRATION-01-2026-10-28.md"
       ],
-      "verified_scope": "Owning frontend scope plus S01 strict DFA/standalone two-column lexical submission. No source execution/native parity claim."
+      "historical_python_status": "verified",
+      "verified_scope": "C lexical recognition/report only; no parsing, namespace enforcement, numerical execution or interpreter/native parity claim."
     },
     {
       "id": "native",
       "title": "Interpreter C17 equivalent on new constructs",
       "owner": "M11",
       "status": "specified",
-      "evidence": []
+      "evidence": [],
+      "historical_python_status": "specified"
     }
   ],
   "state_definitions": {
-    "specified": "Normative requirement only; no implementation inference.",
-    "implemented": "Code exists, with evidence paths; tests/review not yet established.",
-    "tested": "Applicable checks passed; independent review not yet established.",
-    "reviewed": "Independent review recorded; remaining integration gates may be pending.",
-    "verified": "Owning scope passed required executable checks and independent review; not a blanket later-phase claim.",
-    "blocked": "An explicit blocker prevents progress; blocker reason required."
+    "specified": "Normative requirement only.",
+    "implemented": "Maintained C implementation exists.",
+    "tested": "Native assertions pass for stated scope.",
+    "reviewed": "Independent review completed for stated scope.",
+    "verified": "Fresh tests, independent review and required gates passed.",
+    "blocked": "Unresolved requirement with explicit reason."
   },
   "mandatory_operator_inventory": {
     "arithmetic": [
@@ -327,7 +385,7 @@
       "id": "C01",
       "title": "Real division, numerical frontend and complete 16-operator lexical demonstration",
       "owner": "C01",
-      "status": "verified",
+      "status": "specified",
       "affected_requirements": [
         "arithmetic",
         "relational",
@@ -338,47 +396,48 @@
         "precedence",
         "native"
       ],
-      "evidence": [
-        "docs/decisions/0010.md",
-        "src/ternfold/analysis/numeric.py",
-        "tests/test_numeric.py",
-        "tests/test_float_frontend.py",
-        "tests/test_course_contract.py",
-        "examples/course/operator_inventory.tfd",
-        "docs/verification/C01/Symbol Table.txt",
-        "docs/verification/C01-2026-10-27.md"
-      ],
-      "scope": "Verified frontend/constant/lexical-demo scope only: 1155 full tests, final independent closure, installed wheel. Execution/native parity remains specified M09-M11.",
+      "evidence": [],
+      "scope": "C numerical design preserved; frontend/constants/execution remain pending. Lexical operator recognition is tracked separately.",
       "stages": {
         "lexical_demo": {
           "status": "verified",
           "evidence": [
-            "tests/test_course_contract.py",
-            "docs/verification/C01/Symbol Table.txt"
+            "src/lexer.c",
+            "tests/test_lexer.c",
+            "tests/test_integration.c",
+            "tests/fixtures/lexer/Symbol Table.txt",
+            "docs/verification/C-MIGRATION-01-2026-10-28.md"
           ]
         },
         "numerical_design": {
-          "status": "reviewed",
-          "evidence": [
-            "docs/decisions/0010.md"
-          ]
+          "status": "specified",
+          "evidence": [],
+          "historical_python_status": "reviewed"
         },
         "numerical_frontend": {
-          "status": "verified",
-          "evidence": [
-            "src/ternfold/analysis/numeric.py",
-            "tests/test_float_frontend.py",
-            "docs/verification/C01-2026-10-27.md"
-          ]
+          "status": "specified",
+          "evidence": [],
+          "historical_python_status": "verified"
         },
         "execution_native": {
           "status": "specified",
-          "evidence": [
-            "docs/tasks/M09.md",
-            "docs/tasks/M11.md"
-          ]
+          "evidence": [],
+          "historical_python_status": "specified"
         }
-      }
+      },
+      "historical_python_status": "verified"
     }
-  ]
+  ],
+  "implementation_language": "ISO C17",
+  "lexical_submission": {
+    "status": "verified",
+    "evidence": [
+      "src/lexer.c",
+      "tests/test_lexer.c",
+      "tests/test_integration.c",
+      "tests/fixtures/lexer/Symbol Table.txt",
+      "docs/verification/C-MIGRATION-01-2026-10-28.md"
+    ],
+    "scope": "Eleven lexical rubric items / 28 keywords / 25 reserved names / five literals / 7+9 operators. Windows LLVM-MinGW only. Symlink creation unavailable, explicitly not verified."
+  }
 }

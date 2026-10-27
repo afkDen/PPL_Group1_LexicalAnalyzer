@@ -1,3 +1,5 @@
+# C17 implementation target (ADR0011)
+
 # Static type model
 
 Normative companion to the language spec. The implementation is nominal, monomorphic for user declarations, and bidirectional locally. This is a deliberate complexity budget: algebraic data, higher-order functions, and machine results provide useful composition without user polymorphism or constraint solving.
@@ -104,4 +106,4 @@ Source references to its resolved symbol are E208 (calls, function values,
 recursion, closure/machine references); the generated adapter is not nameable.
 A main without I/O remains callable. Apply the rule by identity, preserving
 shadowed/unrelated names. Human-approved clarification is recorded in ADR 0009;
-`tests/test_entry_boundary.py` supplies positive/negative regressions.
+C entry-boundary regressions are required in the owning implementation milestone.

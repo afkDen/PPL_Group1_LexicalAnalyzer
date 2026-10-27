@@ -17,3 +17,14 @@ Read `MASTER_IMPLEMENTATION.md`, `docs/progress.md`, `docs/tasks.json`, and the 
 8. Accept work only after the owning task's checks pass and `docs/progress.md` plus `docs/tasks.json` reflect real evidence.
 
 Do not spawn agents merely to increase concurrency. The compiler is the project; orchestration stays small.
+
+## C17 migration workflow (ADR0011)
+
+All implementation stages and native developer tools target ISO C17. Use explicit
+ownership, checked allocation/size arithmetic, destroyable failure states, stable
+IDs/spans and immutable published records. Run `./scripts/build.ps1 check` and
+`sanitize`; intended POSIX equivalent is `sh scripts/build.sh check|sanitize`.
+Record actual compiler/platform support. Preserve M00–M17/X01 and auxiliaries;
+optional extensions never block class. Historical Python passes do not complete
+C work. No Python/Node/AI runtime or build dependency. Independent review and
+fresh extracted archive builds are required before acceptance.

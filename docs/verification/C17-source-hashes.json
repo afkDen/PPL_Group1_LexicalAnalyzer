@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "sha256": {
+    "include/ternfold/lexer.h": "f90d03f80893b49a962d51a66d9e686de2c02e7c97b36bdf1a6deadbe33430f8",
+    "src/internal.h": "e02d6c7a78cc53fe3d5b0182fd9574b436f0437296f21ff87ec1ccab0024a7fa",
+    "src/lexer.c": "53a7aa127bc3ebe1423fb59ad12e317c370701e780be66da201de754fbfada94",
+    "src/main.c": "7e366559aa52661e0b7882303aaf79dd8a6ae19ffa7f7b2213189fd97cffae39",
+    "src/report.c": "a57c1ec4bf847156477a32ddb849185d247bfb1474773c6db3f593712d833dbc",
+    "src/source.c": "a5762b2bfc8979094ab01f00f2f38c6adfa6fcfb2bac81d9703e379bb47b9c73",
+    "tests/test_integration.c": "78486606b465b360e7922e5bab78e95dde3e422b91dfcd224888b50a2a43f062",
+    "tests/test_lexer.c": "5d0c0641e5b014abf2610df836359af2751e0ba76b60cde6719e0ef37825cbcf",
+    "tools/audit.c": "62232e6782d126a91d5c428ef6a70b068cd5f7b6daae61ff95fb05875ee5f767",
+    "tools/environment.c": "c1e5ff81ab8015ee847e550e578d2cf0e8a509721802839287793ec9f458d04b",
+    "tools/tfdev.c": "97952e8408b3af89651eac51ab7f3c378a0080e9eef44e32459dbe85951454a4"
+  }
+}

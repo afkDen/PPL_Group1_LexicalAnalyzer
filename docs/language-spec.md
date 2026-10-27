@@ -1,6 +1,8 @@
+# C17 implementation target (ADR0011)
+
 # Ternfold 0.2 course-aligned language specification
 
-Status: **implementation target, revision 2 (course alignment, 2026-10-15)**. The earlier 0.1 core is retained; the new syntax and boundary behavior below are normative. See ADR 0009 and `docs/course-requirements.md`. The repository implements source snapshots, diagnostics and lexical inspection (M01–M03); parsing and execution remain pending their tasks. `docs/progress.md` is the implementation status authority. This document owns surface semantics; grammar, type rules, module rules, and runtime representation have focused companion documents. If they disagree, stop the affected feature, resolve the contradiction in these documents, and add a regression case; do not silently choose an implementation behavior.
+Status: **implementation target, revision 2 (course alignment, 2026-10-15)**. The earlier 0.1 core is retained; the new syntax and boundary behavior below are normative. See ADR 0009 and `docs/course-requirements.md`. The repository implements the lexical source/span/diagnostic subset; broader M01–M03 phase acceptance, parsing and execution remain tracked separately. `docs/progress.md` is the implementation status authority. This document owns surface semantics; grammar, type rules, module rules, and runtime representation have focused companion documents. If they disagree, stop the affected feature, resolve the contradiction in these documents, and add a regression case; do not silently choose an implementation behavior.
 
 ## Identity and purpose
 
@@ -229,7 +231,7 @@ This specification defines the complete Ternfold 0.2 target, including ADRs 0009
 
 **Reserved identifiers and noise words.** Besides lexical keywords, the built-in names `Int`, `Float`, `Bool`, `Text`, `Char`, `Unit`, `List`, `Option`, `Decision`, `step`, `len`, `at`, `append`, `map`, `fold`, `range`, `int_text`, `float_text`, `int_float`, `float_int`, `bool_text`, `parse_int`, `text_len`, `text_at`, and `text_slice` are reserved in their documented namespaces. `from` and `to` are *lexically reserved readability connectors* (noise words): the phrases `from stdin` and `to stdout` are optionally permitted only after the matching entrypoint clauses; omitting a whole phrase changes neither type nor execution. `stdin` and `stdout` are reserved sink/source names, not general identifiers. A noise token alone is not a statement and is an error out of context.
 
-**Character constants.** Int (`17`), Float (`1.5`), Bool (`true`), Text (`"hi"`), Char (`'q'`), and Unit (`()`) are distinct source-level literal types. Unit is recognized by the parser from `(` `)` and by the educational token report as a composite Unit literal while retaining underlying parser tokens. Thus five lexical literal families (INT, FLOAT, BOOL, STRING, CHAR) exist independently of Unit. The rubric requires at least four.
+**Character constants.** Int (`17`), Float (`1.5`), Bool (`true`), Text (`"hi"`), Char (`'q'`), and Unit (`()`) are distinct source-level literal types. Unit is recognized by the parser from `(` `)` and remains two separate delimiter rows in the educational token report. Thus five lexical literal families (INT, FLOAT, BOOL, STRING, CHAR) exist independently of Unit. The rubric requires at least four.
 
 **Pure iteration.** `for item in list_expression { ... final_expression }` is a list-producing expression: evaluate the iterable once, require `List[T]`, traverse from first to last, bind each immutable `item: T` in a fresh iteration scope, evaluate the body with normal fault order, collect one body result per item into `List[U]`. No `break`, `continue`, mutable index, implicit printing, or side-effecting loop body exists. Nested `for` expressions naturally produce `List[List[U]]`. Empty input yields the empty list without evaluating the body. `for` is not allowed as a machine writer replacement; it is an expression inside any permitted expression position.
 
@@ -280,4 +282,4 @@ Source references to its resolved symbol are E208 (calls, function values,
 recursion, closure/machine references); the generated adapter is not nameable.
 A main without I/O remains callable. Apply the rule by identity, preserving
 shadowed/unrelated names. Human-approved clarification is recorded in ADR 0009;
-`tests/test_entry_boundary.py` supplies positive/negative regressions.
+C entry-boundary regressions are required in the owning implementation milestone.

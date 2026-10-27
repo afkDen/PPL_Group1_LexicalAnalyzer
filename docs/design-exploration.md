@@ -1,3 +1,5 @@
+> Design research history: language candidates remain useful; implementation selection is superseded by ADR0011.
+
 # Design exploration and selection
 
 Research performed 2026-09-13. This is a decision record, not a survey of every language. Examples for rejected candidates are exploratory sketches and are **not Ternfold syntax**. Assessments and scores are the project's design judgment, not measured benchmarks. No exhaustive originality or naming search is claimed.
@@ -124,7 +126,7 @@ Choose A. The decisive advantage is a small semantic center that creates real co
 
 | Host | Advantages | Costs | Decision |
 |---|---|---|---|
-| Python | Small explicit passes, fast iteration, strong test tools, inspectable data | Runtime slower; must implement Int/Bool semantics explicitly | Select Python 3.12–3.14, standard-library-only production package |
+| Python | Small explicit passes, fast iteration, strong test tools, inspectable data | Runtime slower; must implement Int/Bool semantics explicitly | Historical choice, superseded by accepted C17-only ADR0011 |
 | Rust | Strong implementation invariants and efficient runtime | Lifetime/ownership implementation overhead competes with language design | Revisit only for measured frontend bottlenecks |
 | OCaml | Natural ASTs and pattern matching | Adds less familiar packaging/toolchain to the handoff | Good alternative, no decisive delivery gain |
 | TypeScript | Familiar tooling and JSON diagnostics | Numeric model and JS host behavior require care; no project-specific benefit | Reject for this project |

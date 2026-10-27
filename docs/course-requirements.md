@@ -1,6 +1,6 @@
 # PPL course compliance contract — Ternfold 0.2
 
-**Status: M03–M07 historical scopes verified; C01 numerical frontend/rubric amendments verified; execution/native requirements specified.** This repository is a fresh implementation bootstrap, not the partially completed M06 workspace from an unrelated Antigravity session. Finite automata are lexical recognizers, not the Ternfold machine transition graph. Tests and evidence, not documentation promises, decide course acceptance.
+**Status: C17 lexical delivery under C-MIGRATION-01; language execution remains specified.** Historical Python acceptance is preserved separately. Finite automata recognize lexemes; they are not machine transition graphs. Tests and independent evidence decide acceptance.
 
 **Authority:** latest user-supplied course checklist; instructor's earlier 11-criterion lexer sheet; original Ternfold group proposal (11 pages); reference Group-2 proposal *for examples of expected DFA illustrations only*. This file owns evidence mapping, not semantics. Source-of-truth language semantics: `language-spec.md`, `grammar.md`, `type-system.md`, `runtime.md`, ADR 0009.
 
@@ -19,7 +19,7 @@
 | Commas/semicolon/brackets | lexical and parser tests for `, ; () [] {}` | M03/M04 |
 | Four constant types minimum | independent Int, Float, Bool, Text, Char tokens (plus Unit expression) | M03/C01 |
 | Invalid token / wrong extension | E101 et al. plus report INVALID, `.tfd` enforced | M03 |
-| Symbol Table.txt | deterministic line-column lexeme/category report with comment/invalid rows | M03 |
+| Symbol Table.txt | exactly TOKEN TYPE and LEXEME columns, deterministic source-order comment/invalid rows | M03 |
 | Expressions and precedence | grammar and tests for exponent, div, comparisons, logic | M04/M06 |
 | Input statement | `input name: Text [from stdin];` main-only snapshot binding | M04/M06/M08/M09/M11 |
 | Output statement | `output expr [to stdout];` staging, all-or-nothing output | M04/M06/M08/M09/M11 |
@@ -29,7 +29,7 @@
 | Nested loop | `for row ... { for col ... { expr } }` -> List[List] | M04/M06/M09 |
 | Native parity | input snapshot, Char, div/power, comprehensions identical in C17 | M11/M14 |
 
-A requirement is accepted only if its owner writes positive + negative tests (where meaningful), focused and full quality gates pass, and review confirms the rubric evidence. `scripts/course_audit.py` audits the **static specification/mapping** and produces a checklist; it does **not** pretend language execution works before its milestones. The final course demonstration includes source, lexical table, invalid diagnostic, DFA diagram, single loop, nested loop, both comments, and real interpreter/native outputs.
+A requirement is accepted only if its owner writes positive + negative tests (where meaningful), focused and full quality gates pass, and review confirms the rubric evidence. The native `tools/audit.c` repository audit checks the **static specification/mapping** and produces a checklist; it does **not** pretend language execution works before its milestones. The final course demonstration includes source, lexical table, invalid diagnostic, DFA diagram, single loop, nested loop, both comments, and real interpreter/native outputs.
 
 ## Teaching demonstration examples (target syntax, not runnable yet)
 
@@ -55,7 +55,7 @@ Sample stdin line `Ada` should yield output lines `Hello Ada`, `2.60000000000000
 
 ### Persistent acceptance ledger
 
-`docs/course-acceptance.json` enumerates 25 independent rubric requirements, owner milestones and evidence references. Schema 2 distinguishes specified, implemented, tested, reviewed, verified and blocked; schema 1 remains readable. Historical verification is preserved separately from the C01 amendment. Blocked requires a reason, and implemented/tested/reviewed/verified require actual evidence paths. A later agent can change status only after real code, tests and independent review; positive implementation/test/review/verification claims require existing evidence paths and are enforced by `scripts/course_audit.py`. The final M14 review must verify all records and corresponding actual language execution, not simply set flags.
+`docs/course-acceptance.json` enumerates 25 independent rubric requirements, owner milestones and evidence references. Schema 3 distinguishes specified, implemented, tested, reviewed, verified and blocked; historical statuses are retained separately. Historical verification is preserved separately from the C01 amendment. Blocked requires a reason, and implemented/tested/reviewed/verified require actual evidence paths. A later agent can change status only after real code, tests and independent review; positive implementation/test/review/verification claims require existing evidence paths and are enforced by the native `tools/audit.c` repository audit. The final M14 review must verify all records and corresponding actual language execution, not simply set flags.
 
 ## Professor clarification and eleven-item lexical checklist
 
@@ -70,11 +70,11 @@ The mandatory lexical checklist is: (1) .tfd only, (2) identifiers, (3) keywords
 (7) line/block comments, (8) all seven plus nine operations, (9) delimiters/
 brackets, (10) INVALID lexemes and recovery, (11) an actual UTF-8 text file named
 `Symbol Table.txt`. C01 must provide a representative .tfd demo containing all
-16 spellings with exact deterministic report/span tests. Use standalone `python analyzer.py examples/complete.tfd` to publish the
+16 spellings with exact deterministic report/span tests. Use `build/ternfold-lexer[.exe] examples/lexical/complete.tfd --output-dir build` to publish the
 required two-column classroom table. The compiler rich report remains a
 separate internal view. S01 verifies strict per-character name recognition,
 without completed-word keyword or reserved-spelling matching.
-The [read-only evidence audit](verification/lexical-rubric-audit-2026-10-27.md)
+The read-only historical evidence audit (preserved on history/python-full-2026-10-28)
 records existing implementation and precise amendment gaps. Windows and POSIX
 results are distinct; documentation, a report fixture or a mapping audit alone
 cannot establish numerical runtime/native conformance.

@@ -1,3 +1,5 @@
+# C17 implementation target (ADR0011)
+
 # Modules and program roots
 
 Version 0.1 has local files and an explicitly selected root, not a package registry. `import "models/bin.tfd" as bin;` loads a file relative to the importing file's directory. The path must be a nonempty relative POSIX-style path ending `.tfd`; reject absolute paths, backslashes, NUL, URL schemes, and any `..` component. Resolve symlinks and verify the resolved file remains under the resolved `--root` directory. By default `--root` is the entry file's parent. Check the entry itself is under root. These rules avoid accidental imports outside the requested project; they do not promise protection against a concurrent hostile filesystem changing symlinks between checks and opens.

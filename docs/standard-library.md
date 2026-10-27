@@ -1,6 +1,8 @@
+# C17 implementation target (ADR0011)
+
 # Prelude and standard library target
 
-Frontend signatures are checked through M06/C01; execution remains a specified target until M09/M11. All are deterministic and pure, except resource failures described in runtime.md. Names in this table are compiler-known and reserved in the value namespace. `A` and `B` below are specification metavariables, not source syntax for user generics. Function types use `fn(A) -> B`; calling is always fully applied. Counts/indices are Int. No API reads files, environment variables, clocks, random sources, or networks.
+C frontend signatures remain M06/C01 work; execution remains specified until M09/M11. Historical Python signature checks are not C completion. All are deterministic and pure, except resource failures described in runtime.md. Names in this table are compiler-known and reserved in the value namespace. `A` and `B` below are specification metavariables, not source syntax for user generics. Function types use `fn(A) -> B`; calling is always fully applied. Counts/indices are Int. No API reads files, environment variables, clocks, random sources, or networks.
 
 | API | Signature | Exact behavior |
 |---|---|---|
@@ -45,5 +47,5 @@ lowercase `e`, no positive exponent sign and no redundant exponent zeros.
 Rounding occurs before trimming and includes carry into a new exponent.
 Zero is `0.0e0`; 1.5 is `1.5e0`, -2.5 is `-2.5e0`, and the rounded binary64
 value of 0.1 formats as `1.0000000000000001e-1`. This is exact integer-ratio
-rounding, independent of locale, Python repr, C printf or parser formatting.
+rounding, independent of locale, host default formatting, C printf or parser formatting.
 No `parse_float` is introduced by this correction.

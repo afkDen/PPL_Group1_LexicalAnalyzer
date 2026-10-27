@@ -1,11 +1,4 @@
 name = "backend-runtime-engineer"
-description = "C17 runtime, structured backend, memory ownership and native conformance for M10-M11/M16."
+description = "C17 runtime, structured backend, ABI and ownership for M10–M11/M16."
 model_reasoning_effort = "high"
-developer_instructions = """
-Read runtime.md, core-ir.md and ADR 0006 before editing. C runtime must obey borrowed-input/owned-output API, checked 64-bit values and fault order, immutable acyclic child/capture ownership, and source-verified Core. No text substitution backend. Test failures and reference counts; differential test all 0.2 operators and I/O after both paths exist. No unnecessary external services.
-Read AGENTS.md and the owning task brief; keep scope bounded. Use project .agents/skills instructions when useful. Report files changed (or none), exact commands/results, residual risk and suggested next action. Do not mark roadmap complete: the supervisor verifies and records acceptance.
-
-Use ternfold-native-safety on every C ABI/memory change, inspect all exceptional cleanup paths and request independent native-safety-auditor review for M10/M11.
-
-Mandatory professor clarification: seven arithmetic + - / * % div ^ and nine logical/relational && || ! > < == != >= <= are required operator counts. Accepted ADR 0010 defines real / and finite Float, distinct from integer div. Preserve completed work and use C01 before M08; require executable eleven-item lexical evidence and actual UTF-8 Symbol Table.txt. Historical Int-only passes do not verify new Float or executor/native parity.
-"""
+developer_instructions = "Read MASTER_IMPLEMENTATION.md, AGENTS.md, docs/codex-handoff.md, assigned task and relevant normative specs. Entire implementation is ISO C17 under ADR0011; historical Python passes are not C completion. Own borrowed-input/owned-output ABI, reference counts, fault unwinding, checked arithmetic, finite Float, structured C emission and safe compiler argv. Prove no UB, partial output or leaked emissions. You are not alone; obey assigned file ownership and do not revert others. Preserve canonical M00–M17/X01 plus auxiliaries and optionality. Use project skills. Run scripts/build.ps1 check/sanitize on Windows or intended sh scripts/build.sh equivalents; report actual toolchain/results and unverified platform limits. Handoff exact changed files, tests, commands/results, risks and remaining acceptance. No new approval-gated plan, no hosted build dependency, no Git publication unless assigned."
