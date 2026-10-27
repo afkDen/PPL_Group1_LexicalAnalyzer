@@ -1,5 +1,0 @@
-machine Duplicate(request: Unit) yields Int rejects Text {
-    state a: Int = 0;
-    next a = 1;
-    next a = 2;
-}

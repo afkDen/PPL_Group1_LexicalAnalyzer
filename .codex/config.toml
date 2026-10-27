@@ -1,9 +1,0 @@
-# Project-local Codex subagent policy; select available model and effort in the client.
-# Do not pin a model ID, API key, approval policy, or network privilege here.
-[agents]
-enabled = true
-max_concurrent_threads_per_session = 3
-interrupt_message = true
-
-# Project defaults are overridable per delegation; high effort for semantic/native risk.
-default_subagent_reasoning_effort = "medium"

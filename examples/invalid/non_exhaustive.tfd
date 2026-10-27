@@ -1,5 +1,0 @@
-fn unwrap(value: Option[Int]) -> Int {
-    match value {
-        Option::Some(x) => { x }
-    }
-}

@@ -1,3 +1,0 @@
-pub fn main() -> List[Text] {
-    ["Hello, Ternfold."]
-}

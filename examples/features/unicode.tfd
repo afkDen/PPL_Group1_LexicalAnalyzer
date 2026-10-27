@@ -1,4 +1,0 @@
-pub fn main() -> List[Text] {
-    let text = "aé\u{1F331}";
-    [int_text(text_len(text)), "NUL follows: \u{0}end"]
-}

@@ -1,5 +1,0 @@
-machine Missing(request: Unit) yields Int rejects Text {
-    state a: Int = 0;
-    state b: Int = 0;
-    next a = a;
-}

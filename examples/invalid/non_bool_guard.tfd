@@ -1,5 +1,0 @@
-machine Condition(request: Int) yields Int rejects Text {
-    state a: Int = 0;
-    next a = request;
-    guard next.a else "needs Bool";
-}
