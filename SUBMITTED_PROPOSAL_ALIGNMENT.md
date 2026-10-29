@@ -1,49 +1,43 @@
 # Submitted proposal and subsequent lexical decisions
 
-The group confirmed on29October2026 that the submitted document is
-**Group-1_Project_Proposal-1 (1).pdf**,20pages,1609615bytes, SHA256
+The submitted reference is `Group-1_Project_Proposal-1 (1).pdf`: 20 pages,
+1,609,615 bytes, SHA-256
 `d7c6bb63ca5ff4d7d627591375029e2f943cd6e3ce02cc4ada2f54fc7415c827`.
-It is preserved unchanged in the private project. It is not replaced by this
-companion, and it is not included in the public lexical package. The separately
-preserved19-page Revised and21-page Latest PDFs are later local references;
-their filenames are not evidence that they were submitted.
+The PDF remains unchanged and is not redistributed in this lexical package.
 
-The professor's additional DFA presentation expectations and possible penalty
-were reported by another student. They are treated as important grading risks;
-we do not claim independent professor confirmation of that report or penalty.
+This submission recognizes tokens and generates a Symbol Table. It does not
+parse programs, validate imports, check types or execute Ternfold.
 
-This submission implements lexical recognition only. It does not execute the
-language, check types or validate imports. The complete compiler is paused by
-the user; its implementation is private and is not a dependency of this package.
+## Submitted vocabulary and current recognition
 
-## Scope of the comparison
+The proposal lists 28 keyword spellings and 21 reserved names. All remain
+recognized. The current reserved inventory has 25 spellings: `Float`,
+`int_float`, `float_int` and `float_text` were accepted afterward.
+The proposal also describes identifiers, Char literals, contextual noise words,
+both comment forms, `div` and power.
 
-[PROPOSAL_LEXICAL_RECONCILIATION.md](PROPOSAL_LEXICAL_RECONCILIATION.md) lists
-each spelling, its submitted/later provenance, scanner acceptance, sample
-coverage and generated report evidence. Submitted rules take precedence when
-describing what the proposal said. Later documented decisions are identified
-as later decisions rather than retrospectively attributed to the proposal.
+[PROPOSAL_LEXICAL_RECONCILIATION.md](PROPOSAL_LEXICAL_RECONCILIATION.md) retains
+the full spelling matrix, proposal page references, accepting states, source
+lines, report rows and boundary-test evidence. Words inside comments and Text
+literals do not count as demonstrations of keyword recognition.
 
-The submitted proposal already contains DFA explanations/diagrams, identifiers,
-keywords, reserved names, Char, noise connectors, both comment forms, div and
-power. Current accepted lexical vocabulary retains those spellings. Float and
-its three conversion/formatting names are later additions. The static transition
-table and actual transition tracing are implementation/presentation improvements;
-they do not introduce a new keyword or language feature.
+The immutable transition table and actual-transition trace are implementation
+and presentation improvements. They add no keyword or reserved spelling.
 
-## Differences that must be explained honestly
+## Material differences
 
-| Subject | Submitted/later distinction | Disposition |
+| Subject | Submitted reference | Current lexical analyzer |
 |---|---|---|
-| Float vocabulary | Current `Float`, `int_float`, `float_int`, `float_text` extend the earlier reserved inventory | Preserve and demonstrate as post-submission accepted additions; never claim they were printed in the submitted inventory |
-| `/` numerical behavior | Earlier integer-quotient wording differs from later real-division/Float rules | Lexer recognizes `/` in either case; execution is outside this deliverable; no runtime change is made here |
-| Numeric suffix recovery | Submitted identifier discussion gives `2total` as integer then identifier; later accepted numeric-run rule diagnoses a malformed numeral such as `2total` as one E102 INVALID run | Retain current documented numeric recovery, expose this lexical difference explicitly, and include it in invalid tests; do not silently rewrite the proposal |
-| Report labels | Proposal uses descriptive groups such as RESERVED_NAME and OPERATOR; actual stable API/report uses RESERVED_WORD and concrete operator token labels | Explain the mapping in the reconciliation matrix; retain exactly TOKEN TYPE / LEXEME columns and source-order rows |
-| Report layout/escaping | Submitted p.18 explicitly specifies location columns; later accepted classroom contract has two columns, plain ordinary lexemes and reversible control escaping | Preserve current classroom mode and compatible lossless quoted mode; neither changes token recognition |
-| Implementation host | Historical documents discuss other implementation hosts/toolchains | This submission is C17; compile its four C files or use the separately verified native executable package |
+| Float vocabulary | The reserved inventory does not list `Float` or the three associated conversion/formatting names | Recognizes all four as later reserved additions |
+| `/` and `div` | The proposal describes an integer quotient for `/` | Recognizes distinct SLASH and DIV tokens. Later numerical rules distinguish real `/` from integer `div`; this analyzer does not evaluate either operation |
+| Numeric suffix recovery | Page 6 gives `2total` as an integer followed by an identifier | Reports one E102 INVALID run under the later numeric-recovery rule; invalid tests preserve this difference |
+| Token labels | Descriptive groups include RESERVED_NAME, OPERATOR and DELIMITER | Uses RESERVED_WORD and concrete operator/delimiter labels; the detailed matrix gives the mapping |
+| Report columns and escaping | Page 18 specifies location columns | Classroom mode writes exactly TOKEN TYPE and LEXEME, with ordinary lexemes shown plainly and row-breaking characters escaped. The default lossless mode quotes cells |
+| Literal and source validation | Escape lists and source-error details are incomplete | Documents precise UTF-8, control-character, Unicode-escape and recovery rules as later elaborations |
+| Implementation | The proposal discusses other implementation hosts and toolchains | Uses four C17 implementation files and a directly included fixed-state table |
 
-No professor approval of a post-submission change is invented. The source and
-coverage tests prove what the current scanner does; they do not erase these
-historical differences or establish full-language semantic conformance. The
-submitted PDF is immutable. Any unresolved proposal conflict remains visible
-in the matrix and final verification record.
+The current rules are documented as subsequent decisions, without attributing
+them retrospectively to the submitted PDF or claiming instructor approval.
+Coverage tests establish the scanner's current behavior; they do not establish
+full-language semantic conformance. See [INVALID_CASES.md](INVALID_CASES.md) for
+recovery examples and [VERIFICATION.md](VERIFICATION.md) for reproducible checks.

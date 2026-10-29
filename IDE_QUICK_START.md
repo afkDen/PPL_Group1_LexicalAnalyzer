@@ -20,9 +20,11 @@ Add exactly these four implementation files to one **C console application**:
 
 They call each other, so compiling only `lexer.c` or only `main.c` is insufficient.
 `include/ternfold/lexer.h` declares their shared interface; `src/internal.h`
-declares private helpers. Headers may be added for browsing; do not compile
+declares implementation helpers. Headers may be added for browsing; do not compile
 them as separate programs. Add the **`include` directory**, not `include/ternfold`,
-to the compiler's header search path. The private header is found beside the C files. Keep src/name_dfa.inc beside src/lexer.c too: it contains the directly compiled fixed transitions and is not a separate compilation unit.
+to the compiler's header search path. The helper header is found beside the C
+files. Keep `src/name_dfa.inc` beside `src/lexer.c`: it contains the fixed
+transitions and is included during compilation, rather than compiled separately.
 Keep `.c` files in C mode, not C++ mode.
 
 Do not add `tests/*.c`, `tools/*.c`, or a template-generated `main.c` to this
@@ -77,9 +79,10 @@ and run `./ternfold-lexer.exe` followed by the relative demonstration arguments.
 
 ## Mac: Xcode manual project setup
 
-These settings follow Apple's scheme/build documentation. **Direct Xcode GUI
-execution is unverified.** Apple Clang source builds and report comparisons
-were verified for earlier source releases on actual Apple Silicon and Intel Macs. Current-candidate actual native compiler/check/sanitizer runs have now also passed; see VERIFICATION.md. Direct Xcode GUI execution remains unverified.
+These settings follow Apple's scheme and build documentation. Apple Clang
+source builds, report comparisons, checks and sanitizer runs have passed on
+Apple Silicon and Intel Macs; see [VERIFICATION.md](VERIFICATION.md).
+Direct Xcode GUI execution remains unverified.
 
 1. In Xcode choose **File > New > Project > macOS > Command Line Tool**; select
    **C** as the language. Save it outside the extracted folder if you wish.
@@ -102,7 +105,7 @@ were verified for earlier source releases on actual Apple Silicon and Intel Macs
    `Symbol Table.txt` in that extracted root using Finder or a text editor.
 
 If a menu differs in your Xcode version, use Apple's scheme help linked below.
-The previously verified Terminal workflow needs no Xcode project or internal build driver; this candidate is being rechecked:
+The Terminal workflow uses the same four source files and requires no Xcode project:
 open Terminal in the extracted root and run:
 
 ```sh
@@ -112,7 +115,7 @@ cmp 'Symbol Table.txt' 'tests/fixtures/lexer/Classroom Symbol Table.txt'
 ```
 
 An existing Apple Clang installation is required. The README also retains the
-historically verified `sh scripts/build.sh build` workflow. No Homebrew, Python or Node is needed.
+`sh scripts/build.sh build` workflow. No Homebrew, Python or Node is needed.
 
 ## Demonstration and expected results
 
@@ -162,4 +165,10 @@ commands and source lists are tested separately; successful compiler execution
 does not establish GUI execution. See [VERIFICATION.md](VERIFICATION.md) for exact
 platform evidence and limits. All previous CLI/build procedures remain available.
 
-For the oral defense, add --trace-dfa to the same program arguments. Actual transitions appear on stderr; the Symbol Table is unchanged. Use DFA_LIVE_DEMO.md and PROFESSOR_DEMO_GUIDE.md. The trace fixture intentionally contains malformed tokens, so exit1 is expected. Newsource and all-in-one binaries must share the same accepted revision; historical binaries do not implement this trace.
+For the oral defense, add `--trace-dfa` to the same program arguments. Actual
+transitions appear on stderr; the Symbol Table is unchanged. See
+[DFA_LIVE_DEMO.md](DFA_LIVE_DEMO.md) and
+[PROFESSOR_DEMO_GUIDE.md](PROFESSOR_DEMO_GUIDE.md).
+The trace fixture intentionally contains malformed tokens, so exit 1 is
+expected. Use the executable accompanying the current source release;
+earlier executables may lack transition tracing.

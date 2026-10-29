@@ -2,7 +2,7 @@
 
 1. Say: "A lexical analyzer reads characters and groups them into classified
    lexemes. This program writes a token table; it does not execute Ternfold."
-2. Open `src/name_dfa.inc` and `src/lexer.c`. Show state0, character edges,
+2. Open `src/name_dfa.inc` and `src/lexer.c`. Show state 0, character edges,
    terminal classification and the generic identifier fallback. There is no
    runtime construction of the keyword graph.
 3. Follow the actual `if` and `ifx` paths in [DFA_LIVE_DEMO.md](DFA_LIVE_DEMO.md).
@@ -20,8 +20,8 @@
 7. Run the intentionally invalid samples. Explain E101–E105 and the separate
    E001–E003 source errors. Show continued valid tokens where recovery permits.
    A source-invalid file cannot produce ordinary token rows.
-8. Show rejection of `README.md` before opening it. Explain exit0 success,
-   exit1 diagnosed invalid input, exit2 usage/host/output failure.
+8. Show rejection of `README.md` before opening it. Explain exit 0 success,
+   exit 1 diagnosed invalid input, exit 2 usage/host/output failure.
 9. Restore the complete report by rerunning complete. For no-compiler use,
    launchers create `reports/Symbol Table.txt` in the all-in-one package.
 10. Explain the immutable submitted PDF and documented later additions using
@@ -44,7 +44,3 @@
 | What is in Symbol Table.txt? | Exactly TOKEN TYPE and LEXEME, in source order, including comments/invalids and escaped row-breaking characters. |
 | Does it execute Ternfold? | No: parsing, types and runtime semantics are outside the lexical submission. |
 | What changed after submission? | The alignment document separates later Float/numeric recovery/report/C17 decisions and this fixed-DFA presentation improvement. |
-
-The reported extra grading expectations came from another student; do not claim
-the professor independently confirmed an exact penalty. The physical index card
-and printing the already-submitted proposal remain group presentation tasks.

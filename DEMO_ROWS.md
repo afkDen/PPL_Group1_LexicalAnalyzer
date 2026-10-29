@@ -1,6 +1,10 @@
 # Generated primary demonstration rows
 
-One-based physical report rows include the header as row1. These are actual generated rows for complete.tfd, not words extracted from comments/strings. Full per-spelling source lines and rows are in PROPOSAL_LEXICAL_RECONCILIATION.md.
+Physical report rows are one-based and include the header as row 1. The entries
+refer to actual tokens in `examples/lexical/complete.tfd`; words inside comments
+and strings do not count as separate tokens. Full spelling-by-spelling source
+lines and report rows appear in
+[PROPOSAL_LEXICAL_RECONCILIATION.md](PROPOSAL_LEXICAL_RECONCILIATION.md).
 
 | Report category | First actual lexeme (escaped) | Report rows (first five) |
 |---|---|---|
@@ -48,4 +52,12 @@ One-based physical report rows include the header as row1. These are actual gene
 | UNDERSCORE | `_` | 570 |
 | PLUS_PLUS | `++` | 581 |
 
-The primary contains28keyword tokens by spelling (Bool words report BOOL_LITERAL, div reports DIV, contextual connectors report NOISE_WORD),25reserved spellings,31other symbol spellings and all five literal families. Original invalid.tfd and invalid-comprehensive.tfd reports are in tests/fixtures/lexer and tests/fixtures/invalid respectively. Header-only encoding-error reports are expected and are mapped in INVALID_CASES.md. Rerun complete after any invalid demo to restore the primary report.
+The primary example contains all 28 keyword spellings, 25 reserved spellings,
+31 other symbol spellings and five literal families. Boolean words report as
+BOOL_LITERAL, `div` as DIV, and matching contextual connectors as NOISE_WORD.
+
+Expected reports for `invalid.tfd` and `invalid-comprehensive.tfd` are in
+`tests/fixtures/lexer` and `tests/fixtures/invalid`, respectively.
+Source-encoding errors produce header-only reports; see
+[INVALID_CASES.md](INVALID_CASES.md). Rerun the complete example after any
+invalid demonstration to restore the primary report.

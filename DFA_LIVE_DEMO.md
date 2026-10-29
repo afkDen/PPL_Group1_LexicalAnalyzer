@@ -4,7 +4,7 @@ Open `src/lexer.c` and its directly included `src/name_dfa.inc` in the IDE.
 The include is C source initializers, not a generated-at-startup transition file.
 Keep all four implementation C files in the project; the include is not a fifth
 compilation unit. `tf_name_dfa_step` follows the immutable child/sibling character
-edges in `static const name_states[]`. State0 is the start. `terminal` metadata
+edges in `static const name_states[]`. State 0 is the start. `terminal` metadata
 selects a keyword, reserved spelling or `_`; ordinary prefixes accept identifiers.
 A missing edge enters the absorbing `SIZE_MAX` identifier fallback.
 
@@ -28,7 +28,8 @@ at compile time; no inventory-to-trie construction runs in the application.
 
 ## Run the trace
 
-Build as described in README/IDE_QUICK_START. From the extracted root:
+Build using [README.md](README.md) or [IDE_QUICK_START.md](IDE_QUICK_START.md).
+From the extracted root:
 
 ```sh
 ./build/ternfold-lexer examples/lexical/trace.tfd --classroom --output-dir build --trace-dfa 2> build/dfa-trace.txt
@@ -37,7 +38,7 @@ Build as described in README/IDE_QUICK_START. From the extracted root:
 Windows uses `./build/ternfold-lexer.exe` with the same arguments. In an IDE,
 add `--trace-dfa` to the ordinary program arguments; trace appears on stderr.
 Redirect stderr only if you want a saved trace. The trace fixture intentionally
-contains a malformed number: exit1 and an E102 diagnostic are expected.
+contains a malformed number: exit 1 and an E102 diagnostic are expected.
 Transition output is separate from `Symbol Table.txt`. Default runs produce no
 trace. Trace and diagnostics may share stderr; both are explicitly identified.
 
@@ -66,5 +67,5 @@ classroom golden. `vocabulary.tfd` is a labeled lexical inventory, not executabl
 Ternfold. Run `invalid.tfd` and the rule-specific demonstrations listed in the
 invalid matrix; source-invalid encoding fixtures produce a header-only report.
 Check [the proposal matrix](PROPOSAL_LEXICAL_RECONCILIATION.md) rather than
-counting words hidden inside comments or Text literals. Rerun complete to restore
+counting words hidden inside comments or Text literals. Rerun `complete.tfd` to restore
 the report after invalid demonstrations. No lexical example proves execution.
