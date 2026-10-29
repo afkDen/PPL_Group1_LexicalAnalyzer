@@ -79,7 +79,7 @@ and run `./ternfold-lexer.exe` followed by the relative demonstration arguments.
 
 These settings follow Apple's scheme/build documentation. **Direct Xcode GUI
 execution is unverified.** Apple Clang source builds and report comparisons
-have been run on actual Apple Silicon and Intel Macs; see VERIFICATION.md.
+were verified for earlier source releases on actual Apple Silicon and Intel Macs. Current-candidate runs are pending; see VERIFICATION.md.
 
 1. In Xcode choose **File > New > Project > macOS > Command Line Tool**; select
    **C** as the language. Save it outside the extracted folder if you wish.
@@ -102,7 +102,7 @@ have been run on actual Apple Silicon and Intel Macs; see VERIFICATION.md.
    `Symbol Table.txt` in that extracted root using Finder or a text editor.
 
 If a menu differs in your Xcode version, use Apple's scheme help linked below.
-The verified Terminal fallback needs no Xcode project or internal build driver:
+The previously verified Terminal workflow needs no Xcode project or internal build driver; this candidate is being rechecked:
 open Terminal in the extracted root and run:
 
 ```sh
@@ -112,7 +112,7 @@ cmp 'Symbol Table.txt' 'tests/fixtures/lexer/Classroom Symbol Table.txt'
 ```
 
 An existing Apple Clang installation is required. The README also retains the
-verified `sh scripts/build.sh build` workflow. No Homebrew, Python or Node is needed.
+historically verified `sh scripts/build.sh build` workflow. No Homebrew, Python or Node is needed.
 
 ## Demonstration and expected results
 
