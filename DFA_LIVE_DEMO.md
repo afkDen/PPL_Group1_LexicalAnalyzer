@@ -28,15 +28,25 @@ at compile time; no inventory-to-trie construction runs in the application.
 
 ## Run the trace
 
-Build using [README.md](README.md) or [IDE_QUICK_START.md](IDE_QUICK_START.md).
-From the extracted root:
+For the script-build workflow in [README.md](README.md), build first, then run
+from the extracted root. The build script creates the required `build` directory:
 
 ```sh
 ./build/ternfold-lexer examples/lexical/trace.tfd --classroom --output-dir build --trace-dfa 2> build/dfa-trace.txt
 ```
 
-Windows uses `./build/ternfold-lexer.exe` with the same arguments. In an IDE,
-add `--trace-dfa` to the ordinary program arguments; trace appears on stderr.
+Windows uses `./build/ternfold-lexer.exe` with the same arguments.
+
+For the root-directory executable created by [IDE_QUICK_START.md](IDE_QUICK_START.md),
+use `.` as the existing output directory instead. From the extracted root:
+
+```sh
+./ternfold-lexer examples/lexical/trace.tfd --classroom --output-dir . --trace-dfa 2> dfa-trace.txt
+```
+
+On Windows, use `./ternfold-lexer.exe`. In an IDE, set the extracted root as the
+working directory and use `examples/lexical/trace.tfd --classroom --output-dir . --trace-dfa`
+as program arguments; trace appears on stderr.
 Redirect stderr only if you want a saved trace. The trace fixture intentionally
 contains a malformed number: exit 1 and an E102 diagnostic are expected.
 Transition output is separate from `Symbol Table.txt`. Default runs produce no

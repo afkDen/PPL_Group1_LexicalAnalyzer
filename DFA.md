@@ -33,8 +33,9 @@ The executable compiles four files: `src/main.c`, `src/lexer.c`,
 `src/name_dfa.inc`; this include is not a fifth compilation unit.
 
 The frozen `tests/baseline_lexer.c` scanner and `tests/baseline_main.c`
-entry point are used only for differential tests. Their historical runtime
-graph construction is not part of the production executable.
+entry point are historical test references. The build driver links the scanner
+only into the differential test; the old CLI is retained for optional baseline
+reproduction. Their runtime graph construction is not part of the application.
 `tests/test_dfa.c` checks fixed edges, targets, reachability, outgoing-label
 uniqueness, terminal metadata and identifier fallback.
 

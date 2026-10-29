@@ -125,7 +125,7 @@ edges. Platform results are recorded in [VERIFICATION.md](VERIFICATION.md).
 | from/to contextual noise (pp. 5–6, 12, 16) | Actual FROM/TO tokens; report overlay labels NOISE_WORD only in matching clauses | Outside matching phrases tokens remain lexical keywords; grammar invalidity is not INVALID lexing |
 | ASCII names and case (pp. 3, 6, 9–12) | Fixed name graph then generic identifier fallback; standalone _ separate | Prefix/case/long/suffix tests; no Unicode identifier extension |
 | Whitespace SP/TAB/LF/CRLF (pp. 3, 14–15) | Trivia, no report rows, byte spans retained | E003 lone CR; E001 malformed UTF-8; E002 BOM are precise later source-validation rules |
-| Some/None/Accept/Reject/main examples (pp. 17–18) | Ordinary identifiers/qualified variant spellings; included in demonstrations | Not keywords or new reserved names; no constructor execution claimed |
+| Some/None examples (p. 5); Accept/Reject/main examples (pp. 17–18) | Ordinary identifiers/qualified variant spellings; included in demonstrations | Not keywords or new reserved names; no constructor execution claimed |
 | */ outside a comment | Existing TF_BLOCK_CLOSE lexical token, vocabulary fixture only | Not a new operator or grammar-valid program; no extra rubric arithmetic count |
 | .tfd input (p. 18) | Exact lowercase extension, rejection before input open | Missing unsupported-extension case tested; exact case/open order are later precise policy |
 
