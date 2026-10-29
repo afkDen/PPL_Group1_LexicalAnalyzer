@@ -1,0 +1,57 @@
+name: Verify published lexical bundle
+on:
+  workflow_dispatch:
+    inputs:
+      bundle_url:
+        description: Exact ZIP release asset in this repository
+        required: true
+        type: string
+      bundle_sha256:
+        description: Published bundle SHA256
+        required: true
+        type: string
+      source_sha256:
+        description: Accepted embedded source ZIP SHA256
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, macos-15, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    env:
+      BUNDLE_URL: ${{ inputs.bundle_url }}
+      BUNDLE_SHA256: ${{ inputs.bundle_sha256 }}
+      SOURCE_SHA256: ${{ inputs.source_sha256 }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and execute published Windows bundle
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          ./distribution/validate-input.ps1 -SourceZipUrl $env:BUNDLE_URL -SourceSha256 $env:BUNDLE_SHA256
+          if($env:SOURCE_SHA256 -cnotmatch '^[a-f0-9]{64}$'){throw 'Bad source hash'}
+          $zip="$env:RUNNER_TEMP/published.zip"
+          Invoke-WebRequest $env:BUNDLE_URL -OutFile $zip
+          if((Get-FileHash $zip).Hash -ine $env:BUNDLE_SHA256){throw 'Published bundle hash differs'}
+          Write-Output "Published bundle SHA256: $env:BUNDLE_SHA256"
+          ./distribution/verify-windows.ps1 -Zip $zip -SourceSha256 $env:SOURCE_SHA256 -Destination "$env:RUNNER_TEMP/Published Windows fresh extraction" -Combined
+      - name: Download and execute published native Mac bundle
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          set -eu
+          sh distribution/validate-input.sh "$BUNDLE_URL" "$BUNDLE_SHA256"
+          test "${#SOURCE_SHA256}" = 64
+          case "$SOURCE_SHA256" in *[!a-f0-9]*) exit 2 ;; esac
+          zip="$RUNNER_TEMP/published.zip"
+          curl --fail --location "$BUNDLE_URL" -o "$zip"
+          test "$(shasum -a 256 "$zip" | cut -d ' ' -f 1)" = "$BUNDLE_SHA256"
+          printf 'Published bundle SHA256: %s\n' "$BUNDLE_SHA256"
+          sh distribution/verify-mac.sh "$zip" "$RUNNER_TEMP/Published Mac fresh extraction" "$SOURCE_SHA256"
