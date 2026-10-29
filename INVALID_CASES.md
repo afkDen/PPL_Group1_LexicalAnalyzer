@@ -41,10 +41,10 @@ test-only scanner with production recognition, payloads, metadata and reports.
 These are **not** lexical errors: unmatched brackets, unknown names, misplaced
 noise words, wrong argument types, out-of-range Int magnitudes, or well-formed
 `1e999`. The lexer can tokenize them; grammar/type/runtime validity belongs to
-later phases. In particular, `*/` outside a comment has the existing BLOCK_CLOSE
+checks outside lexical analysis. In particular, `*/` outside a comment has the existing BLOCK_CLOSE
 token but is not a valid standalone source program or an extra arithmetic operator.
 
 Diagnosed source or lexical errors return exit 1 after writing any applicable
-report. Usage, allocation,
-read, trace-output or report-publication failures exit 2. No lexical rule is added
+report. Usage, allocation, read, trace-output or report-publication failures
+exit 2. No lexical rule is added
 solely to manufacture an INVALID example.
