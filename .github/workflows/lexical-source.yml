@@ -60,3 +60,23 @@ jobs:
           grep '^INVALID' 'build/Symbol Table.txt'
           ./build/ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir build
           cmp 'build/Symbol Table.txt' 'Symbol Table.txt'
+          # Same four-file compile and root-directory run as the IDE guide.
+          cc -std=c17 -Wall -Wextra -pedantic -Iinclude src/main.c src/lexer.c src/source.c src/report.c -o ternfold-lexer
+          ./ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir .
+          cmp 'Symbol Table.txt' 'tests/fixtures/lexer/Classroom Symbol Table.txt'
+          set +e
+          ./ternfold-lexer >build/no-argument.txt 2>&1
+          no_argument=$?
+          ./ternfold-lexer examples/lexical/invalid.tfd --classroom --output-dir .
+          invalid=$?
+          ./ternfold-lexer README.md --classroom --output-dir . 2>build/extension.txt
+          extension=$?
+          set -e
+          test "$no_argument" = 2
+          test "$invalid" = 1
+          test "$extension" = 1
+          grep 'expected source.tfd' build/no-argument.txt
+          grep 'extension must be exactly .tfd' build/extension.txt
+          cmp 'Symbol Table.txt' 'tests/fixtures/lexer/Invalid Classroom Symbol Table.txt'
+          ./ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir .
+          cmp 'Symbol Table.txt' 'tests/fixtures/lexer/Classroom Symbol Table.txt'

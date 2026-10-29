@@ -54,3 +54,9 @@ coursework instructions are included. No full compiler, private agents/skills,
 roadmap, proposal, toolchain cache or development binaries belong in this source
 submission. Original historical ZIPs are preserved separately. Optional binary
 convenience archives, if verified later, are distinct from this official source ZIP.
+
+## IDE guide update — 2026-10-29
+
+IDE_QUICK_START.md supplies manual Dev-C++ and Xcode configuration, the exact four C source files, C17/header settings, explicit arguments and working directory, and no-argument/invalid/extension demonstrations. No .dev or .xcodeproj is included. Neither GUI was available for direct execution, and Dev-C++ bundled GCC compatibility remains unverified. The analyzer source, headers, tests, fixtures and scanner vocabulary are byte-identical to the preceding accepted release.
+
+The source-verification workflow now additionally compiles the four files directly with cc, runs the guide's root-directory arguments, compares fresh valid/invalid reports, checks no-argument exit2, rejects README.md without changing the report and restores the complete report. This is equivalent compiler/CLI verification, not a claim of GUI execution. Current release evidence is linked from the GitHub release; prior verified source and archives remain preserved.

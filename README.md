@@ -1,5 +1,7 @@
 # Ternfold lexical analyzer — official source submission
 
+**Using an IDE? Start with [IDE_QUICK_START.md](IDE_QUICK_START.md)** for Dev-C++ and Xcode setup, run arguments and report location.
+
 ## 1. Introduction
 
 Ternfold is our group's original programming language. This submission contains

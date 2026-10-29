@@ -1,5 +1,8 @@
 # Start here
 
+**Compiling in Dev-C++ or Xcode? Follow [IDE_QUICK_START.md](IDE_QUICK_START.md).**
+It lists the four C files, header path, program arguments and working directory.
+
 1. Extract the entire ZIP.
 2. Open a terminal in the extracted folder. A compatible C17 compiler must already
    be installed; no compiler or executable is required to be bundled here.
