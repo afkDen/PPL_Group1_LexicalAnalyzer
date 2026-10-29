@@ -69,6 +69,7 @@ tests/fixtures/invalid/vocabulary.lossless.txt
 tests/fixtures/lexer/Classroom Symbol Table.txt
 tests/fixtures/lexer/Invalid Classroom Symbol Table.txt
 tests/fixtures/lexer/Symbol Table.txt
+tests/README.md
 tests/test_classroom.c
 tests/test_coverage.c
 tests/test_demo.c

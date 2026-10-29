@@ -1,27 +1,38 @@
 # Start here
 
-**Compiling in Dev-C++ or Xcode? Follow [IDE_QUICK_START.md](IDE_QUICK_START.md).**
-It lists the four C files, header path, program arguments and working directory.
+To run without installing a compiler, choose the All-in-One ZIP from
+[the current release](https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/releases/tag/lexical-submission-clean-2026-10-30).
+Extract it and use its Windows or Mac launcher. Open `reports/Symbol Table.txt`.
+Mac binaries require macOS 15 or later; Gatekeeper may prompt or block execution.
+Read the bundle README for platform instructions.
 
-1. Extract the entire ZIP.
-2. Open a terminal in the extracted folder. A compatible C17 compiler must already
-   be installed; no compiler or executable is required to be bundled here.
-3. Mac/Linux: `sh scripts/build.sh build`.
-   Windows PowerShell: `./scripts/build.ps1 build`.
-4. Mac/Linux:
-   `./build/ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir build`
-   Windows: use `./build/ternfold-lexer.exe` with the same arguments.
-5. Open `build/Symbol Table.txt`. Follow the eleven rows in `RUBRIC.md`.
-6. Run `examples/lexical/invalid.tfd` with the same options. Exit 1 is expected;
-   INVALID rows must appear. Rerun the complete example to restore its report.
-7. Run the analyzer on `README.md`: it must reject the extension before reading.
+For a source build:
 
-Expected success: `Symbol Table.txt written`, exit 0. Reports have TOKEN TYPE and
-LEXEME columns. The provided root `Symbol Table.txt` is a generated reference;
-step4 creates a NEW report, proving the analyzer produced it.
+1. Extract the complete Source-only ZIP and open a terminal in its root folder.
+2. Check that a C17 Clang/GCC compiler is installed. For IDE setup, use
+   [IDE_QUICK_START.md](IDE_QUICK_START.md).
+3. Build: `sh scripts/build.sh build` on Mac/Linux, or
+   `./scripts/build.ps1 build` in Windows PowerShell.
+4. Run the main demonstration:
 
-See README.md for choosing an existing compiler, test commands, path/permission
-troubleshooting and verified versus unverified platforms. Do not grade runtime
-semantics from this lexical-only submission.
+   ```sh
+   ./build/ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir build
+   ```
 
-For the full vocabulary/proposal comparison and oral defense, open PROFESSOR_DEMO_GUIDE.md, PROPOSAL_LEXICAL_RECONCILIATION.md and DFA_LIVE_DEMO.md. The name DFA is fixed in src/name_dfa.inc; --trace-dfa shows actual transitions on stderr. Run invalid-comprehensive.tfd and the byte fixtures described in INVALID_CASES.md for detailed error/recovery evidence. The separate versioned all-in-one package runs without compiling; previous binaries remain historical, not substitutes for this revision.
+   On Windows, use `./build/ternfold-lexer.exe` with the same arguments.
+5. Open `build/Symbol Table.txt`. Success prints `Symbol Table.txt written` and
+   returns 0. The root `Symbol Table.txt` is the supplied reference;
+   this command creates a fresh report.
+6. Repeat the command using `examples/lexical/invalid.tfd`. Exit code 1 and
+   `INVALID` rows are expected. Rerun `complete.tfd` to restore the valid report.
+7. Add `--trace-dfa` to see actual scanner transitions on standard error.
+   Follow [DFA_LIVE_DEMO.md](DFA_LIVE_DEMO.md) to compare states to the source.
+
+The report has two columns: `TOKEN TYPE` and `LEXEME`. The output directory
+must exist. A run replaces the report in that directory; use separate directories
+to retain several reports.
+
+For presentation, follow [PROFESSOR_DEMO_GUIDE.md](PROFESSOR_DEMO_GUIDE.md),
+[RUBRIC.md](RUBRIC.md), and [DEMO_ROWS.md](DEMO_ROWS.md). For errors and recovery,
+see [INVALID_CASES.md](INVALID_CASES.md). [README.md](README.md) links to tests,
+proposal alignment, and the documentation index.

@@ -1,67 +1,133 @@
-# Static-DFA lexical submission verification
+# Verification and reproduction
 
-This source snapshot implements the existing28keyword/25reserved vocabulary
-with an immutable215state prefix graph. The four-file C17 application includes
-src/name_dfa.inc directly; it never builds word transitions at runtime.
-Optional --trace-dfa records actual scanner state updates on stderr.
+This submission contains a handwritten C17 scanner with a fixed 215-state name
+graph and optional actual-transition tracing. The current packaging revision
+improves documentation and standalone test support; production C source, headers,
+state definitions, examples, and expected reports retain their accepted bytes.
 
-## Observed Windows candidate gates
+## Run the checks
 
-LLVM-MinGW Clang23.1.4,Windowsx64,ISO C17 with strict warnings as errors.
-Final integrated check passed117201lexer,31CLIcases/12604checks,
-684classroom,78sample,58087graph,994trace,13464314differential comparisons
-across3010cases,289723independentcoverage checks over618frozenoldcases,
-and84repositoryauditchecks. One local unprivilegedsymlink capability probe is
-unavailable. ASan/UBSan integrated gates also passed the same counts (12608CLIchecks).
-Optimized -O2 integrated gates passed the same counts. Independent final source/native reviews closed all findings. Actual target-host source/ZIP evidence follows in the final release record. No unsupportedplatform success is inferred.
+From the extracted source directory, with a compatible Clang/GCC compiler:
 
-The primary/support examples were read-only parser checked with zero diagnostics
-using the preserved accepted M04 parser API; they are not name/type/runtime
-validated. Vocabulary and trace examples are lexical streams, not executable
-program claims. The original invalid.tfd remains unchanged. Expanded invalid
-examples and separate byte fixtures are documented in INVALID_CASES.md.
+```sh
+sh scripts/build.sh environment
+sh scripts/build.sh check
+sh scripts/build.sh sanitize
+```
 
-## Independent review and historical behavior
+Windows PowerShell equivalents:
 
-A frozen test-only scanner snapshot preserves accepted source7cc9044; its
-original source SHA256 is e8c38747cb811a1828fc6fdef2d755238e2a6755bc423caf145675c98ac0be30.
-The only baseline adjustments rename test symbols/include paths. It is not
-linked into the production application. Differential tests compare statuses,
-metadata,source spans,decoded payloads,diagnostics and both report modes.
-A second independent frozen text corpus covers618boundary/invalid cases.
-Expected reports changed only for intentionally expanded demo inputs; the
-recognizer change is required to preserve prior lexical behavior.
+```powershell
+./scripts/build.ps1 environment
+./scripts/build.ps1 check
+./scripts/build.ps1 sanitize
+```
 
-Proposal review used user-confirmed Group-1_Project_Proposal-1 (1).pdf,
-20pages,SHA256d7c6bb63ca5ff4d7d627591375029e2f943cd6e3ce02cc4ada2f54fc7415c827.
-It remains unchanged and is not redistributed. The companion and per-spelling
-matrix distinguish later Float/numeric recovery/report decisions. Full-proposal
-semantic equivalence is expressly not claimed. Student-reported new grading
-expectations/penalty are not independently confirmed professor statements.
+Use `CC=clang` with the shell script, or `-Compiler 'path/to/clang.exe'` with
+PowerShell, to select an installed compiler. Sanitizer support is a prerequisite
+for `sanitize`; an unavailable sanitizer is not a passing result.
 
-## Packaging and platform boundaries
+For the direct four-file command used by IDE projects, see
+[IDE_QUICK_START.md](IDE_QUICK_START.md). The application compiles only
+`src/main.c`, `src/lexer.c`, `src/source.c`, and `src/report.c`, with `-Iinclude`.
+Keep `src/internal.h` and `src/name_dfa.inc` beside the implementation files.
+The fixed include is not compiled separately.
 
-SOURCE_FILES.txt is the explicit source-only file allowlist. Manifests and
-archive hashes remain outside the archive to avoid self-reference. Recommended
-source and separate all-in-one binaries must be built from this same accepted
-lexical revision; release notes identify their hashes and actual native runs.
-Historical2026-10-29releases remain preserved and must not supply binaries for
-this revised source. No toolchain/IDE is bundled in source. Direct Dev-C++/Xcode
-GUI execution remains unverified; their manual configuration and equivalent
-four-file compiler commands are documented.
+## Regression coverage
 
-The full compiler is paused by user and excluded from all public source/binary
-packages. Its M01–M04 acceptance is preserved; partial M05 is unaccepted and
-will not resume after lexical finalization without explicit authorization.
+| Suite | Accepted checks or cases |
+|---|---:|
+| Lexer | 117,201 checks |
+| CLI integration | 31 cases; assertion totals vary by host and sanitizer diagnostics |
+| Classroom report | 684 checks on Windows; 700 on POSIX |
+| Demonstration | 78 checks |
+| Fixed name DFA | 58,087 checks |
+| Actual transition trace | 994 checks |
+| Differential comparison | 13,464,314 comparisons across 3,010 cases |
+| Independent vocabulary and invalid coverage | 289,723 checks, including 618 frozen historical cases |
 
-Integration corrections: initial expanded-demo golden mismatch was resolved only by copying the separately generated reports for the intentionally changed input. The old invalid demo and frozen618case oracle remain unchanged. A Windows-reserved NUL fixture name was replaced by embedded-nul.tfd without changing input bytes/classification. One premature sanitizer build hit the shared tfdev file lock while check was still running; sequential check/sanitize/release reruns passed. These failed integration attempts are retained as evidence, not hidden.
+The repository audit additionally checks scanner structure and local
+documentation links. Its count varies with the documentation's link inventory.
+See [tests/README.md](tests/README.md) for each suite's purpose and the distinction
+between production code and the frozen historical test oracle.
 
-Final trace-review corrections removed zero-length/stale-state escape events and overlapping invalid-scalar consumption. The994check trace suite now asserts continuity and exactly-once byte consumption. Native reviewer Volta independently passed strict/sanitized994checks plus3455privatechecks covering35OOMpositions and35latewritefailures, with no remainingP1/P2. Frozen lexerSHA25647d63444ef7268895376475e30b53774a8c9826587a9d7e237184be255e70c8d. Clangstaticanalysisclean. A case-insensitive documentation map was corrected to ordinal case-sensitive keys; table IDs now match actual accepting states.
+Tests cover tokens, decoded values, UTF-8 and byte spans, invalid recovery,
+allocation failures, report escaping, output publication, file aliases, extension
+policy, DFA edges, accepting metadata, trace continuity, and exactly-once byte
+consumption. Independent correctness and native-safety reviews found no remaining
+blocking findings in the accepted scanner.
 
-## Actual native source verification — 2026-10-30
+## Demonstrate the output
 
-Allthreejobs in run40909793774 at lexicalcommita1bb051 passed environment, strictcheck, ASan/UBSan, directfour-filecompile, valid/invalid/extension/noargumentdemonstrations, newreportcomparisons and actualtrace. Platforms:macOS15ARM64 andIntel AppleClang17.0.0, Ubuntu24.04GCC13.3. Sourcewasextractedoutsidecheckout. Same117201lexer/58087graph/994trace/13464314diff/289723coveragecounts; classroom700 onPOSIX and84audit,zero failures/capabilityskips. CLI31cases; assertioncounts varywithhostfixtures/sanitizerdiagnostics. ExactdownloadablesourceZIPrun will be linked in release notes after packaging. This source snapshot adds only evidence/doc updates after the tested source commit.
+```sh
+./build/ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir build
+./build/ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir build --trace-dfa 2> build/dfa-trace.txt
+```
 
-https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/actions/runs/40909793774
+On Windows, use `./build/ternfold-lexer.exe`. Both commands return 0 and generate
+the same report as the supplied root `Symbol Table.txt`. Tracing changes standard
+error only. Run `invalid.tfd`, `invalid-comprehensive.tfd`, or `trace.tfd` with the
+same options to demonstrate lexical errors; those fixtures intentionally return
+1. [INVALID_CASES.md](INVALID_CASES.md) describes separate source-encoding errors.
+An invalid run replaces the report, so rerun `complete.tfd` afterward.
 
-Independentproposal/DFAreview Archimedes andnative reviewer Volta closedallfindings. Sourcecurrenthash47d63444ef7268895376475e30b53774a8c9826587a9d7e237184be255e70c8d stayedunchanged. NoIDEGUI orLeakSanitizerclaim.
+The [rubric](RUBRIC.md), [row index](DEMO_ROWS.md), and
+[proposal matrix](PROPOSAL_LEXICAL_RECONCILIATION.md) map the demonstration to
+actual classifications. Lexical success does not establish syntactic validity,
+type correctness, or execution behavior.
+
+## Platform evidence
+
+The accepted production source passed strict warnings-as-errors, AddressSanitizer,
+and UndefinedBehaviorSanitizer checks on these actual environments:
+
+| Environment | Toolchain |
+|---|---|
+| Windows x64 | LLVM-MinGW Clang 23.1.4 |
+| macOS 15 ARM64 and Intel | Apple Clang 17.0.0 |
+| Ubuntu 24.04 x64 | GCC 13.3 |
+
+Reproducible CI records for the accepted scanner and executable bytes:
+
+- [Extracted source checks on macOS ARM64, macOS Intel, and Ubuntu](https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/actions/runs/40910788344).
+- [Native executable builds and fresh combined-ZIP checks](https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/actions/runs/40911363510).
+- [Published executable ZIP downloaded and tested on Windows and both Mac architectures](https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/actions/runs/40912544533).
+
+These records establish the unchanged scanner and binary baseline. The
+[current release](https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/releases/tag/lexical-submission-clean-2026-10-30)
+records the refreshed source-archive and all-in-one verification runs and their
+exact hashes. Executables are reused only after every production source/header
+byte is compared with the accepted package; documentation changes do not require
+rebuilding identical executable code.
+
+## Archive verification
+
+`SOURCE_FILES.txt` lists the source package contents. Release sidecars record the
+ZIP SHA-256 and every included file hash. The all-in-one package includes the
+exact source ZIP as `source-original.zip`, its extracted `source/` tree, platform
+executables, runtime notices, launchers, and an internal `SHA256SUMS` manifest.
+
+Fresh extraction checks compare the source ZIP to the extracted files, verify
+manifests, inspect executable architectures and linked libraries, and run the
+launchers outside the source checkout. Twelve binary cases per target compare
+classroom, lossless, and trace output for the complete, vocabulary, expanded
+invalid, and trace demonstrations. Permissions and paths containing spaces are
+included. Current release assets are downloaded again for post-publication checks.
+
+## Limits of the evidence
+
+The standalone analyzer does not check or execute language semantics. Dev-C++ and
+Xcode GUI steps were not directly exercised; equivalent four-file compiler
+commands were. One local Windows symlink capability probe was unavailable and
+was reported as such. LeakSanitizer was not verified.
+
+Windows binaries use system DLLs with the non-system runtime linked statically.
+Both Mac binaries link the system library and require macOS 15 or later. They
+have no Developer ID signature or notarization; Gatekeeper may prompt or block
+execution. GUI quarantine behavior and prompt-free launching are not claimed.
+
+The submitted 20-page `Group-1_Project_Proposal-1 (1).pdf` remains unchanged and
+is not redistributed. Its SHA-256 is
+`d7c6bb63ca5ff4d7d627591375029e2f943cd6e3ce02cc4ada2f54fc7415c827`.
+[Proposal alignment](SUBMITTED_PROPOSAL_ALIGNMENT.md) explicitly distinguishes
+the submitted vocabulary from later lexical adjustments.

@@ -69,6 +69,6 @@ int main(void) {
     output=read_stream(report);CHECK(fclose(report)==0);CHECK(strstr(output,"INVALID\t@\n")!=NULL);
     golden(output,"tests/fixtures/lexer/Invalid Classroom Symbol Table.txt");free(output);
     tf_lex_destroy(&r);tf_source_destroy(&s);
-    printf("professor sample: %zu checks passed; %zu distinct keywords, %zu reserved names; all7+9 operators and5literal categories visible\n",checks,keywords,reserved);
+    printf("professor sample: %zu checks passed; %zu distinct keywords, %zu reserved names; all 7 arithmetic and 9 Boolean/relational operators and 5 literal categories visible\n",checks,keywords,reserved);
     return 0;
 }
