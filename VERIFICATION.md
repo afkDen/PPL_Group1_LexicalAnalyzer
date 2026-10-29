@@ -19,16 +19,34 @@ One attempted sanitizer launch hit a shared-build file lock; sequential reruns
 completed successfully. Final freshZIP acceptance is recorded in the external
 release manifest and release-supervisor evidence. No universal platform claim is made.
 
-## macOS and Linux
+## Verified source platforms
 
-The included lexical-only GitHub Actions workflow extracts the exact source
-commit, compiles with the runner's available C17 compiler, runs the included
-native tests, regenerates both demonstration reports and checks invalid/extension
-exit codes. It targets macOS15AppleSilicon,macOS15Intel andUbuntu24.04.
-A configured workflow alone is NOT proof those runs succeeded. Until an actual
-completed run is recorded, these platforms remain unverified. See the repository's
-Actions results for the exact commit. No prebuilt macOS executable is included.
+Actual hosted run40835024229 at source commit
+fbda8c066dc0db6ded125c80a07f70210895963a passed all three jobs:
 
+| Platform | Compiler | Result |
+|---|---|---|
+| macOS15 Apple Silicon / arm64 | Apple Clang17.0.0 | environment, full native check, primary/invalid/extension demos and report comparison passed |
+| macOS15 Intel / x86_64 | Apple Clang17.0.0 | same checks passed |
+| Ubuntu24.04 x86_64 | GCC13.3.0 | same checks passed |
+
+See https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/actions/runs/40835024229 .
+Each job extracted the exact lexical source commit outside its checkout before
+building. Results:117201lexer assertions,27CLIcases,700classroom checks,
+78sample checks and84audit checks; zero capability skips on these runners.
+Windows x64 Clang23.1.4 also passed strict,optimized andASan/UBSan runs; its
+unprivileged-symlink probe remains unavailable (one explicit capability skip).
+
+Initial runs exposed two strict compiler warnings in operator/test formatting
+and one audit-cleanup indentation warning. Those minimal portability defects
+were fixed without changing recognition rules or weakening warnings/tests;
+the successful run above supersedes their failed build attempts. The final
+source differs only by README/verification/workflow evidence updates after that
+code pass. A dispatch input also permits verifying the actual downloadable
+source ZIP release asset, with its SHA256 printed in the workflow log.
+No prebuilt macOS executable is included or required; compilation still needs
+an installed compatible compiler. macOS/Linux sanitizer execution is not claimed
+by this non-sanitized hosted source run.
 ## Submission boundaries
 
 Only standalone lexical source, support, examples, reports, tests and concise

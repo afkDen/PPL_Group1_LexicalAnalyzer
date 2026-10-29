@@ -116,8 +116,9 @@ See [DFA.md](DFA.md) for comments, literals, operators and recovery.
 - **Output failure:** create the output directory and check write permissions.
   Usage, allocation, file-read and output failures return 2.
 - **Report/input alias:** choose a different directory; source protection rejects it.
-- **Platforms:** Windows x64 Clang 23.1.4 is verified. macOS/other POSIX results are
-  listed in `VERIFICATION.md`; a listed build command alone is not a verified run.
+- **Platforms:** Windows x64 Clang23.1.4, macOS15 Apple Silicon and Intel AppleClang17,
+  and Ubuntu24.04 GCC13.3 source builds are verified. Actual results are in
+  `VERIFICATION.md`; other platforms remain unverified.
   MSVC is not currently a supported build workflow.
 
 ## 10. Advanced testing
