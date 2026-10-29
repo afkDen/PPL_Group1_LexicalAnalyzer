@@ -237,8 +237,10 @@ static TfTokenKind operator_kind(unsigned char first, unsigned char second, size
     switch (first) {
         case ':': if (second == ':') return TF_DOUBLE_COLON; break;
         case '-': if (second == '>') return TF_ARROW; break;
-        case '=': if (second == '>') return TF_FAT_ARROW;
-                  if (second == '=') return TF_EQUAL_EQUAL; break;
+        case '=':
+            if (second == '>') return TF_FAT_ARROW;
+            if (second == '=') return TF_EQUAL_EQUAL;
+            break;
         case '!': if (second == '=') return TF_BANG_EQUAL; break;
         case '<': if (second == '=') return TF_LESS_EQUAL; break;
         case '>': if (second == '=') return TF_GREATER_EQUAL; break;

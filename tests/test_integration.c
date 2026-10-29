@@ -465,13 +465,12 @@ static void test_golden_and_spaced_executable(const char *lexer) {
     table_path(table, destination);
     write_text(source, source_text);
     {
-        int count = snprintf(trailing, sizeof(trailing), "%s%s", destination,
 #ifdef _WIN32
-                              "\\"
+        const char *separator = "\\";
 #else
-                              "/"
+        const char *separator = "/";
 #endif
-        );
+        int count = snprintf(trailing, sizeof(trailing), "%s%s", destination, separator);
         CHECK(count > 0 && (size_t)count < sizeof(trailing));
     }
     CHECK(run(executable, source, trailing) == 0);
