@@ -17,6 +17,7 @@ unzip -q "$source_zip" -d "$out/source"
 sh "$scripts/source-check.sh" "$source_zip" "$3" "$out/source"
 for name in Run-Windows.cmd Run-Mac.command RUN_OR_COMPILE.md; do cp "$scripts/$name" "$out/$name"; done
 cp "$scripts/RUN_OR_COMPILE.md" "$out/README.md"
+printf '\nEmbedded source ZIP SHA-256: `%s`.\n' "$(printf '%s' "$3" | tr A-F a-f)" >> "$out/README.md"
 mkdir -p "$out/bin/$target"
 # Native gate outputs must not enter or mutate the source-preserving payload.
 test ! -e "$out-check"

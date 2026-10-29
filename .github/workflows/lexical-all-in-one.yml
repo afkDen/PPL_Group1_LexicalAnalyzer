@@ -1,13 +1,13 @@
-name: Optional lexical all-in-one candidate
+name: Build lexical executables and all-in-one archive
 on:
   workflow_dispatch:
     inputs:
       source_zip_url:
-        description: New static DFA source release ZIP in this repository
+        description: Source release ZIP in this repository
         required: true
         type: string
       source_sha256:
-        description: Supervisor verified source ZIP SHA256 (64 hexadecimal digits)
+        description: Source ZIP SHA-256 (64 hexadecimal digits)
         required: true
         type: string
 permissions:
@@ -144,7 +144,7 @@ jobs:
           path: candidate
       - uses: actions/upload-artifact@v4
         with:
-          name: verified-all-in-one-for-supervisor
+          name: verified-all-in-one
           path: candidate/*
           if-no-files-found: error
-      # Deliberately no release/push/token-write step. Supervisor reviews and publishes.
+      # Produces verified artifacts only; release publication is separate.

@@ -36,4 +36,4 @@ zip -q -r "$output" .
 zipinfo -l "$output"
 digest=$(shasum -a 256 "$output" | cut -d ' ' -f 1)
 printf '%s  %s\n' "$digest" "$(basename -- "$output")" > "$output.sha256"
-echo 'Candidate only: fresh native Windows + both Mac verification jobs must pass before supervisor publication.'
+echo 'Prepared archive: fresh native Windows and both Mac verification jobs must pass before release.'

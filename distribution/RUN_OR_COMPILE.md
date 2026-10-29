@@ -1,15 +1,15 @@
-# Ternfold static DFA all-in-one — October 30, 2026
+# Ternfold Lexical Analyzer — Run or Compile
 
-Extract the ENTIRE ZIP to a writable folder first. Keep its folders together.
+Extract the complete ZIP to a writable folder first. Keep its folders together.
 This analyzes tokens and produces a table; it does not execute Ternfold programs.
-Includes the new static DFA source and Windows x64 / macOS ARM64 / Intel binaries.
+Includes the C17 source and executables for Windows x64, macOS ARM64 and macOS Intel.
 
 ## Run without compiling
 
-**No compiler, IDE, Python, Node, Git or Internet connection is needed.**
+**No compiler or IDE is needed. The executables run offline.**
 
 Windows 10/11 x64: double-click **Run-Windows.cmd**. Press a key when finished.
-Mac with Apple Silicon OR Intel: double-click **Run-Mac.command**. Press Return
+Mac with Apple Silicon or Intel: double-click **Run-Mac.command**. Press Return
 when finished. The launcher selects the binary for the current Mac architecture.
 Open **reports/Symbol Table.txt** for the newly generated result.
 The file **source/Symbol Table.txt** is only the supplied reference.
@@ -17,7 +17,7 @@ The file **source/Symbol Table.txt** is only the supplied reference.
 Mac executables have **no Developer ID signing and are not notarized**. Apple
 tools may apply an ad hoc signature; that does not establish a developer identity
 or notarization. A download may be blocked by
-Gatekeeper. After checking the download and its SHA256, use Finder's Open action
+Gatekeeper. After checking the download and its SHA-256, use Finder's Open action
 for the specific launcher; if macOS blocks the selected binary, use System
 Settings > Privacy & Security > Open Anyway for that specific trusted item.
 Availability and wording depend on macOS version and local administrator policy.
@@ -60,9 +60,10 @@ the appropriate executable under bin/ directly (see source/README.md).
 
 ## Compile from source
 
-**This route DOES require an installed C17 compiler.** The complete standalone
-source is in **source/**, byte for byte from the pinned static DFA source ZIP.
-The exact original ZIP is also preserved as source-original.zip.
+**This route requires an installed C17 compiler.** The complete standalone
+source is in **source/**, matching the clean source release ZIP.
+That ZIP is included as **source-original.zip**. Its SHA-256 is recorded in
+the generated root README and in SHA256SUMS.
 
 Open a terminal in **source/**, then:
 
@@ -82,10 +83,11 @@ sh scripts/build.sh build
 ./build/ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir build
 ```
 
-Read source/IDE_QUICK_START.md for manual Dev-C++ and Xcode project setup.
 Keep src/name_dfa.inc adjacent to src/lexer.c when compiling the four C files.
-Read source/DFA_LIVE_DEMO.md and source/INVALID_CASES.md for the new demos.
-Read source/RUBRIC.md and source/DEMO_ROWS.md for the classroom demonstration.
+For IDE setup see `source/IDE_QUICK_START.md`; for the demonstrations see
+`source/DFA_LIVE_DEMO.md`, `source/INVALID_CASES.md`, `source/RUBRIC.md` and
+`source/DEMO_ROWS.md`. These paths start at the all-in-one ZIP root. In the
+source-only repository the same guides are in the repository root.
 
 ## Integrity and platform limits
 
@@ -98,5 +100,6 @@ Mac builds target macOS 15.0 and link only Apple system libraries. The native
 execution gate uses macOS 15 on each Mac architecture; older macOS is unverified
 and below this bundle's deployment target. This bundle does not include an IDE
 or compiler. See BUILD_INFO files for actual compiler, architecture and imports.
-CI verifies a fresh extraction on Windows x64, Mac ARM64 and Mac Intel before
-the supervisor may publish the combined ZIP. Other platforms remain unverified.
+Release verification requires a fresh extraction on Windows x64, Mac ARM64 and
+Mac Intel. See `source/VERIFICATION.md` for commands
+and recorded results. Other platforms remain unverified.

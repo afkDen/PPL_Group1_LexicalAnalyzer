@@ -1,0 +1,200 @@
+name: Repack lexical documentation with accepted executables
+on:
+  workflow_dispatch:
+    inputs:
+      source_zip_url:
+        description: Optional clean source asset URL; empty builds from this commit
+        required: false
+        type: string
+      source_sha256:
+        description: Required when using a source URL; otherwise leave empty
+        required: false
+        type: string
+permissions:
+  contents: read
+env:
+  SOURCE_URL: ${{ inputs.source_zip_url }}
+  SOURCE_SHA256: ${{ inputs.source_sha256 }}
+  PRIOR_URL: https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/releases/download/lexical-static-dfa-final-2026-10-30/Ternfold_Lexical_Static_DFA_All_In_One_2026-10-30.zip
+  PRIOR_SHA256: a105a379d16a63dc51e423ee49a8d954f75daae3c2ec09344e03d10050ec34ae
+jobs:
+  prepare:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    outputs:
+      source_sha256: ${{ steps.source.outputs.source_sha256 }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare clean source and reuse pinned accepted executables
+        id: source
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $source = "$env:RUNNER_TEMP/Ternfold_Lexical_Source_2026-10-30_Clean.zip"
+          if ($env:SOURCE_URL) {
+            ./distribution/validate-input.ps1 -SourceZipUrl $env:SOURCE_URL -SourceSha256 $env:SOURCE_SHA256
+            $expectedUrl = 'https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/releases/download/lexical-submission-clean-2026-10-30/Ternfold_Lexical_Source_2026-10-30_Clean.zip'
+            if ($env:SOURCE_URL -cne $expectedUrl) { throw 'Expected the clean source release asset URL.' }
+            Invoke-WebRequest $env:SOURCE_URL -OutFile $source
+            ./distribution/source-check.ps1 -SourceZip $source -SourceSha256 $env:SOURCE_SHA256
+            $hash = (Get-FileHash $source).Hash.ToLowerInvariant()
+            [IO.File]::WriteAllText("$source.sha256", "$hash  $([IO.Path]::GetFileName($source))`n", [Text.UTF8Encoding]::new($false))
+          } else {
+            if ($env:SOURCE_SHA256) { throw 'Leave the source hash empty when building from this commit.' }
+            ./distribution/source-archive.ps1 -Destination $source
+            $hash = (Get-FileHash $source).Hash.ToLowerInvariant()
+          }
+          "source_sha256=$hash" >> $env:GITHUB_OUTPUT
+          Invoke-WebRequest $env:PRIOR_URL -OutFile "$env:RUNNER_TEMP/prior.zip"
+          if ((Get-FileHash "$env:RUNNER_TEMP/prior.zip").Hash -ine $env:PRIOR_SHA256) { throw 'Prior bundle hash mismatch.' }
+          ./distribution/test-packaging.ps1 -SourceZip $source -SourceSha256 $hash -Destination "$env:RUNNER_TEMP/packaging-tests"
+          ./distribution/test-repack.ps1 -SourceZip $source -SourceSha256 $hash -PriorBundle "$env:RUNNER_TEMP/prior.zip" -Destination "$env:RUNNER_TEMP/repack-tests"
+          ./distribution/prepare-repack.ps1 -SourceZip $source -SourceSha256 $hash -PriorBundle "$env:RUNNER_TEMP/prior.zip" -Destination "$env:RUNNER_TEMP/clean-payload"
+          Compress-Archive -Path "$env:RUNNER_TEMP/clean-payload/*" -DestinationPath "$env:RUNNER_TEMP/prepared.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: clean-repack-source
+          path: |
+            ${{ runner.temp }}/Ternfold_Lexical_Source_2026-10-30_Clean.zip
+            ${{ runner.temp }}/Ternfold_Lexical_Source_2026-10-30_Clean.zip.sha256
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: clean-repack-prepared
+          path: ${{ runner.temp }}/prepared.zip
+          if-no-files-found: error
+  assemble:
+    needs: prepare
+    env:
+      SOURCE_SHA256: ${{ needs.prepare.outputs.source_sha256 }}
+    runs-on: macos-15
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: clean-repack-prepared
+          path: ${{ runner.temp }}/prepared
+      - name: Write combined ZIP with Unix executable modes
+        shell: bash
+        run: |
+          set -eu
+          sh distribution/finalize-repack.sh "$RUNNER_TEMP/prepared/prepared.zip" "$RUNNER_TEMP/Ternfold_Lexical_All_In_One_2026-10-30_Clean.zip" "$SOURCE_SHA256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: clean-repack-combined
+          path: |
+            ${{ runner.temp }}/Ternfold_Lexical_All_In_One_2026-10-30_Clean.zip
+            ${{ runner.temp }}/Ternfold_Lexical_All_In_One_2026-10-30_Clean.zip.sha256
+          if-no-files-found: error
+  verify:
+    needs: [prepare, assemble]
+    env:
+      SOURCE_SHA256: ${{ needs.prepare.outputs.source_sha256 }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, macos-15, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: clean-repack-combined
+          path: ${{ runner.temp }}/combined
+      - name: Fresh Windows extraction and executable verification
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $zip = "$env:RUNNER_TEMP/combined/Ternfold_Lexical_All_In_One_2026-10-30_Clean.zip"
+          $expected = (Get-Content "$zip.sha256").Substring(0,64)
+          if ((Get-FileHash $zip).Hash -ine $expected) { throw 'Combined ZIP hash mismatch.' }
+          ./distribution/verify-windows.ps1 -Zip $zip -SourceSha256 $env:SOURCE_SHA256 -Destination "$env:RUNNER_TEMP/Clean Windows extraction" -Combined
+      - name: Fresh native Mac extraction and executable verification
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          set -eu
+          zip="$RUNNER_TEMP/combined/Ternfold_Lexical_All_In_One_2026-10-30_Clean.zip"
+          expected=$(cut -c 1-64 "$zip.sha256")
+          test "$(shasum -a 256 "$zip" | cut -d ' ' -f 1)" = "$expected"
+          sh distribution/verify-mac.sh "$zip" "$RUNNER_TEMP/Clean native Mac extraction" "$SOURCE_SHA256"
+  source-check:
+    needs: prepare
+    env:
+      SOURCE_SHA256: ${{ needs.prepare.outputs.source_sha256 }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, macos-15, macos-15-intel, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: clean-repack-source
+          path: ${{ runner.temp }}/source-asset
+      - name: Fresh Windows source check and sanitizers
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $source = "$env:RUNNER_TEMP/source-asset/Ternfold_Lexical_Source_2026-10-30_Clean.zip"
+          ./distribution/source-check.ps1 -SourceZip $source -SourceSha256 $env:SOURCE_SHA256
+          Expand-Archive $source "$env:RUNNER_TEMP/Clean source check"
+          ./distribution/source-check.ps1 -SourceZip $source -SourceSha256 $env:SOURCE_SHA256 -SourceRoot "$env:RUNNER_TEMP/Clean source check"
+          Invoke-WebRequest 'https://github.com/mstorsjo/llvm-mingw/releases/download/20261020/llvm-mingw-20261020-ucrt-x86_64.zip' -OutFile "$env:RUNNER_TEMP/toolchain.zip"
+          if ((Get-FileHash "$env:RUNNER_TEMP/toolchain.zip").Hash -ine 'fd5462b7f5d93b2ff981fcd3f9c7e427e47f3203c64ea91c27bcc444eebd74cd') { throw 'Compiler archive hash mismatch.' }
+          Expand-Archive "$env:RUNNER_TEMP/toolchain.zip" "$env:RUNNER_TEMP/toolchain"
+          $cc = "$env:RUNNER_TEMP/toolchain/llvm-mingw-20261020-ucrt-x86_64/bin/clang.exe"
+          & "$env:RUNNER_TEMP/Clean source check/scripts/build.ps1" environment -Compiler $cc
+          if ($LASTEXITCODE -ne 0) { throw 'Source environment gate failed.' }
+          & "$env:RUNNER_TEMP/Clean source check/scripts/build.ps1" check -Compiler $cc
+          if ($LASTEXITCODE -ne 0) { throw 'Source check gate failed.' }
+          & "$env:RUNNER_TEMP/Clean source check/scripts/build.ps1" sanitize -Compiler $cc
+          if ($LASTEXITCODE -ne 0) { throw 'Source sanitizer gate failed.' }
+      - name: Fresh native POSIX source check and sanitizers
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -eu
+          source_zip="$RUNNER_TEMP/source-asset/Ternfold_Lexical_Source_2026-10-30_Clean.zip"
+          sh distribution/source-check.sh "$source_zip" "$SOURCE_SHA256"
+          mkdir "$RUNNER_TEMP/Clean source check"
+          unzip -q "$source_zip" -d "$RUNNER_TEMP/Clean source check"
+          sh distribution/source-check.sh "$source_zip" "$SOURCE_SHA256" "$RUNNER_TEMP/Clean source check"
+          cd "$RUNNER_TEMP/Clean source check"
+          sh scripts/build.sh environment
+          sh scripts/build.sh check
+          sh scripts/build.sh sanitize
+  verified:
+    needs: [verify, source-check]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: clean-repack-combined
+          path: verified
+      - uses: actions/download-artifact@v4
+        with:
+          name: clean-repack-source
+          path: verified
+      - name: Check the exact four release files
+        shell: bash
+        run: |
+          set -eu
+          cd verified
+          test "$(find . -type f | wc -l)" -eq 4
+          test -f Ternfold_Lexical_Source_2026-10-30_Clean.zip
+          test -f Ternfold_Lexical_All_In_One_2026-10-30_Clean.zip
+          sha256sum -c Ternfold_Lexical_Source_2026-10-30_Clean.zip.sha256
+          sha256sum -c Ternfold_Lexical_All_In_One_2026-10-30_Clean.zip.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: clean-repack-verified
+          path: verified/*
+          if-no-files-found: error
+      # This workflow produces artifacts only; release publication is separate.

@@ -25,7 +25,7 @@ try {
     $reader = [IO.StreamReader]::new($archive.GetEntry('SOURCE_FILES.txt').Open())
     try { $listed = @($reader.ReadToEnd() -split '\r?\n' | Where-Object { $_ -ne '' }) }
     finally { $reader.Dispose() }
-    if (($listed -join [char]10) -cne ($allowlist -join [char]10)) { throw 'Embedded source allowlist differs from reviewed candidate.' }
+    if (($listed -join [char]10) -cne ($allowlist -join [char]10)) { throw 'Embedded source allowlist differs from the checked source inventory.' }
     if ($SourceRoot) {
         $root = (Resolve-Path -LiteralPath $SourceRoot).Path
         $items = @(Get-ChildItem -LiteralPath $root -Recurse -Force)
