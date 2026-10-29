@@ -332,7 +332,9 @@ int main(int argc, char **argv) {
             Json *j = calloc(1, sizeof *j);
             require(j != NULL, "ledger allocation");
             if (j) { int valid; j->s = s; valid = parse_document(j); require(valid, "course ledger JSON syntax/trailing bytes");
-                if (valid) require(ledger_valid(j), "course identities/owners/states/evidence including nested stages"); free(j); }
+                if (valid) require(ledger_valid(j), "course identities/owners/states/evidence including nested stages");
+                free(j);
+            }
             require(!strstr(s, ".py\""), "no obsolete course evidence paths"); free(s);
         }
         for (size_t i = 0; i < sizeof roles / sizeof *roles; ++i) {
