@@ -23,3 +23,5 @@ step4 creates a NEW report, proving the analyzer produced it.
 See README.md for choosing an existing compiler, test commands, path/permission
 troubleshooting and verified versus unverified platforms. Do not grade runtime
 semantics from this lexical-only submission.
+
+For the full vocabulary/proposal comparison and oral defense, open PROFESSOR_DEMO_GUIDE.md, PROPOSAL_LEXICAL_RECONCILIATION.md and DFA_LIVE_DEMO.md. The name DFA is fixed in src/name_dfa.inc; --trace-dfa shows actual transitions on stderr. Run invalid-comprehensive.tfd and the byte fixtures described in INVALID_CASES.md for detailed error/recovery evidence. The separate versioned all-in-one package runs without compiling; previous binaries remain historical, not substitutes for this revision.

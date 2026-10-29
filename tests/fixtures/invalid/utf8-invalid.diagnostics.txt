@@ -1,0 +1,2 @@
+"tests/fixtures/invalid/utf8-invalid.tfd": E001: source is not valid UTF-8 [bytes 2..3)
+  raw bytes "\u00ff"

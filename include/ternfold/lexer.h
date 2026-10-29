@@ -98,6 +98,26 @@ bool tf_span_join(TfSpan left, TfSpan right, TfSpan *out);
 
 TfStatus tf_lex(TfLexResult *out, const TfSource *source, size_t diagnostic_cap,
                 const TfAllocator *allocator);
+/* Same ownership/recognition as tf_lex. Optional borrowed trace stream receives
+ * actual scanner transitions and FINAL decisions, never report rows. A write
+ * failure returns HOST_ERROR with zeroed output. Caller must check flush/close.
+ * Trace bytes are ASCII; source bytes are hex with original [offset,end). */
+TfStatus tf_lex_trace(TfLexResult *out, const TfSource *source, size_t diagnostic_cap,
+                      const TfAllocator *allocator, FILE *trace);
+/* Immutable name graph inspection. State 0 is start, SIZE_MAX is the absorbing
+ * IDENT sink. child/sibling=0 terminates an edge list. Each non-root state is an
+ * accepting identifier prefix; terminal marks explicit keyword/reserved/_
+ * metadata. Querying an invalid state fails; step on one yields the sink.
+ * step is the exact transition function used by the scanner. */
+typedef struct {
+    size_t child, sibling;
+    unsigned char character;
+    TfTokenKind kind;
+    bool reserved, terminal;
+} TfNameDfaState;
+size_t tf_name_dfa_state_count(void);
+bool tf_name_dfa_state(size_t state, TfNameDfaState *out);
+size_t tf_name_dfa_step(size_t state, unsigned char character);
 void tf_lex_destroy(TfLexResult *result);
 const char *tf_token_name(TfTokenKind kind);
 const char *tf_error_code(TfError code);

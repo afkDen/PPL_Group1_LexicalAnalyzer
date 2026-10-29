@@ -1,0 +1,2 @@
+"tests/fixtures/invalid/lone-cr.tfd": E003: lone CR is not a source line ending [bytes 1..2)
+  raw bytes "\r"

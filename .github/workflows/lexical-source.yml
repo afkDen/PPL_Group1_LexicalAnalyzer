@@ -47,6 +47,7 @@ jobs:
           cc --version
           sh scripts/build.sh environment
           sh scripts/build.sh check
+          sh scripts/build.sh sanitize
           ./build/ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir build
           cmp 'build/Symbol Table.txt' 'tests/fixtures/lexer/Classroom Symbol Table.txt'
           set +e
@@ -63,6 +64,10 @@ jobs:
           # Same four-file compile and root-directory run as the IDE guide.
           cc -std=c17 -Wall -Wextra -pedantic -Iinclude src/main.c src/lexer.c src/source.c src/report.c -o ternfold-lexer
           ./ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir .
+          cmp 'Symbol Table.txt' 'tests/fixtures/lexer/Classroom Symbol Table.txt'
+          ./ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir . --trace-dfa 2>build/live-trace.txt
+          grep 'DFA name' build/live-trace.txt
+          grep 'FINAL' build/live-trace.txt
           cmp 'Symbol Table.txt' 'tests/fixtures/lexer/Classroom Symbol Table.txt'
           set +e
           ./ternfold-lexer >build/no-argument.txt 2>&1

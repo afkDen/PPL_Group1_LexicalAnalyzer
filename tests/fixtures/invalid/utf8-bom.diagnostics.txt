@@ -1,0 +1,2 @@
+"tests/fixtures/invalid/utf8-bom.tfd": E002: source must not start with a UTF-8 BOM [bytes 0..3)
+  raw bytes "\u00ef\u00bb\u00bf"

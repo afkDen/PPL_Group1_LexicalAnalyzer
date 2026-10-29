@@ -1,0 +1,9 @@
+if ifx in input let letter Int Intensity
+// Trace target: short keyword/prefix, reserved-name, number and operator paths.
+let letter letx _ __ Int Intensity Bool bool_text bool_textx
+0 17 1.25e1 2e-3 1.foo 1.2.foo 09 1e+ 1e++2 1efoo.bar
++ ++ - -> = == => : :: ! != < <= > >= && || / * */ ^ %
+input visitor: Text from stdin; output "Hi" ++ visitor to stdout;
+// Comments are observable tokens, not division operators.
+/* first /* nested text ends here */
+'Ω' "A\n\u{1f642}" 'ab' @

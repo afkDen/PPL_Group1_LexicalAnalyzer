@@ -1,49 +1,51 @@
-# Actual demonstration report rows
+# Generated primary demonstration rows
 
-Rows are one-based physical lines, including the header as row1. Generated from
-the supplied primary and invalid reports; use them to locate sample lexemes.
+One-based physical report rows include the header as row1. These are actual generated rows for complete.tfd, not words extracted from comments/strings. Full per-spelling source lines and rows are in PROPOSAL_LEXICAL_RECONCILIATION.md.
 
-| Category | Representative lexeme | Primary report rows |
+| Report category | First actual lexeme (escaped) | Report rows (first five) |
 |---|---|---|
-| IDENTIFIER | Point | 5, 7, 11, 16, 18 |
-| KEYWORD | record | 4, 15, 22, 29, 31 |
-| RESERVED_WORD | Int | 9, 13, 27, 30, 32 |
-| INT_LITERAL | 0 | 39, 53, 75, 90, 93 |
-| FLOAT_LITERAL | 1.25e1 | 127 |
-| BOOL_LITERAL | true | 134, 220, 222, 309 |
-| TEXT_LITERAL | "negative" | 55, 141 |
-| CHAR_LITERAL | 'Ω' | 148 |
-| NOISE_WORD | from | 112, 317 |
-| LINE_COMMENT | // Ternfold lexical demonstration: every required category. | 2 |
-| BLOCK_COMMENT | /* Block comments are included in the table.\n   They stop at the first closing delimiter. */ | 3 |
-| PLUS | + | 45, 89 |
-| MINUS | - | 94, 160 |
-| SLASH | / | 154 |
-| STAR | * | 92, 239 |
-| PERCENT | % | 169 |
-| DIV | div | 162 |
-| CARET | ^ | 74, 176 |
-| AND_AND | && | 187, 193, 199, 205, 211 |
-| OR_OR | \|\| | 221 |
-| BANG | ! | 219 |
-| GREATER | > | 184 |
-| LESS | < | 190 |
-| EQUAL_EQUAL | == | 196 |
-| BANG_EQUAL | != | 202 |
-| GREATER_EQUAL | >= | 52, 208 |
-| LESS_EQUAL | <= | 214 |
-| LPAREN | ( | 24, 65, 79, 87, 100 |
-| RPAREN | ) | 28, 69, 83, 91, 101 |
-| LBRACKET | [ | 104, 265, 320 |
-| RBRACKET | ] | 106, 271, 330 |
-| LBRACE | { | 6, 17, 33, 72, 86 |
-| RBRACE | } | 14, 21, 62, 76, 96 |
-| COMMA | , | 10, 19, 234, 267, 269 |
-| SEMICOLON | ; | 40, 47, 56, 61, 114 |
-| COLON | : | 8, 12, 26, 36, 67 |
-| DOT | . | 50, 59 |
-| DOUBLE_COLON | :: | 287, 294, 305 |
-| ARROW | -> | 70, 84, 102 |
-| FAT_ARROW | => | 299, 307 |
+| KEYWORD | `import` | 2, 4, 9, 20, 27 |
+| TEXT_LITERAL | `"support.tfd"` | 3, 60, 146, 455, 524 |
+| IDENTIFIER | `helper` | 5, 10, 12, 16, 21 |
+| SEMICOLON | `;` | 6, 45, 52, 61, 66 |
+| LINE_COMMENT | `// Ternfold lexical demonstration: every current keyword and reserved name.` | 7 |
+| BLOCK_COMMENT | `/* Block comments are included in the table.\n   They stop at the first closing delimiter. */` | 8 |
+| LBRACE | `{` | 11, 22, 38, 77, 91 |
+| COLON | `:` | 13, 17, 31, 41, 72 |
+| RESERVED_WORD | `Int` | 14, 18, 32, 35, 37 |
+| COMMA | `,` | 15, 24, 240, 273, 275 |
+| RBRACE | `}` | 19, 26, 67, 81, 101 |
+| LPAREN | `(` | 29, 70, 84, 92, 105 |
+| RPAREN | `)` | 33, 74, 88, 96, 106 |
+| ASSIGN | `=` | 43, 48, 124, 131, 138 |
+| INT_LITERAL | `0` | 44, 58, 80, 95, 98 |
+| PLUS | `+` | 50, 94, 440 |
+| DOT | `.` | 55, 64 |
+| GREATER_EQUAL | `>=` | 57, 214 |
+| ARROW | `->` | 75, 89, 107, 436 |
+| CARET | `^` | 79 |
+| STAR | `*` | 97, 245 |
+| MINUS | `-` | 99, 165 |
+| LBRACKET | `[` | 109, 271, 333, 374, 389 |
+| RBRACKET | `]` | 111, 277, 335, 376, 391 |
+| NOISE_WORD | `from` | 117, 583 |
+| FLOAT_LITERAL | `1.25e1` | 132 |
+| BOOL_LITERAL | `true` | 139, 226, 228, 366 |
+| CHAR_LITERAL | `'Ω'` | 153 |
+| SLASH | `/` | 159 |
+| DIV | `div` | 167 |
+| PERCENT | `%` | 174 |
+| GREATER | `>` | 190 |
+| AND_AND | `&&` | 193, 199, 205, 211, 217 |
+| LESS | `<` | 196 |
+| EQUAL_EQUAL | `==` | 202 |
+| BANG_EQUAL | `!=` | 208 |
+| LESS_EQUAL | `<=` | 220 |
+| BANG | `!` | 225 |
+| OR_OR | `\|\|` | 227 |
+| DOUBLE_COLON | `::` | 297, 316, 338, 351, 362 |
+| FAT_ARROW | `=>` | 304, 323, 356, 364, 514 |
+| UNDERSCORE | `_` | 570 |
+| PLUS_PLUS | `++` | 581 |
 
-Invalid demonstration report: INVALID rows 3, 4, 5, 6, 7, 13; expected exit1. Both reports have exactly two tab-separated columns.
+The primary contains28keyword tokens by spelling (Bool words report BOOL_LITERAL, div reports DIV, contextual connectors report NOISE_WORD),25reserved spellings,31other symbol spellings and all five literal families. Original invalid.tfd and invalid-comprehensive.tfd reports are in tests/fixtures/lexer and tests/fixtures/invalid respectively. Header-only encoding-error reports are expected and are mapped in INVALID_CASES.md. Rerun complete after any invalid demo to restore the primary report.

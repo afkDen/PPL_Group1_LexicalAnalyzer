@@ -1,7 +1,25 @@
-# Ternfold lexical analyzer — official source submission
+# Ternfold lexical analyzer — explicit static DFA submission
 
-**Using an IDE? Start with [IDE_QUICK_START.md](IDE_QUICK_START.md)** for Dev-C++ and Xcode setup, run arguments and report location.
+**Recommended source submission:** Ternfold_Lexical_Static_DFA_Source_2026-10-30.zip.
+It contains the complete four-file C17 application, fixed transition include,
+examples, tests, proposal alignment and IDE/live-defense guides.
 
+**Run without compiling:** choose the separately labeled
+Ternfold_Lexical_Static_DFA_All_In_One_2026-10-30.zip from the
+[versioned release](https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/releases/tag/lexical-static-dfa-final-2026-10-30).
+Extract it and run Run-Windows.cmd or Run-Mac.command. Open
+reports/Symbol Table.txt. It needs no compiler, Homebrew, Python or Node for
+ordinary binary use. Mac binaries target macOS15+ and have no Developer ID
+signing/notarization; Gatekeeper may prompt or block. Read the bundle README.
+
+**Compile from source:** a compatible C17 compiler is required. Use the commands
+below or [IDE_QUICK_START.md](IDE_QUICK_START.md); no IDE/compiler is bundled.
+Previous2026-10-29releases are preserved historical snapshots and do not contain
+this static-DFA/trace update. Never combine their old binaries with this source.
+
+For the oral defense, start with [PROFESSOR_DEMO_GUIDE.md](PROFESSOR_DEMO_GUIDE.md),
+[DFA_LIVE_DEMO.md](DFA_LIVE_DEMO.md), and
+[the proposal matrix](PROPOSAL_LEXICAL_RECONCILIATION.md).
 ## 1. Introduction
 
 Ternfold is our group's original programming language. This submission contains
@@ -19,7 +37,7 @@ not the complete parser, type checker or executable Ternfold compiler.
 
 ## 3. Files included
 
-- `src/main.c`, `lexer.c`, `source.c`, `report.c`, `internal.h`: complete analyzer.
+- `src/main.c`, `lexer.c`, `source.c`, `report.c`: four C implementation files; internal.h and the fixed name_dfa.inc remain beside them.
 - `include/ternfold/lexer.h`: the shared C interface.
 - `examples/lexical/complete.tfd`: the primary grading demonstration.
 - `examples/lexical/invalid.tfd`: intentionally invalid tokens and recovery.
@@ -63,7 +81,7 @@ lexemes; the original quotes in a Text or Char literal are part of that lexeme.
 
 Run the primary example first, then read the report and `RUBRIC.md`. It visibly
 contains all seven arithmetic operators, all nine Boolean/relational operators,
-five literal categories, both comment forms, noise words and brackets/delimiters.
+all28current keyword spellings,25reserved names, five literal categories, both comment forms, noise words and brackets/delimiters.
 
 Run the invalid example next:
 
@@ -107,7 +125,7 @@ The scanner advances explicit character-driven states and trie edges. It does
 not use a lexer generator, premade analyzer, regex tokenization or whole-word
 keyword matching. The token classification comes from the accepting state at
 an identifier boundary. `letx` is one identifier, not `let` plus `x`.
-See [DFA.md](DFA.md) for comments, literals, operators and recovery.
+The215name states and all outgoing edges are static const C initializers in src/name_dfa.inc, traversed by tf_name_dfa_step in src/lexer.c. No runtime keyword-graph construction occurs in the application. See [DFA.md](DFA.md) and the live guide for actual transitions.
 
 ## 9. Troubleshooting and tested platforms
 
@@ -118,9 +136,9 @@ See [DFA.md](DFA.md) for comments, literals, operators and recovery.
 - **Output failure:** create the output directory and check write permissions.
   Usage, allocation, file-read and output failures return 2.
 - **Report/input alias:** choose a different directory; source protection rejects it.
-- **Platforms:** Windows x64 Clang23.1.4, macOS15 Apple Silicon and Intel AppleClang17,
-  and Ubuntu24.04 GCC13.3 source builds are verified. Actual results are in
-  `VERIFICATION.md`; other platforms remain unverified.
+- **Platforms:** Current candidate Windows x64 Clang23.1.4 strict/sanitizer gates pass.
+  Actual current-candidate Mac/Ubuntu runs remain pending in VERIFICATION.md.
+  Earlier releases passed those platforms; those results are historical, not new-candidate evidence.
   MSVC is not currently a supported build workflow.
 
 ## 10. Advanced testing
@@ -137,3 +155,15 @@ report bytes, filetype policy, safe publication and CLI failures. The public
 header documents memory ownership. Compiler/runtime execution is outside this
 lexical submission. No Python, Node, AI service or network is needed to build
 or run it once a compatible C toolchain is installed.
+
+## Actual transition trace
+
+Add --trace-dfa to the same CLI arguments. It logs the actual scanner transitions and FINAL decisions on stderr, never into Symbol Table.txt. For example:
+
+```sh
+./build/ternfold-lexer examples/lexical/trace.tfd --classroom --output-dir build --trace-dfa 2> build/dfa-trace.txt
+```
+
+That fixture intentionally includes malformed numerals/literals: exit1 is expected. Default runs remain untraced. See INVALID_CASES.md for the expanded invalid demonstration and separate encoding/BOM/line-ending byte fixtures.
+
+The user-confirmed submitted20page proposal is immutable; SUBMITTED_PROPOSAL_ALIGNMENT.md distinguishes all later Float/report/numeric-recovery decisions. Minimumrubric success is not claimed as full-proposal semantic completion. The full compiler is paused and excluded from this submission.

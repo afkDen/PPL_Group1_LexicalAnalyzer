@@ -1,4 +1,5 @@
-// Ternfold lexical demonstration: every required category.
+import "support.tfd" as helper;
+// Ternfold lexical demonstration: every current keyword and reserved name.
 /* Block comments are included in the table.
    They stop at the first closing delimiter. */
 record Point { x: Int, y: Float }
@@ -21,16 +22,34 @@ pub fn main() -> List[Text] {
     let divide = 7 / 2;
     let quotient = -7 div 3;
     let remainder = 7 % 3;
-    let power = 2 ^ 3;
+    let power = square(2);
     let comparisons = (3 > 2) && (2 < 3) && (2 == 2) && (2 != 3)
                       && (3 >= 3) && (2 <= 2) && (!false || true);
     let values = for item in range(0, 2) { item * 2 };
     let length: Int = len(values);
     let idle: Unit = ();
     let transition: Decision[Counter, Int, Text] = step(Counter(), 3);
-    let choice = match Option::Some(flag) {
+    let decision_text: Text = match transition {
+        Decision::Accept(updated, messages) => { int_text(len(messages)) },
+        Decision::Reject(old, error) => { error }
+    };
+    let choice: Option[Bool] = Option::Some(flag);
+    let chosen = match choice {
         Option::Some(value) => { value }, Option::None => { false }
     };
+    let first: Option[Int] = at(values, 0);
+    let extended: List[Int] = append(values, integer);
+    let squares: List[Int] = map(extended, square);
+    let total: Int = fold(squares, 0, fn(sum: Int, item: Int) -> Int { sum + item });
+    let parsed: Option[Int] = parse_int("17");
+    let visitor_length: Int = text_len(visitor);
+    let initial: Option[Text] = text_at(visitor, 0);
+    let greeting: Option[Text] = text_slice(text, 0, 5);
+    let greeting_text: Text = match greeting { Option::Some(value) => { value }, Option::None => { "Hello" } };
+    let converted: Float = int_float(total);
+    let rounded: Option[Int] = float_int(real);
+    let label: Text = if chosen { bool_text(comparisons) } else { "false" };
+    let _ = helper::identity(length);
     output text ++ visitor to stdout;
-    [float_text(divide), int_text(quotient)]
+    [greeting_text, decision_text, label, float_text(divide), int_text(quotient)]
 }

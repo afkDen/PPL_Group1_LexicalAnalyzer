@@ -902,6 +902,33 @@ static void test_classroom(const char *lexer) {
     }
 }
 
+static void test_trace_cli(const char *lexer) {
+    char source[PATH_CAPACITY], destination[PATH_CAPACITY], table[PATH_CAPACITY];
+    join_path(destination,root,"trace output");directory(destination);
+    join_path(source,destination,"trace input.tfd");table_path(table,destination);
+    write_text(source,"if ifx in input let letter Int Intensity 1.25 = ==");
+    {
+        const char *plain[]={lexer,source,"--classroom","--output-dir",destination,NULL};
+        const char *traced[]={lexer,source,"--classroom","--output-dir",destination,"--trace-dfa",NULL};
+        const char *duplicate[]={lexer,source,"--trace-dfa","--trace-dfa",NULL};
+        Bytes expected;
+        begin("trace is optional and leaves actual report bytes unchanged");
+        CHECK(spawn(plain,CAPTURE,CAPTURE)==0);expect_text(error_path,"");expected=read_bytes(table);
+        CHECK(spawn(traced,CAPTURE,CAPTURE)==0);expect_contains(error_path,"DFA name");
+        expect_contains(error_path,"FINAL");expect_contains(error_path,"IDENT_FALLBACK");
+        expect_bytes(table,expected.bytes,expected.length);destroy_bytes(expected);
+        begin("duplicate trace option rejects without overwriting the report");
+        CHECK(spawn(duplicate,CAPTURE,CAPTURE)==2);
+        begin("trace pipe failure is host error before report publication");
+        write_text(table,"preserved report");CHECK(spawn(traced,CAPTURE,BROKEN_PIPE)==2);
+        expect_text(table,"preserved report");clean_temps(destination);
+        begin("invalid trace reports the actual INVALID token and diagnostic");
+        write_text(source,"1e+ @");CHECK(spawn(traced,CAPTURE,CAPTURE)==1);
+        expect_contains(error_path,"DFA number");expect_contains(error_path,"E102");
+        expect_contains(error_path,"E101");expect_contains(table,"INVALID\t1e+\n");
+        expect_contains(table,"INVALID\t@\n");
+    }
+}
 int main(int argc, char **argv) {
     if (argc != 2) {
         (void)fputs("Usage: test-integration PATH-TO-LEXER\n", stderr);
@@ -916,6 +943,7 @@ int main(int argc, char **argv) {
     test_publication_and_links(argv[1]);
     test_broken_streams(argv[1]);
     test_classroom(argv[1]);
+    test_trace_cli(argv[1]);
     (void)printf("native CLI integration: %zu cases, %zu checks passed, %zu capability skips\n"
                  "fixtures: %s\n", cases, checks, skips, root);
     return 0;

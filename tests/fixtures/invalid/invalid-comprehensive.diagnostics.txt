@@ -1,0 +1,66 @@
+"examples/lexical/invalid-comprehensive.tfd":2:1: E101: unsupported source character [bytes 79..80)
+  "@"
+"examples/lexical/invalid-comprehensive.tfd":2:3: E101: unsupported source character [bytes 81..82)
+  "&"
+"examples/lexical/invalid-comprehensive.tfd":2:5: E101: unsupported source character [bytes 83..84)
+  "|"
+"examples/lexical/invalid-comprehensive.tfd":2:7: E101: unsupported source character [bytes 85..86)
+  "\\"
+"examples/lexical/invalid-comprehensive.tfd":2:9: E101: unsupported source character [bytes 87..88)
+  "`"
+"examples/lexical/invalid-comprehensive.tfd":2:11: E101: unsupported source character [bytes 89..90)
+  "$"
+"examples/lexical/invalid-comprehensive.tfd":2:13: E101: unsupported source character [bytes 91..93)
+  "\u03a9"
+"examples/lexical/invalid-comprehensive.tfd":3:1: E102: malformed decimal numeric literal [bytes 94..96)
+  "09"
+"examples/lexical/invalid-comprehensive.tfd":3:4: E102: malformed decimal numeric literal [bytes 97..99)
+  "00"
+"examples/lexical/invalid-comprehensive.tfd":3:7: E102: malformed decimal numeric literal [bytes 100..102)
+  "1e"
+"examples/lexical/invalid-comprehensive.tfd":3:10: E102: malformed decimal numeric literal [bytes 103..106)
+  "1e+"
+"examples/lexical/invalid-comprehensive.tfd":3:14: E102: malformed decimal numeric literal [bytes 107..110)
+  "1e-"
+"examples/lexical/invalid-comprehensive.tfd":3:18: E102: malformed decimal numeric literal [bytes 111..116)
+  "1efoo"
+"examples/lexical/invalid-comprehensive.tfd":3:24: E102: malformed decimal numeric literal [bytes 117..125)
+  "1e999foo"
+"examples/lexical/invalid-comprehensive.tfd":3:33: E102: malformed decimal numeric literal [bytes 126..131)
+  "1.2.3"
+"examples/lexical/invalid-comprehensive.tfd":3:39: E102: malformed decimal numeric literal [bytes 132..135)
+  "1_0"
+"examples/lexical/invalid-comprehensive.tfd":3:43: E102: malformed decimal numeric literal [bytes 136..141)
+  "2e3e4"
+"examples/lexical/invalid-comprehensive.tfd":4:1: E102: malformed decimal numeric literal [bytes 142..145)
+  "1e+"
+"examples/lexical/invalid-comprehensive.tfd":4:7: E102: malformed decimal numeric literal [bytes 148..153)
+  "1efoo"
+"examples/lexical/invalid-comprehensive.tfd":5:1: E103: malformed or unterminated Text literal [bytes 158..165)
+  "\"bad\\q\""
+"examples/lexical/invalid-comprehensive.tfd":5:9: E103: malformed or unterminated Text literal [bytes 166..172)
+  "\"\\u{}\""
+"examples/lexical/invalid-comprehensive.tfd":5:16: E103: malformed or unterminated Text literal [bytes 173..183)
+  "\"\\u{d800}\""
+"examples/lexical/invalid-comprehensive.tfd":5:27: E103: malformed or unterminated Text literal [bytes 184..196)
+  "\"\\u{110000}\""
+"examples/lexical/invalid-comprehensive.tfd":5:40: E103: malformed or unterminated Text literal [bytes 197..210)
+  "\"\\u{1234567}\""
+"examples/lexical/invalid-comprehensive.tfd":6:1: E105: Char literal must contain exactly one valid scalar [bytes 211..213)
+  "''"
+"examples/lexical/invalid-comprehensive.tfd":6:4: E105: Char literal must contain exactly one valid scalar [bytes 214..218)
+  "'ab'"
+"examples/lexical/invalid-comprehensive.tfd":6:9: E105: Char literal must contain exactly one valid scalar [bytes 219..223)
+  "'\\q'"
+"examples/lexical/invalid-comprehensive.tfd":6:14: E105: Char literal must contain exactly one valid scalar [bytes 224..230)
+  "'\\u{}'"
+"examples/lexical/invalid-comprehensive.tfd":6:21: E105: Char literal must contain exactly one valid scalar [bytes 231..241)
+  "'\\u{d800}'"
+"examples/lexical/invalid-comprehensive.tfd":6:32: E105: Char literal must contain exactly one valid scalar [bytes 242..254)
+  "'\\u{110000}'"
+"examples/lexical/invalid-comprehensive.tfd":7:1: E103: malformed or unterminated Text literal [bytes 255..268)
+  "\"unterminated"
+"examples/lexical/invalid-comprehensive.tfd":9:1: E105: Char literal must contain exactly one valid scalar [bytes 293..306)
+  "'unterminated"
+"examples/lexical/invalid-comprehensive.tfd":13:1: E104: unterminated block comment [bytes 427..441)
+  "/* unfinished\n"

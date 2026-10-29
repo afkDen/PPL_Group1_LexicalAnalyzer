@@ -88,6 +88,7 @@ static int compile(const char *cc, const char *output, const char *last,
         args[n++] = "src/source.c"; args[n++] = "src/lexer.c";
         args[n++] = "src/report.c";
     }
+    if (!strcmp(last, "tests/test_differential.c")) args[n++] = "tests/baseline_lexer.c";
     args[n++] = last;
     args[n++] = "-o"; args[n++] = output; args[n] = NULL;
     return run(args);
@@ -138,6 +139,19 @@ int main(int argc, char **argv) {
     status = compile(cc, demo, "tests/test_demo.c", sanitize, 1, release);
     if (status) return status;
     { const char *args[] = {demo, NULL}; status = run(args); if (status) return status; }
+    {
+        static const char *const extra[] = {"dfa", "trace", "differential", "coverage"};
+        for (size_t i = 0; i < sizeof extra / sizeof extra[0]; ++i) {
+            char test_source[96], test_binary[96];
+            int n = snprintf(test_source,sizeof test_source,"tests/test_%s.c",extra[i]);
+            if (n < 0 || (size_t)n >= sizeof test_source) return 2;
+            n = snprintf(test_binary,sizeof test_binary,"build/test-%s%s" EXE,extra[i],sanitize ? "-san" : "");
+            if (n < 0 || (size_t)n >= sizeof test_binary) return 2;
+            status = compile(cc,test_binary,test_source,sanitize,1,release);
+            if (status) return status;
+            { const char *args[] = {test_binary,NULL}; status=run(args); if(status) return status; }
+        }
+    }
     if (!strcmp(mode, "check") || release || sanitize) {
         status = compile(cc, audit, "tools/audit.c", sanitize, 0, release);
         if (status) return status;

@@ -1,0 +1,13 @@
+// Expanded lexical error/recovery demo; original invalid.tfd stays unchanged.
+@ & | \ ` $ Ω
+09 00 1e 1e+ 1e- 1efoo 1e999foo 1.2.3 1_0 2e3e4
+1e++2 1efoo.bar
+"bad\q" "\u{}" "\u{d800}" "\u{110000}" "\u{1234567}"
+'' 'ab' '\q' '\u{}' '\u{d800}' '\u{110000}'
+"unterminated
+let recovered_text = 3;
+'unterminated
+let recovered_char = 4;
+// Numeric range/finite checking belongs to later phases, not lexing.
+1e999 9223372036854775808
+/* unfinished

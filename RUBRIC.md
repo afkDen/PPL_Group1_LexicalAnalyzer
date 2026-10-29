@@ -9,7 +9,7 @@ Rows below use the report's exact token categories. Row numbers are recorded in
 |---|---|---|---|
 | 1 | Unique filetype | `complete.tfd`; rejected `does-not-exist.txt` | `.tfd` succeeds; missing `.txt` returns1 with extension message before any input open. |
 | 2 | Identifiers — complete.tfd | `square`, `visitor`, `count`, `integer` | `IDENTIFIER` rows. |
-| 3 | Keywords — complete.tfd | `record enum machine state next guard emit fn pub let for match input output` | `KEYWORD` rows; demonstrated distinct inventory is measured, not assumed. |
+| 3 | Keywords — complete.tfd | `record enum machine state next guard emit fn pub let for match input output` | All28keyword tokens occur; true/false report BOOL_LITERAL, div reports DIV and matching from/to report NOISE_WORD. Inventory is measured from token kinds, not just KEYWORD rows. |
 | 4 | Reserved words — complete.tfd | `Int Float Bool Text Char Unit List Option Decision step range len float_text int_text` | `RESERVED_WORD` rows for these actual spellings. |
 | 5 | At least four constants — complete.tfd | `17`, `1.25e1`, `true/false`, `"Hello\nTernfold"`, `'Ω'` | `INT_LITERAL`, `FLOAT_LITERAL`, `BOOL_LITERAL`, `TEXT_LITERAL`, `CHAR_LITERAL` — five categories. |
 | 6 | Noise words — complete.tfd | `input visitor: Text from stdin;`, `output text ++ visitor to stdout;` | `NOISE_WORD` / `from`, `NOISE_WORD` / `to`; contextual readability words. |
@@ -19,9 +19,9 @@ Rows below use the report's exact token categories. Row numbers are recorded in
 | 10 | Invalid tokens — invalid.tfd | `@`, `09`, `1e+`, `"bad\q"`, `'ab'`, unfinished `/*` | `INVALID` rows; expected exit1, still writes the report. |
 | 11 | Actual Symbol Table output | `build/Symbol Table.txt` after each run | Exactly `TOKEN TYPE` and `LEXEME` columns, source order, comments/invalids retained. |
 
-The sample, not only hidden tests, contains every demonstrated category. The C
+The sample, not only hidden tests, contains every current keyword/reserved spelling and all demonstrated categories. The C
 `test_demo` suite asserts all16operators, five literals, both comments, contextual
-noise, every listed delimiter, at least10distinct keyword/reserved spellings and
+noise, every listed delimiter, all28keywords and25reserved spellings and
 exact generated primary/invalid report bytes. `test_classroom` tests escaping and
 safe publication; native lexical/CLI suites cover boundaries, failures and .tfd.
 
@@ -30,3 +30,5 @@ The primary is coherent source intended to illustrate Ternfold, but this analyze
 only tokenizes it; successful lexing does not prove type checking or execution.
 The grading sheet's `Symbol Table` output is provided as `Symbol Table.txt`.
 Physical INDEX CARD / printing the finalized proposal remain the group's tasks.
+
+Beyond the minimum rubric, test_coverage.c independently asserts every current word and31symbol spellings in BOTH main/vocabulary inputs, five ordinary constructor/entry identifiers, invalid rule families and a frozen pre-refactor corpus. tests/test_dfa.c validates every fixed edge/target, unique outgoing labels, reachability, terminal count and identifier fallback. See the proposal matrix and INVALID_CASES.md for exact provenance and differences.

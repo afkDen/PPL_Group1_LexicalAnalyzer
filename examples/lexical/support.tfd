@@ -1,0 +1,2 @@
+// Companion import for complete.tfd; syntax inspection only, no resolver claim.
+pub fn identity(value: Int) -> Int { value }

@@ -1,11 +1,72 @@
-// LEXICAL-ONLY vocabulary and boundary fixture; not an executable program.
-// Identifier-shaped reserved names are lexically classified by DFA terminals.
+// LEXICAL-ONLY vocabulary inventory, not a grammar-valid/executable program.
+// Current language: 28 keywords and 25 reserved names; proposal history differs.
+as div else emit enum false fn for from guard if import in input let machine
+match next output pub record rejects state stdin stdout to true yields
 Int Float Bool Text Char Unit List Option Decision
 step len at append map fold range int_text bool_text parse_int
 text_len text_at text_slice int_float float_int float_text
-// Lexical boundary fixtures are token streams, not complete source programs.
-let letter letx for format input input2 Int Intensity _ __ _a
-() [] {} , ; . : :: -> => = ++
-// Complete keyword inventory (standalone lexemes).
-as div else emit enum false fn for from guard if import in input let machine
-match next output pub record rejects state stdin stdout to true yields
+// Word boundaries for every name follow below; suffixes must stay identifiers.
+as asx as0 as_ _as
+div divx div0 div_ _div
+else elsex else0 else_ _else
+emit emitx emit0 emit_ _emit
+enum enumx enum0 enum_ _enum
+false falsex false0 false_ _false
+fn fnx fn0 fn_ _fn
+for forx for0 for_ _for
+from fromx from0 from_ _from
+guard guardx guard0 guard_ _guard
+if ifx if0 if_ _if
+import importx import0 import_ _import
+in inx in0 in_ _in
+input inputx input0 input_ _input
+let letx let0 let_ _let
+machine machinex machine0 machine_ _machine
+match matchx match0 match_ _match
+next nextx next0 next_ _next
+output outputx output0 output_ _output
+pub pubx pub0 pub_ _pub
+record recordx record0 record_ _record
+rejects rejectsx rejects0 rejects_ _rejects
+state statex state0 state_ _state
+stdin stdinx stdin0 stdin_ _stdin
+stdout stdoutx stdout0 stdout_ _stdout
+to tox to0 to_ _to
+true truex true0 true_ _true
+yields yieldsx yields0 yields_ _yields
+Int Intx Int0 Int_ _Int
+Float Floatx Float0 Float_ _Float
+Bool Boolx Bool0 Bool_ _Bool
+Text Textx Text0 Text_ _Text
+Char Charx Char0 Char_ _Char
+Unit Unitx Unit0 Unit_ _Unit
+List Listx List0 List_ _List
+Option Optionx Option0 Option_ _Option
+Decision Decisionx Decision0 Decision_ _Decision
+step stepx step0 step_ _step
+len lenx len0 len_ _len
+at atx at0 at_ _at
+append appendx append0 append_ _append
+map mapx map0 map_ _map
+fold foldx fold0 fold_ _fold
+range rangex range0 range_ _range
+int_text int_textx int_text0 int_text_ _int_text
+bool_text bool_textx bool_text0 bool_text_ _bool_text
+parse_int parse_intx parse_int0 parse_int_ _parse_int
+text_len text_lenx text_len0 text_len_ _text_len
+text_at text_atx text_at0 text_at_ _text_at
+text_slice text_slicex text_slice0 text_slice_ _text_slice
+int_float int_floatx int_float0 int_float_ _int_float
+float_int float_intx float_int0 float_int_ _float_int
+float_text float_textx float_text0 float_text_ _float_text
+// All operators and delimiters. BLOCK_CLOSE below is a standalone lexical token.
+// A stray closing comment delimiter is not valid program syntax.
++ - / * % ^ && || ! > < == != >= <= _ ++ -> => ::
+( ) [ ] { } , ; : . = */
+// Five literal families (Unit is two delimiters, not a sixth lexical family).
+17 1.25e1 true false "Hello\nTernfold" 'Ω' ()
+// Readability phrases exercise contextual NOISE_WORD classification.
+input visitor: Text from stdin; output visitor to stdout;
+/* Closed block comment */
+// Ordinary entry/variant names, not additional reserved words or keywords.
+main Some None Accept Reject

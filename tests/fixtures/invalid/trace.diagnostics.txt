@@ -1,0 +1,12 @@
+"examples/lexical/trace.tfd":4:32: E102: malformed decimal numeric literal [bytes 214..216)
+  "09"
+"examples/lexical/trace.tfd":4:35: E102: malformed decimal numeric literal [bytes 217..220)
+  "1e+"
+"examples/lexical/trace.tfd":4:39: E102: malformed decimal numeric literal [bytes 221..224)
+  "1e+"
+"examples/lexical/trace.tfd":4:45: E102: malformed decimal numeric literal [bytes 227..232)
+  "1efoo"
+"examples/lexical/trace.tfd":9:20: E105: Char literal must contain exactly one valid scalar [bytes 474..478)
+  "'ab'"
+"examples/lexical/trace.tfd":9:25: E101: unsupported source character [bytes 479..480)
+  "@"

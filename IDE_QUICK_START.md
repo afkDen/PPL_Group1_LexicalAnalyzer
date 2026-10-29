@@ -22,7 +22,7 @@ They call each other, so compiling only `lexer.c` or only `main.c` is insufficie
 `include/ternfold/lexer.h` declares their shared interface; `src/internal.h`
 declares private helpers. Headers may be added for browsing; do not compile
 them as separate programs. Add the **`include` directory**, not `include/ternfold`,
-to the compiler's header search path. The private header is found beside the C files.
+to the compiler's header search path. The private header is found beside the C files. Keep src/name_dfa.inc beside src/lexer.c too: it contains the directly compiled fixed transitions and is not a separate compilation unit.
 Keep `.c` files in C mode, not C++ mode.
 
 Do not add `tests/*.c`, `tools/*.c`, or a template-generated `main.c` to this
@@ -161,3 +161,5 @@ No `.dev` or `.xcodeproj` file is claimed tested or included. Equivalent compile
 commands and source lists are tested separately; successful compiler execution
 does not establish GUI execution. See [VERIFICATION.md](VERIFICATION.md) for exact
 platform evidence and limits. All previous CLI/build procedures remain available.
+
+For the oral defense, add --trace-dfa to the same program arguments. Actual transitions appear on stderr; the Symbol Table is unchanged. Use DFA_LIVE_DEMO.md and PROFESSOR_DEMO_GUIDE.md. The trace fixture intentionally contains malformed tokens, so exit1 is expected. Newsource and all-in-one binaries must share the same accepted revision; historical binaries do not implement this trace.

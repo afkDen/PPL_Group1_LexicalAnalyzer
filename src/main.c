@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     TfLexResult result = {0};
     const char *directory = ".";
     const char *path = NULL;
-    bool classroom = false, output_set = false;
+    bool classroom = false, output_set = false, trace_dfa = false;
     TfStatus status;
     int exit_code, i;
     TfStatus (*publish)(const TfLexResult *, const TfSource *, const char *);
@@ -35,19 +35,21 @@ int main(int argc, char **argv) {
         _setmode(_fileno(stderr), _O_BINARY) == -1) return 2;
 #endif
     if (argc == 2 && strcmp(argv[1], "--help") == 0) {
-        if (fputs("Usage: ternfold-lexer source.tfd [--output-dir DIR] [--classroom]\n"
+        if (fputs("Usage: ternfold-lexer source.tfd [--output-dir DIR] [--classroom] [--trace-dfa]\n"
                   "       ternfold-lexer --help\n"
                   "Source and options may appear in any order; options occur once. DIR must exist.\n"
                   "Writes Symbol Table.txt (TOKEN TYPE and LEXEME).\n"
                   "Default: lossless JSON-quoted lexemes. --classroom: plain lexemes, source quotes once.\n"
                   "Classroom escapes: \\n LF, \\r CR, \\t TAB, \\\\ backslash, \\u00xx other controls.\n"
                   "Decode escapes once; quotes are literal source characters. Unicode remains UTF-8.\n"
+                  "--trace-dfa: actual scanner transitions and FINAL decisions on stderr.\n"
                   "Exit: 0 success, 1 source/lexical error, 2 usage/host failure.\n", stdout) < 0 ||
             fflush(stdout) != 0) return 2;
         return 0;
     }
     for (i = 1; i < argc; ++i) {
         if (strcmp(argv[i], "--classroom") == 0 && !classroom) classroom = true;
+        else if (strcmp(argv[i], "--trace-dfa") == 0 && !trace_dfa) trace_dfa = true;
         else if (strcmp(argv[i], "--output-dir") == 0 && !output_set && i + 1 < argc &&
                  argv[i + 1][0] != '\0') {
             directory = argv[++i]; output_set = true;
@@ -67,10 +69,15 @@ int main(int argc, char **argv) {
         exit_code = 1;
         if (publish(NULL, &source, directory) != TF_OK) exit_code = 2;
     } else {
-        status = tf_lex(&result, &source, 100, NULL);
+        status = tf_lex_trace(&result, &source, 100, NULL, trace_dfa ? stderr : NULL);
         if (status == TF_HOST_ERROR) {
             tf_source_destroy(&source);
-            return host_error("cannot allocate lexical result");
+            return host_error(trace_dfa ? "cannot allocate lexical result or write DFA trace" : "cannot allocate lexical result");
+        }
+        if (trace_dfa && fflush(stderr) != 0) {
+            tf_lex_destroy(&result);
+            tf_source_destroy(&source);
+            return host_error("cannot flush DFA trace");
         }
         exit_code = status == TF_LEX_ERROR ? 1 : 0;
         if (publish(&result, &source, directory) != TF_OK) exit_code = 2;
