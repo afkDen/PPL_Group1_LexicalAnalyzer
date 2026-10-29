@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
-test "$#" = 2 || { echo 'Usage: build-mac.sh SOURCE.zip NEW_OUTPUT_DIRECTORY' >&2; exit 2; }
+test "$#" = 3 || { echo 'Usage: build-mac.sh SOURCE.zip NEW_OUTPUT_DIRECTORY SHA256' >&2; exit 2; }
 scripts=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 source_zip=$(cd -- "$(dirname -- "$1")" && pwd)/$(basename -- "$1")
-test "$(shasum -a 256 "$source_zip" | cut -d ' ' -f 1)" = 80b235c86b67f5b07fdc0c65c832e161eda59639ef50093e9e202a215ba2da2a
+sh "$scripts/source-check.sh" "$source_zip" "$3"
 test ! -e "$2"
 case "$(uname -sm)" in
   'Darwin arm64') target=macos-arm64; arch=arm64 ;;
@@ -14,6 +14,7 @@ mkdir -p "$2/source"
 out=$(CDPATH= cd -- "$2" && pwd)
 cp "$source_zip" "$out/source-original.zip"
 unzip -q "$source_zip" -d "$out/source"
+sh "$scripts/source-check.sh" "$source_zip" "$3" "$out/source"
 for name in Run-Windows.cmd Run-Mac.command RUN_OR_COMPILE.md; do cp "$scripts/$name" "$out/$name"; done
 cp "$scripts/RUN_OR_COMPILE.md" "$out/README.md"
 mkdir -p "$out/bin/$target"

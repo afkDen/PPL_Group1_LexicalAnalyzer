@@ -1,10 +1,20 @@
 name: Optional lexical all-in-one candidate
 on:
   workflow_dispatch:
+    inputs:
+      source_zip_url:
+        description: New static DFA source release ZIP in this repository
+        required: true
+        type: string
+      source_sha256:
+        description: Supervisor verified source ZIP SHA256 (64 hexadecimal digits)
+        required: true
+        type: string
 permissions:
   contents: read
 env:
-  SOURCE_URL: https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/releases/download/lexical-ide-source-2026-10-29/Ternfold_C_Lexical_Analyzer_IDE_Source_2026-10-29.zip
+  SOURCE_URL: ${{ inputs.source_zip_url }}
+  SOURCE_SHA256: ${{ inputs.source_sha256 }}
 jobs:
   windows:
     runs-on: windows-2022
@@ -15,13 +25,14 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
+          ./distribution/validate-input.ps1 -SourceZipUrl $env:SOURCE_URL -SourceSha256 $env:SOURCE_SHA256
           Invoke-WebRequest $env:SOURCE_URL -OutFile "$env:RUNNER_TEMP/source.zip"
           Invoke-WebRequest 'https://github.com/mstorsjo/llvm-mingw/releases/download/20261020/llvm-mingw-20261020-ucrt-x86_64.zip' -OutFile "$env:RUNNER_TEMP/toolchain.zip"
           if ((Get-FileHash "$env:RUNNER_TEMP/toolchain.zip").Hash.ToLowerInvariant() -ne 'fd5462b7f5d93b2ff981fcd3f9c7e427e47f3203c64ea91c27bcc444eebd74cd') { throw 'Compiler archive SHA mismatch' }
           Expand-Archive "$env:RUNNER_TEMP/toolchain.zip" "$env:RUNNER_TEMP/toolchain"
           $cc = "$env:RUNNER_TEMP/toolchain/llvm-mingw-20261020-ucrt-x86_64/bin/clang.exe"
           "PAYLOAD_CC=$cc" >> $env:GITHUB_ENV
-          ./distribution/build-windows.ps1 -SourceZip "$env:RUNNER_TEMP/source.zip" -Compiler $cc -Destination "$env:RUNNER_TEMP/windows-payload"
+          ./distribution/build-windows.ps1 -SourceZip "$env:RUNNER_TEMP/source.zip" -SourceSha256 $env:SOURCE_SHA256 -Compiler $cc -Destination "$env:RUNNER_TEMP/windows-payload"
           # Canonical gates run on a separate copy; packaged source remains exact.
           Expand-Archive "$env:RUNNER_TEMP/source.zip" "$env:RUNNER_TEMP/source-check"
       - name: Windows native check
@@ -34,7 +45,7 @@ jobs:
         shell: pwsh
         run: |
           Compress-Archive -Path "$env:RUNNER_TEMP/windows-payload/*" -DestinationPath "$env:RUNNER_TEMP/windows.zip"
-          ./distribution/verify-windows.ps1 -Zip "$env:RUNNER_TEMP/windows.zip" -Destination "$env:RUNNER_TEMP/Windows fresh extraction"
+          ./distribution/verify-windows.ps1 -Zip "$env:RUNNER_TEMP/windows.zip" -SourceSha256 $env:SOURCE_SHA256 -Destination "$env:RUNNER_TEMP/Windows fresh extraction"
       - uses: actions/upload-artifact@v4
         with:
           name: windows-payload
@@ -59,8 +70,9 @@ jobs:
           TARGET: ${{ matrix.target }}
         run: |
           set -eu
+          sh distribution/validate-input.sh "$SOURCE_URL" "$SOURCE_SHA256"
           curl --fail --location "$SOURCE_URL" -o "$RUNNER_TEMP/source.zip"
-          sh distribution/build-mac.sh "$RUNNER_TEMP/source.zip" "$RUNNER_TEMP/mac-payload"
+          sh distribution/build-mac.sh "$RUNNER_TEMP/source.zip" "$RUNNER_TEMP/mac-payload" "$SOURCE_SHA256"
           test -f "$RUNNER_TEMP/mac-payload/bin/$TARGET/ternfold-lexer"
           cd "$RUNNER_TEMP/mac-payload"
           zip -q -r "$RUNNER_TEMP/$TARGET.zip" .
@@ -83,13 +95,13 @@ jobs:
       - name: Assemble one ZIP with Unix executable modes
         shell: bash
         run: |
-          sh distribution/assemble.sh "$RUNNER_TEMP/payloads/windows.zip" "$RUNNER_TEMP/payloads/macos-arm64.zip" "$RUNNER_TEMP/payloads/macos-x64.zip" "$RUNNER_TEMP/Ternfold_Lexical_All_In_One.zip"
+          sh distribution/assemble.sh "$RUNNER_TEMP/payloads/windows.zip" "$RUNNER_TEMP/payloads/macos-arm64.zip" "$RUNNER_TEMP/payloads/macos-x64.zip" "$RUNNER_TEMP/Ternfold_Lexical_Static_DFA_All_In_One_2026-10-30.zip" "$SOURCE_SHA256"
       - uses: actions/upload-artifact@v4
         with:
           name: combined-candidate
           path: |
-            ${{ runner.temp }}/Ternfold_Lexical_All_In_One.zip
-            ${{ runner.temp }}/Ternfold_Lexical_All_In_One.zip.sha256
+            ${{ runner.temp }}/Ternfold_Lexical_Static_DFA_All_In_One_2026-10-30.zip
+            ${{ runner.temp }}/Ternfold_Lexical_Static_DFA_All_In_One_2026-10-30.zip.sha256
           if-no-files-found: error
   verify-combined:
     needs: assemble
@@ -109,19 +121,19 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $zip = "$env:RUNNER_TEMP/combined/Ternfold_Lexical_All_In_One.zip"
+          $zip = "$env:RUNNER_TEMP/combined/Ternfold_Lexical_Static_DFA_All_In_One_2026-10-30.zip"
           $expected = (Get-Content "$zip.sha256").Substring(0,64)
           if ((Get-FileHash $zip).Hash.ToLowerInvariant() -ne $expected) { throw 'Combined ZIP hash mismatch' }
-          ./distribution/verify-windows.ps1 -Zip $zip -Destination "$env:RUNNER_TEMP/Combined fresh extraction" -Combined
+          ./distribution/verify-windows.ps1 -Zip $zip -SourceSha256 $env:SOURCE_SHA256 -Destination "$env:RUNNER_TEMP/Combined fresh extraction" -Combined
       - name: Verify exact combined ZIP on native Mac
         if: runner.os == 'macOS'
         shell: bash
         run: |
           set -eu
-          zip="$RUNNER_TEMP/combined/Ternfold_Lexical_All_In_One.zip"
+          zip="$RUNNER_TEMP/combined/Ternfold_Lexical_Static_DFA_All_In_One_2026-10-30.zip"
           expected=$(cut -c 1-64 "$zip.sha256")
           test "$(shasum -a 256 "$zip" | cut -d ' ' -f 1)" = "$expected"
-          sh distribution/verify-mac.sh "$zip" "$RUNNER_TEMP/Combined fresh extraction"
+          sh distribution/verify-mac.sh "$zip" "$RUNNER_TEMP/Combined fresh extraction" "$SOURCE_SHA256"
   verified-candidate:
     needs: verify-combined
     runs-on: ubuntu-24.04

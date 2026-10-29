@@ -1,8 +1,8 @@
-# Optional ready-to-run lexical analyzer
+# Ternfold static DFA all-in-one — October 30, 2026
 
 Extract the ENTIRE ZIP to a writable folder first. Keep its folders together.
 This analyzes tokens and produces a table; it does not execute Ternfold programs.
-The official IDE Source release is unchanged. This optional bundle adds binaries.
+Includes the new static DFA source and Windows x64 / macOS ARM64 / Intel binaries.
 
 ## Run without compiling
 
@@ -33,14 +33,16 @@ Windows Command Prompt:
 
 ```bat
 Run-Windows.cmd "C:\path with spaces\my-program.tfd"
-Run-Windows.cmd source\examples\lexical\invalid.tfd
+Run-Windows.cmd source\examples\lexical\invalid-comprehensive.tfd
+Run-Windows.cmd source\examples\lexical\trace.tfd --trace-dfa 2>trace.txt
 ```
 
 Mac Terminal:
 
 ```sh
 ./Run-Mac.command "/path with spaces/my-program.tfd"
-./Run-Mac.command source/examples/lexical/invalid.tfd
+./Run-Mac.command source/examples/lexical/invalid-comprehensive.tfd
+./Run-Mac.command source/examples/lexical/trace.tfd --trace-dfa 2>trace.txt
 ```
 
 Both launchers always write **reports/Symbol Table.txt** beside the launcher,
@@ -50,13 +52,16 @@ without pausing. If launching from another folder, supply an absolute input path
 Success exits 0. Invalid input exits 1 and writes INVALID rows to the report.
 A wrong extension (for example README.md) exits 1 before opening that input and
 leaves the report unchanged. Only the exact lowercase .tfd extension is accepted.
+With no arguments the launchers analyze complete.tfd in classroom format.
+The trace demo intentionally contains invalid tokens (exit 1); trace.txt records
+actual scanner transitions, final decisions and diagnostics.
 The launchers use classroom-readable output. To choose other CLI options, run
 the appropriate executable under bin/ directly (see source/README.md).
 
 ## Compile from source
 
 **This route DOES require an installed C17 compiler.** The complete standalone
-source is in **source/**, byte for byte from the official IDE Source ZIP.
+source is in **source/**, byte for byte from the pinned static DFA source ZIP.
 The exact original ZIP is also preserved as source-original.zip.
 
 Open a terminal in **source/**, then:
@@ -78,6 +83,8 @@ sh scripts/build.sh build
 ```
 
 Read source/IDE_QUICK_START.md for manual Dev-C++ and Xcode project setup.
+Keep src/name_dfa.inc adjacent to src/lexer.c when compiling the four C files.
+Read source/DFA_LIVE_DEMO.md and source/INVALID_CASES.md for the new demos.
 Read source/RUBRIC.md and source/DEMO_ROWS.md for the classroom demonstration.
 
 ## Integrity and platform limits

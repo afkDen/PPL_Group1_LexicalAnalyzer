@@ -1,10 +1,11 @@
 param(
     [Parameter(Mandatory=$true)][string]$SourceZip,
+    [Parameter(Mandatory=$true)][ValidatePattern('^[a-fA-F0-9]{64}$')][string]$SourceSha256,
     [Parameter(Mandatory=$true)][string]$Compiler,
     [Parameter(Mandatory=$true)][string]$Destination
 )
 $ErrorActionPreference = 'Stop'
-& (Join-Path $PSScriptRoot 'prepare.ps1') -SourceZip $SourceZip -Destination $Destination
+& (Join-Path $PSScriptRoot 'prepare.ps1') -SourceZip $SourceZip -SourceSha256 $SourceSha256 -Destination $Destination
 $rootPath = (Resolve-Path -LiteralPath $Destination).Path
 $cc = (Get-Command $Compiler -ErrorAction Stop).Source
 $toolchain = Split-Path -Parent (Split-Path -Parent $cc)

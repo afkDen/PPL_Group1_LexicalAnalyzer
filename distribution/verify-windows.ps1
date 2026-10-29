@@ -1,5 +1,6 @@
 param(
     [Parameter(Mandatory=$true)][string]$Zip,
+    [Parameter(Mandatory=$true)][ValidatePattern('^[a-fA-F0-9]{64}$')][string]$SourceSha256,
     [Parameter(Mandatory=$true)][string]$Destination,
     [switch]$Combined
 )
@@ -7,8 +8,9 @@ $ErrorActionPreference = 'Stop'
 if (Test-Path -LiteralPath $Destination) { throw 'Fresh extraction requires a NEW destination.' }
 Expand-Archive -LiteralPath $Zip -DestinationPath $Destination
 $rootPath = (Resolve-Path -LiteralPath $Destination).Path
+& (Join-Path $PSScriptRoot 'manifest.ps1') -Root $rootPath -ValidateOnly
 $rows = @(Get-Content -LiteralPath (Join-Path $rootPath 'SHA256SUMS'))
-$files = @(Get-ChildItem -LiteralPath $rootPath -Recurse -File)
+$files = @(Get-ChildItem -LiteralPath $rootPath -Recurse -File -Force)
 if ($files.Count -ne $rows.Count + 1) { throw 'Manifest coverage differs from payload.' }
 $seen = @{}
 foreach ($row in $rows) {
@@ -21,19 +23,7 @@ foreach ($row in $rows) {
     if ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant() -ne $digest) { throw "Hash mismatch: $relative" }
 }
 $original = Join-Path $rootPath 'source-original.zip'
-if ((Get-FileHash -LiteralPath $original -Algorithm SHA256).Hash.ToLowerInvariant() -ne '80b235c86b67f5b07fdc0c65c832e161eda59639ef50093e9e202a215ba2da2a') { throw 'Official source changed.' }
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-$archive = [IO.Compression.ZipFile]::OpenRead($original)
-try {
-    $entries = @($archive.Entries | Where-Object { -not $_.FullName.EndsWith('/') })
-    if ($entries.Count -ne 33 -or @(Get-ChildItem -LiteralPath (Join-Path $rootPath 'source') -Recurse -File).Count -ne 33) { throw 'Source allowlist changed.' }
-    foreach ($entry in $entries) {
-        $stream = $entry.Open(); $sha = [Security.Cryptography.SHA256]::Create()
-        try { $expected = ([BitConverter]::ToString($sha.ComputeHash($stream))).Replace('-','').ToLowerInvariant() }
-        finally { $stream.Dispose(); $sha.Dispose() }
-        if ((Get-FileHash -LiteralPath (Join-Path $rootPath ('source/' + $entry.FullName)) -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expected) { throw "Source changed: $($entry.FullName)" }
-    }
-} finally { $archive.Dispose() }
+& (Join-Path $PSScriptRoot 'source-check.ps1') -SourceZip $original -SourceSha256 $SourceSha256 -SourceRoot (Join-Path $rootPath 'source')
 if ($Combined) {
     foreach ($target in @('macos-arm64','macos-x64')) {
         if (-not (Test-Path -LiteralPath (Join-Path $rootPath "bin/$target/ternfold-lexer"))) { throw "Missing $target binary." }
@@ -75,10 +65,10 @@ try {
         if ($process.ExitCode -ne 0 -or $defaultOutput -notmatch 'Symbol Table.txt written') { throw 'Default launcher failed.' }
         if ($stderr.GetAwaiter().GetResult()) { throw 'Unexpected default launcher diagnostic.' }
     } finally { $process.Dispose() }
-    Equal-File 'reports/Symbol Table.txt' 'source/tests/fixtures/lexer/Classroom Symbol Table.txt'
+    Equal-File 'reports/Symbol Table.txt' 'source/tests/fixtures/invalid/complete.classroom.txt'
     & ./Run-Windows.cmd --demo
     Expect-Exit $LASTEXITCODE 0 'Launcher complete demo'
-    Equal-File 'reports/Symbol Table.txt' 'source/tests/fixtures/lexer/Classroom Symbol Table.txt'
+    Equal-File 'reports/Symbol Table.txt' 'source/tests/fixtures/invalid/complete.classroom.txt'
     & ./Run-Windows.cmd source/examples/lexical/invalid.tfd
     Expect-Exit $LASTEXITCODE 1 'Launcher invalid demo'
     Equal-File 'reports/Symbol Table.txt' 'source/tests/fixtures/lexer/Invalid Classroom Symbol Table.txt'
@@ -92,7 +82,7 @@ try {
     Copy-Item -LiteralPath 'source/examples/lexical/complete.tfd' -Destination 'path with spaces.tfd'
     & ./Run-Windows.cmd 'path with spaces.tfd'
     Expect-Exit $LASTEXITCODE 0 'Launcher input with spaces'
-    Equal-File 'reports/Symbol Table.txt' 'source/tests/fixtures/lexer/Classroom Symbol Table.txt'
+    Equal-File 'reports/Symbol Table.txt' 'source/tests/fixtures/invalid/complete.classroom.txt'
     $launcher = Join-Path $rootPath 'Run-Windows.cmd'
     $inputPath = Join-Path $rootPath 'path with spaces.tfd'
     Push-Location (Join-Path $rootPath 'source/examples')
@@ -100,6 +90,7 @@ try {
         & $launcher $inputPath
         Expect-Exit $LASTEXITCODE 0 'Launcher from another working directory'
     } finally { Pop-Location }
-    Equal-File 'reports/Symbol Table.txt' 'source/tests/fixtures/lexer/Classroom Symbol Table.txt'
-    Write-Output 'PASS: fresh ZIP, all hashes, 33 unchanged source files, valid/invalid/extension/usage/spaces/non-root CWD/default pause; system-only PATH.'
+    Equal-File 'reports/Symbol Table.txt' 'source/tests/fixtures/invalid/complete.classroom.txt'
+    & (Join-Path $PSScriptRoot 'verify-cases.ps1') -Root $rootPath
+    Write-Output 'PASS: fresh ZIP, all hashes, allowlisted unchanged source files, valid/invalid/extension/usage/spaces/non-root CWD/default pause; system-only PATH.'
 } finally { Pop-Location; $env:PATH = $savedPath }
