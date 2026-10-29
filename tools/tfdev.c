@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
     const char *mode = argc > 1 ? argv[1] : "check";
     int status, sanitize = strcmp(mode, "sanitize") == 0;
     int release = strcmp(mode, "release") == 0;
-    char lexer[96], unit[96], audit[96], integration[96];
+    char lexer[96], unit[96], audit[96], integration[96], classroom[96], demo[96];
     if (!cc || !*cc) cc = "cc";
     if (directory("build")) return 2;
     if (strcmp(mode, "environment") == 0 || strcmp(mode, "env") == 0) {
@@ -122,6 +122,8 @@ int main(int argc, char **argv) {
     snprintf(unit, sizeof unit, "build/test-lexer%s" EXE, sanitize ? "-san" : "");
     snprintf(integration, sizeof integration, "build/test-integration%s" EXE, sanitize ? "-san" : "");
     snprintf(audit, sizeof audit, "build/audit%s" EXE, sanitize ? "-san" : "");
+    snprintf(classroom, sizeof classroom, "build/test-classroom%s" EXE, sanitize ? "-san" : "");
+    snprintf(demo, sizeof demo, "build/test-demo%s" EXE, sanitize ? "-san" : "");
     status = compile(cc, lexer, "src/main.c", sanitize, 1, release);
     if (status || !strcmp(mode, "build")) return status;
     status = compile(cc, unit, "tests/test_lexer.c", sanitize, 1, release);
@@ -130,6 +132,12 @@ int main(int argc, char **argv) {
     status = compile(cc, integration, "tests/test_integration.c", sanitize, 1, release);
     if (status) return status;
     { const char *args[] = {integration, lexer, NULL}; status = run(args); if (status) return status; }
+    status = compile(cc, classroom, "tests/test_classroom.c", sanitize, 1, release);
+    if (status) return status;
+    { const char *args[] = {classroom, NULL}; status = run(args); if (status) return status; }
+    status = compile(cc, demo, "tests/test_demo.c", sanitize, 1, release);
+    if (status) return status;
+    { const char *args[] = {demo, NULL}; status = run(args); if (status) return status; }
     if (!strcmp(mode, "check") || release || sanitize) {
         status = compile(cc, audit, "tools/audit.c", sanitize, 0, release);
         if (status) return status;

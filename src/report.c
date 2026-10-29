@@ -64,6 +64,28 @@ static bool put_quoted(FILE *stream, const unsigned char *bytes, size_t length, 
     return fputc('"', stream) != EOF;
 }
 
+static bool put_classroom(FILE *stream, const unsigned char *bytes, size_t length) {
+    size_t at = 0;
+    while (at < length) {
+        uint32_t scalar;
+        size_t end;
+        if (!tf_decode(bytes, length, at, &scalar, &end)) return false;
+        switch (scalar) {
+            case '\\': if (!put_text(stream, "\\\\")) return false; break;
+            case '\n': if (!put_text(stream, "\\n")) return false; break;
+            case '\r': if (!put_text(stream, "\\r")) return false; break;
+            case '\t': if (!put_text(stream, "\\t")) return false; break;
+            default:
+                if (scalar < 32u || (scalar >= 127u && scalar <= 159u)) {
+                    if (!put_hex(stream, scalar)) return false;
+                } else if (fwrite(bytes + at, 1, end - at, stream) != end - at) return false;
+                break;
+        }
+        at = end;
+    }
+    return true;
+}
+
 static bool comment(TfTokenKind kind) { return kind == TF_COMMENT_LINE || kind == TF_COMMENT_BLOCK; }
 typedef struct { TfTokenKind clause; bool at_start; } Context;
 static bool noise(const TfLexResult *result, size_t index, TfTokenKind clause) {
@@ -99,7 +121,7 @@ static const char *category(const TfToken *token, bool is_noise) {
     return tf_token_name(token->kind);
 }
 
-TfStatus tf_report_write(FILE *stream, const TfLexResult *result) {
+static TfStatus report_write(FILE *stream, const TfLexResult *result, bool classroom) {
     Context current = {TF_EOF, true};
     void *storage = NULL;
     size_t depth = 0, capacity = 0, i;
@@ -130,14 +152,24 @@ TfStatus tf_report_write(FILE *stream, const TfLexResult *result) {
                 is_noise = noise(result, i, current.clause);
             }
         }
-        if (!put_text(stream, category(token, is_noise)) || fputc('\t', stream) == EOF ||
-            !put_quoted(stream, token->span.source->bytes + token->span.start,
-                        token->span.end - token->span.start, false) || fputc('\n', stream) == EOF) goto done;
+        if (!put_text(stream, category(token, is_noise)) || fputc('\t', stream) == EOF) goto done;
+        if (classroom) {
+            if (!put_classroom(stream, token->span.source->bytes + token->span.start,
+                               token->span.end - token->span.start)) goto done;
+        } else if (!put_quoted(stream, token->span.source->bytes + token->span.start,
+                               token->span.end - token->span.start, false)) goto done;
+        if (fputc('\n', stream) == EOF) goto done;
     }
     status = ferror(stream) ? TF_HOST_ERROR : TF_OK;
 done:
     if (storage != NULL) memory.deallocate(memory.context, storage);
     return status;
+}
+TfStatus tf_report_write(FILE *stream, const TfLexResult *result) {
+    return report_write(stream, result, false);
+}
+TfStatus tf_report_write_classroom(FILE *stream, const TfLexResult *result) {
+    return report_write(stream, result, true);
 }
 
 static bool same_identity(TfFileIdentity left, TfFileIdentity right) {
@@ -194,8 +226,8 @@ static bool replace_file(const char *temporary, const char *destination) {
     return rename(temporary, destination) == 0;
 #endif
 }
-TfStatus tf_report_publish(const TfLexResult *result, const TfSource *source,
-                          const char *output_directory) {
+static TfStatus report_publish(const TfLexResult *result, const TfSource *source,
+                               const char *output_directory, bool classroom) {
     static const char filename[] = "Symbol Table.txt";
     TfAllocator memory;
     size_t directory_length, path_length;
@@ -226,7 +258,7 @@ TfStatus tf_report_publish(const TfLexResult *result, const TfSource *source,
         if (!collision) goto done;
     }
     if (stream == NULL) goto done;
-    status = tf_report_write(stream, result);
+    status = report_write(stream, result, classroom);
     if (fflush(stream) != 0) status = TF_HOST_ERROR;
     if (fclose(stream) != 0) status = TF_HOST_ERROR;
     stream = NULL;
@@ -240,6 +272,14 @@ done:
     if (temporary != NULL) memory.deallocate(memory.context, temporary);
     if (destination != NULL) memory.deallocate(memory.context, destination);
     return status;
+}
+TfStatus tf_report_publish(const TfLexResult *result, const TfSource *source,
+                          const char *output_directory) {
+    return report_publish(result, source, output_directory, false);
+}
+TfStatus tf_report_publish_classroom(const TfLexResult *result, const TfSource *source,
+                                    const char *output_directory) {
+    return report_publish(result, source, output_directory, true);
 }
 
 static bool diagnostic(FILE *stream, const TfSource *source, TfDiagnostic item) {

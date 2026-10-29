@@ -1,7 +1,6 @@
 // Ternfold lexical demonstration: every required category.
 /* Block comments are included in the table.
    They stop at the first closing delimiter. */
-import "model.tfd" as model;
 record Point { x: Int, y: Float }
 enum Direction { Left, Right }
 machine Counter(delta: Int) yields Int rejects Text {
@@ -26,19 +25,12 @@ pub fn main() -> List[Text] {
     let comparisons = (3 > 2) && (2 < 3) && (2 == 2) && (2 != 3)
                       && (3 >= 3) && (2 <= 2) && (!false || true);
     let values = for item in range(0, 2) { item * 2 };
+    let length: Int = len(values);
+    let idle: Unit = ();
+    let transition: Decision[Counter, Int, Text] = step(Counter(), 3);
     let choice = match Option::Some(flag) {
         Option::Some(value) => { value }, Option::None => { false }
     };
     output text ++ visitor to stdout;
     [float_text(divide), int_text(quotient)]
 }
-// Identifier-shaped reserved names are lexically classified by DFA terminals.
-Int Float Bool Text Char Unit List Option Decision
-step len at append map fold range int_text bool_text parse_int
-text_len text_at text_slice int_float float_int float_text
-// Lexical boundary fixtures are token streams, not complete source programs.
-let letter letx for format input input2 Int Intensity _ __ _a
-() [] {} , ; . : :: -> => = ++
-// Complete keyword inventory (standalone lexemes).
-as div else emit enum false fn for from guard if import in input let machine
-match next output pub record rejects state stdin stdout to true yields

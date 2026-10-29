@@ -441,7 +441,7 @@ static void deallocate(void *context, void *pointer) {
     --memory->live;
     free(block);
 }
-static size_t pipeline(size_t fail_at, bool *failed) {
+static size_t pipeline(size_t fail_at, bool *failed, bool classroom) {
     static const char text[] = "{{{{{{{{{{{{{{{{{{{{ output \"\\u{0}hello\" to stdout; @ 01 /*x*/ "
         "}}}}}}}}}}}}}}}}}}}} '\\u{1f642}' abc 1.0 0 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 "
         "@ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ "
@@ -458,7 +458,7 @@ static size_t pipeline(size_t fail_at, bool *failed) {
     if (status == TF_LEX_ERROR) {
         FILE *stream = tmpfile();
         CHECK(stream != NULL);
-        status = tf_report_write(stream, &result);
+        status = classroom ? tf_report_write_classroom(stream, &result) : tf_report_write(stream, &result);
         CHECK(fclose(stream) == 0);
     }
     *failed = status == TF_HOST_ERROR;
@@ -469,11 +469,14 @@ static size_t pipeline(size_t fail_at, bool *failed) {
 }
 static void test_allocation_failure(void) {
     bool failed;
-    size_t count = pipeline(SIZE_MAX, &failed), i;
-    CHECK(!failed && count >= 12);
-    for (i = 0; i < count; ++i) {
-        (void)pipeline(i, &failed);
-        CHECK(failed);
+    size_t mode;
+    for (mode = 0; mode < 2; ++mode) {
+        size_t count = pipeline(SIZE_MAX, &failed, mode != 0), i;
+        CHECK(!failed && count >= 12);
+        for (i = 0; i < count; ++i) {
+            (void)pipeline(i, &failed, mode != 0);
+            CHECK(failed);
+        }
     }
     {
         TfSource source;

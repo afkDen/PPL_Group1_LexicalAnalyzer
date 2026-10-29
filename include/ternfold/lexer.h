@@ -107,12 +107,23 @@ const char *tf_error_message(TfError code);
  * NULL result writes only the header (source validation failure). Caller owns
  * stream, binary mode, flush and close. Return HOST_ERROR for any write error. */
 TfStatus tf_report_write(FILE *stream, const TfLexResult *result);
+/* Classroom two-column LF report: no extra quote delimiters around lexemes.
+ * Original Text/Char quote characters remain literal. UTF-8 Unicode is retained.
+ * Reversible single-line encoding: LF -> \n, CR -> \r, TAB -> \t,
+ * backslash -> \\, other U+0000..001F/U+007F..009F controls -> \u00xx
+ * (four lowercase hex digits). Decode escapes once to recover original source
+ * bytes; quote characters are not delimiters in this format. NULL result writes
+ * the header only. Same borrowed stream/allocator/error contract as above. */
+TfStatus tf_report_write_classroom(FILE *stream, const TfLexResult *result);
 /* Publish via exclusively-created sibling + atomic replace. Never truncates
  * an existing report on failure. source provides original file identity for
  * alias/hard-link protection, even for an invalid source snapshot. Native host
  * path conventions apply. Output directory must exist. */
 TfStatus tf_report_publish(const TfLexResult *result, const TfSource *source,
                           const char *output_directory);
+/* Identical atomic publication and source-alias protections, classroom format. */
+TfStatus tf_report_publish_classroom(const TfLexResult *result, const TfSource *source,
+                                    const char *output_directory);
 /* Diagnostic output is length-aware, escaped, and always refers to original
  * bytes. Source errors use raw byte ranges without invented coordinates. */
 TfStatus tf_diagnostics_write(FILE *stream, const TfSource *source,

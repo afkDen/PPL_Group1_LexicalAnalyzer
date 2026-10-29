@@ -1,0 +1,46 @@
+name: Lexical source verification
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-15-intel, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract the source submission from the exact commit
+        shell: bash
+        run: |
+          set -eu
+          git -c core.autocrlf=false archive --format=zip --output "$RUNNER_TEMP/Professor_Final_Source.zip" HEAD
+          mkdir "$RUNNER_TEMP/Ternfold source submission"
+          unzip -q "$RUNNER_TEMP/Professor_Final_Source.zip" -d "$RUNNER_TEMP/Ternfold source submission"
+      - name: Compile, test and demonstrate extracted source
+        shell: bash
+        run: |
+          set -eu
+          cd "$RUNNER_TEMP/Ternfold source submission"
+          uname -a
+          cc --version
+          sh scripts/build.sh environment
+          sh scripts/build.sh check
+          ./build/ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir build
+          cmp 'build/Symbol Table.txt' 'tests/fixtures/lexer/Classroom Symbol Table.txt'
+          set +e
+          ./build/ternfold-lexer examples/lexical/invalid.tfd --classroom --output-dir build
+          invalid=$?
+          ./build/ternfold-lexer does-not-exist.txt --classroom --output-dir build
+          extension=$?
+          set -e
+          test "$invalid" = 1
+          test "$extension" = 1
+          grep '^INVALID' 'build/Symbol Table.txt'
+          ./build/ternfold-lexer examples/lexical/complete.tfd --classroom --output-dir build
+          cmp 'build/Symbol Table.txt' 'Symbol Table.txt'

@@ -1,0 +1,11 @@
+// LEXICAL-ONLY vocabulary and boundary fixture; not an executable program.
+// Identifier-shaped reserved names are lexically classified by DFA terminals.
+Int Float Bool Text Char Unit List Option Decision
+step len at append map fold range int_text bool_text parse_int
+text_len text_at text_slice int_float float_int float_text
+// Lexical boundary fixtures are token streams, not complete source programs.
+let letter letx for format input input2 Int Intensity _ __ _a
+() [] {} , ; . : :: -> => = ++
+// Complete keyword inventory (standalone lexemes).
+as div else emit enum false fn for from guard if import in input let machine
+match next output pub record rejects state stdin stdout to true yields

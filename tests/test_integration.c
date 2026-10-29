@@ -349,14 +349,37 @@ static void report_shape(const char *path) {
 }
 
 static void test_examples(const char *lexer) {
-    char destination[PATH_CAPACITY], table[PATH_CAPACITY];
+    char destination[PATH_CAPACITY], table[PATH_CAPACITY], lf_source[PATH_CAPACITY];
     Bytes baseline, golden;
     begin("complete coursework example disk golden and repeat determinism");
     join_path(destination, root, "complete-example");
     directory(destination);
     table_path(table, destination);
-    CHECK(run(lexer, "examples/lexical/complete.tfd", destination) == 0);
+    /* The maintained golden describes LF source bytes. Make that fixture
+     * explicit even when Git checks out the demonstration with native CRLF.
+     * Exact CRLF preservation is independently checked by the next test. */
+    join_path(lf_source, root, "complete-lf.tfd");
+    {
+        Bytes example = read_bytes("examples/lexical/complete.tfd");
+        size_t at, used = 0;
+        for (at = 0; at < example.length; ++at) {
+            if (example.bytes[at] == '\r' && at + 1 < example.length && example.bytes[at+1] == '\n') continue;
+            example.bytes[used++] = example.bytes[at];
+        }
+        write_bytes(lf_source, example.bytes, used); destroy_bytes(example);
+    }
+    CHECK(run(lexer, lf_source, destination) == 0);
     golden = read_bytes("tests/fixtures/lexer/Symbol Table.txt");
+    /* Git may also convert the text golden's record separators to CRLF.
+     * Compare its original LF records, without changing escaped lexeme bytes. */
+    {
+        size_t at, used = 0;
+        for (at = 0; at < golden.length; ++at) {
+            if (golden.bytes[at] == '\r' && at + 1 < golden.length && golden.bytes[at+1] == '\n') continue;
+            golden.bytes[used++] = golden.bytes[at];
+        }
+        golden.length = used;
+    }
     expect_bytes(table, golden.bytes, golden.length);
     expect_text(error_path, "");
     expect_text(output_path, "Symbol Table.txt written\n");
@@ -367,7 +390,7 @@ static void test_examples(const char *lexer) {
     expect_contains(table, "NOISE_WORD\t\"to\"\n");
     expect_contains(table, "RESERVED_WORD\t\"Float\"\n");
     baseline = read_bytes(table);
-    CHECK(run(lexer, "examples/lexical/complete.tfd", destination) == 0);
+    CHECK(run(lexer, lf_source, destination) == 0);
     expect_bytes(table, golden.bytes, golden.length);
     expect_bytes(table, baseline.bytes, baseline.length);
     destroy_bytes(baseline);
@@ -761,6 +784,125 @@ static void test_broken_streams(const char *lexer) {
     clean_temps(destination);
 }
 
+static void test_classroom(const char *lexer) {
+    char source[PATH_CAPACITY], destination[PATH_CAPACITY], table[PATH_CAPACITY], missing[PATH_CAPACITY];
+    join_path(source,root,"classroom spaced.tfd");
+    join_path(destination,root,"classroom spaced output"); directory(destination); table_path(table,destination);
+    join_path(missing,root,"classroom-missing");
+    begin("classroom plain golden and flexible option order");
+    write_text(source,"let x = 42; \"hi\" '\xc3\xa9' /*a\r\n\tb \\n*/ @");
+    {
+        const char *args[] = {lexer,"--classroom","--output-dir",destination,source,NULL};
+        CHECK(spawn(args,CAPTURE,CAPTURE) == 1);
+    }
+    expect_text(table,"TOKEN TYPE\tLEXEME\nKEYWORD\tlet\nIDENTIFIER\tx\nASSIGN\t=\nINT_LITERAL\t42\n"
+        "SEMICOLON\t;\nTEXT_LITERAL\t\"hi\"\nCHAR_LITERAL\t'\xc3\xa9'\nBLOCK_COMMENT\t/*a\\r\\n\\tb \\\\n*/\nINVALID\t@\n");
+    expect_contains(error_path,"E101"); expect_text(output_path,"Symbol Table.txt written\n"); clean_temps(destination);
+    begin("classroom rerun preserves exact golden bytes");
+    {
+        Bytes prior = read_bytes(table);
+        const char *args[] = {lexer,source,"--classroom","--output-dir",destination,NULL};
+        CHECK(spawn(args,CAPTURE,CAPTURE) == 1); expect_bytes(table,prior.bytes,prior.length); destroy_bytes(prior);
+    }
+    begin("classroom success and default mode backward compatibility");
+    write_text(source,"let x = 1;");
+    {
+        const char *args[] = {lexer,source,"--output-dir",destination,"--classroom",NULL};
+        CHECK(spawn(args,CAPTURE,CAPTURE) == 0);
+    }
+    expect_text(table,"TOKEN TYPE\tLEXEME\nKEYWORD\tlet\nIDENTIFIER\tx\nASSIGN\t=\nINT_LITERAL\t1\nSEMICOLON\t;\n");
+    expect_text(error_path,"");
+    CHECK(run(lexer,source,destination) == 0);
+    expect_text(table,"TOKEN TYPE\tLEXEME\nKEYWORD\t\"let\"\nIDENTIFIER\t\"x\"\nASSIGN\t\"=\"\nINT_LITERAL\t\"1\"\nSEMICOLON\t\";\"\n");
+    begin("classroom source error writes header only");
+    write_text(source,"\xef\xbb\xbf");
+    {
+        const char *args[] = {lexer,source,"--classroom","--output-dir",destination,NULL};
+        CHECK(spawn(args,CAPTURE,CAPTURE) == 1);
+    }
+    expect_text(table,"TOKEN TYPE\tLEXEME\n"); expect_contains(error_path,"E002");
+    begin("classroom option errors and extension/host exit codes");
+    {
+        const char *duplicate[] = {lexer,source,"--classroom","--classroom",NULL};
+        const char *incomplete[] = {lexer,source,"--classroom","--output-dir",NULL};
+        const char *duplicate_dir[] = {lexer,source,"--output-dir",destination,"--output-dir",destination,NULL};
+        const char *absent_source[] = {lexer,"--classroom",NULL};
+        const char *bad_extension[] = {lexer,"not.tfd.txt","--classroom",NULL};
+        const char *bad_directory[] = {lexer,source,"--classroom","--output-dir",missing,NULL};
+        const char *help[] = {lexer,"--help",NULL};
+        CHECK(spawn(duplicate,CAPTURE,CAPTURE) == 2); CHECK(spawn(incomplete,CAPTURE,CAPTURE) == 2);
+        CHECK(spawn(duplicate_dir,CAPTURE,CAPTURE) == 2); CHECK(spawn(absent_source,CAPTURE,CAPTURE) == 2);
+        CHECK(spawn(bad_extension,CAPTURE,CAPTURE) == 1); CHECK(spawn(bad_directory,CAPTURE,CAPTURE) == 2);
+        CHECK(spawn(help,CAPTURE,CAPTURE) == 0); expect_contains(output_path,"--classroom");
+    }
+    begin("classroom hardlink source alias is never overwritten");
+    write_text(source,"untouched"); CHECK(remove(table) == 0);
+#ifdef _WIN32
+    CHECK(CreateHardLinkA(table,source,NULL) != 0);
+#else
+    CHECK(link(source,table) == 0);
+#endif
+    {
+        const char *args[] = {lexer,source,"--classroom","--output-dir",destination,NULL};
+        CHECK(spawn(args,CAPTURE,CAPTURE) == 2);
+    }
+    expect_text(source,"untouched"); expect_text(table,"untouched"); clean_temps(destination); CHECK(remove(table) == 0);
+    begin("classroom publication leaves locked or non-file destination intact");
+#ifdef _WIN32
+    {
+        HANDLE lock;
+        write_text(table,"retained");
+        lock = CreateFileA(table,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
+        CHECK(lock != INVALID_HANDLE_VALUE);
+        { const char *args[] = {lexer,source,"--classroom","--output-dir",destination,NULL};
+          CHECK(spawn(args,CAPTURE,CAPTURE) == 2); }
+        CHECK(CloseHandle(lock) != 0); expect_text(table,"retained"); CHECK(remove(table) == 0);
+    }
+#else
+    directory(table);
+    { const char *args[] = {lexer,source,"--classroom","--output-dir",destination,NULL};
+      CHECK(spawn(args,CAPTURE,CAPTURE) == 2); }
+    CHECK(is_directory(table)); CHECK(rmdir(table) == 0);
+#endif
+    clean_temps(destination);
+    begin("classroom closed output and diagnostic pipes preserve exit 2");
+    {
+        const char *args[] = {lexer,source,"--classroom","--output-dir",destination,NULL};
+        CHECK(spawn(args,BROKEN_PIPE,CAPTURE) == 2);
+        expect_text(table,"TOKEN TYPE\tLEXEME\nIDENTIFIER\tuntouched\n");
+        write_text(source,"@"); CHECK(spawn(args,CAPTURE,BROKEN_PIPE) == 2);
+        expect_text(table,"TOKEN TYPE\tLEXEME\nINVALID\t@\n");
+    }
+    clean_temps(destination);
+    begin("hyphen-leading output directory remains a literal option value");
+    {
+        char executable[PATH_CAPACITY], hyphen_directory[PATH_CAPACITY], hyphen_table[PATH_CAPACITY];
+#ifdef _WIN32
+        DWORD count = GetFullPathNameA(lexer,PATH_CAPACITY,executable,NULL);
+        CHECK(count > 0 && count < PATH_CAPACITY);
+#else
+        char current[PATH_CAPACITY];
+        CHECK(getcwd(current,sizeof(current)) != NULL);
+        if (lexer[0] == '/') {
+            int count = snprintf(executable,sizeof(executable),"%s",lexer);
+            CHECK(count > 0 && (size_t)count < sizeof(executable));
+        } else join_path(executable,current,lexer);
+#endif
+        join_path(hyphen_directory,destination,"-reports"); directory(hyphen_directory);
+        table_path(hyphen_table,hyphen_directory);
+        join_path(source,destination,"hyphen.tfd"); write_text(source,"let");
+        {
+            const char *old_mode[] = {executable,"hyphen.tfd","--output-dir","-reports",NULL};
+            const char *classroom_mode[] = {executable,"--classroom","hyphen.tfd","--output-dir","-reports",NULL};
+            CHECK(spawn_at(old_mode,CAPTURE,CAPTURE,destination) == 0);
+            expect_text(hyphen_table,"TOKEN TYPE\tLEXEME\nKEYWORD\t\"let\"\n");
+            CHECK(spawn_at(classroom_mode,CAPTURE,CAPTURE,destination) == 0);
+            expect_text(hyphen_table,"TOKEN TYPE\tLEXEME\nKEYWORD\tlet\n");
+        }
+        clean_temps(hyphen_directory);
+    }
+}
+
 int main(int argc, char **argv) {
     if (argc != 2) {
         (void)fputs("Usage: test-integration PATH-TO-LEXER\n", stderr);
@@ -774,6 +916,7 @@ int main(int argc, char **argv) {
     test_default_output_and_cap(argv[1]);
     test_publication_and_links(argv[1]);
     test_broken_streams(argv[1]);
+    test_classroom(argv[1]);
     (void)printf("native CLI integration: %zu cases, %zu checks passed, %zu capability skips\n"
                  "fixtures: %s\n", cases, checks, skips, root);
     return 0;

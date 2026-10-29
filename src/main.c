@@ -21,8 +21,11 @@ int main(int argc, char **argv) {
     TfSource source;
     TfLexResult result = {0};
     const char *directory = ".";
+    const char *path = NULL;
+    bool classroom = false, output_set = false;
     TfStatus status;
-    int exit_code;
+    int exit_code, i;
+    TfStatus (*publish)(const TfLexResult *, const TfSource *, const char *);
 #ifndef _WIN32
     /* Convert a closed stdout/stderr pipe to checked stdio failure, not signal
      * termination. Library stream writers leave signal policy to their caller. */
@@ -32,30 +35,37 @@ int main(int argc, char **argv) {
         _setmode(_fileno(stderr), _O_BINARY) == -1) return 2;
 #endif
     if (argc == 2 && strcmp(argv[1], "--help") == 0) {
-        if (fputs("Usage: ternfold-lexer source.tfd [--output-dir DIR]\n"
+        if (fputs("Usage: ternfold-lexer source.tfd [--output-dir DIR] [--classroom]\n"
                   "       ternfold-lexer --help\n"
+                  "Source and options may appear in any order; options occur once. DIR must exist.\n"
                   "Writes Symbol Table.txt (TOKEN TYPE and LEXEME).\n"
+                  "Default: lossless JSON-quoted lexemes. --classroom: plain lexemes, source quotes once.\n"
+                  "Classroom escapes: \\n LF, \\r CR, \\t TAB, \\\\ backslash, \\u00xx other controls.\n"
+                  "Decode escapes once; quotes are literal source characters. Unicode remains UTF-8.\n"
                   "Exit: 0 success, 1 source/lexical error, 2 usage/host failure.\n", stdout) < 0 ||
             fflush(stdout) != 0) return 2;
         return 0;
     }
-    if (argc != 2 && argc != 4) return host_error("expected source.tfd [--output-dir DIR]; use --help");
-    if (argv[1][0] == '-') return host_error("unknown option; use --help");
-    if (argc == 4) {
-        if (strcmp(argv[2], "--output-dir") != 0 || argv[3][0] == '\0')
-            return host_error("expected --output-dir followed by an existing directory");
-        directory = argv[3];
+    for (i = 1; i < argc; ++i) {
+        if (strcmp(argv[i], "--classroom") == 0 && !classroom) classroom = true;
+        else if (strcmp(argv[i], "--output-dir") == 0 && !output_set && i + 1 < argc &&
+                 argv[i + 1][0] != '\0') {
+            directory = argv[++i]; output_set = true;
+        } else if (argv[i][0] != '-' && argv[i][0] != '\0' && path == NULL) path = argv[i];
+        else return host_error("unknown, duplicate or incomplete argument; use --help");
     }
-    if (!source_extension(argv[1])) {
+    if (path == NULL) return host_error("expected source.tfd [--output-dir DIR] [--classroom]; use --help");
+    publish = classroom ? tf_report_publish_classroom : tf_report_publish;
+    if (!source_extension(path)) {
         if (fputs("ternfold-lexer: source file extension must be exactly .tfd\n", stderr) < 0 ||
             fflush(stderr) != 0) return 2;
         return 1;
     }
-    status = tf_source_load(&source, argv[1], NULL);
+    status = tf_source_load(&source, path, NULL);
     if (status == TF_HOST_ERROR) return host_error("cannot read source file or allocate source storage");
     if (status == TF_SOURCE_ERROR) {
         exit_code = 1;
-        if (tf_report_publish(NULL, &source, directory) != TF_OK) exit_code = 2;
+        if (publish(NULL, &source, directory) != TF_OK) exit_code = 2;
     } else {
         status = tf_lex(&result, &source, 100, NULL);
         if (status == TF_HOST_ERROR) {
@@ -63,7 +73,7 @@ int main(int argc, char **argv) {
             return host_error("cannot allocate lexical result");
         }
         exit_code = status == TF_LEX_ERROR ? 1 : 0;
-        if (tf_report_publish(&result, &source, directory) != TF_OK) exit_code = 2;
+        if (publish(&result, &source, directory) != TF_OK) exit_code = 2;
     }
     if (tf_diagnostics_write(stderr, &source, source.valid ? &result : NULL) != TF_OK ||
         fflush(stderr) != 0) exit_code = 2;
