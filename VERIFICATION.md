@@ -8,12 +8,12 @@ Optional --trace-dfa records actual scanner state updates on stderr.
 ## Observed Windows candidate gates
 
 LLVM-MinGW Clang23.1.4,Windowsx64,ISO C17 with strict warnings as errors.
-Current integrated check passed117201lexer,31CLIcases/12604checks,
+Final integrated check passed117201lexer,31CLIcases/12604checks,
 684classroom,78sample,58087graph,994trace,13464314differential comparisons
 across3010cases,289723independentcoverage checks over618frozenoldcases,
 and84repositoryauditchecks. One local unprivilegedsymlink capability probe is
 unavailable. ASan/UBSan integrated gates also passed the same counts (12608CLIchecks).
-Optimized -O2 integrated gates passed the same counts. Independent final audit and actual target-host source/ZIP evidence remain release gates. No unsupportedplatform success is inferred.
+Optimized -O2 integrated gates passed the same counts. Independent final source/native reviews closed all findings. Actual target-host source/ZIP evidence follows in the final release record. No unsupportedplatform success is inferred.
 
 The primary/support examples were read-only parser checked with zero diagnostics
 using the preserved accepted M04 parser API; they are not name/type/runtime
@@ -57,3 +57,11 @@ will not resume after lexical finalization without explicit authorization.
 Integration corrections: initial expanded-demo golden mismatch was resolved only by copying the separately generated reports for the intentionally changed input. The old invalid demo and frozen618case oracle remain unchanged. A Windows-reserved NUL fixture name was replaced by embedded-nul.tfd without changing input bytes/classification. One premature sanitizer build hit the shared tfdev file lock while check was still running; sequential check/sanitize/release reruns passed. These failed integration attempts are retained as evidence, not hidden.
 
 Final trace-review corrections removed zero-length/stale-state escape events and overlapping invalid-scalar consumption. The994check trace suite now asserts continuity and exactly-once byte consumption. Native reviewer Volta independently passed strict/sanitized994checks plus3455privatechecks covering35OOMpositions and35latewritefailures, with no remainingP1/P2. Frozen lexerSHA25647d63444ef7268895376475e30b53774a8c9826587a9d7e237184be255e70c8d. Clangstaticanalysisclean. A case-insensitive documentation map was corrected to ordinal case-sensitive keys; table IDs now match actual accepting states.
+
+## Actual native source verification — 2026-10-30
+
+Allthreejobs in run40909793774 at lexicalcommita1bb051 passed environment, strictcheck, ASan/UBSan, directfour-filecompile, valid/invalid/extension/noargumentdemonstrations, newreportcomparisons and actualtrace. Platforms:macOS15ARM64 andIntel AppleClang17.0.0, Ubuntu24.04GCC13.3. Sourcewasextractedoutsidecheckout. Same117201lexer/58087graph/994trace/13464314diff/289723coveragecounts; classroom700 onPOSIX and84audit,zero failures/capabilityskips. CLI31cases; assertioncounts varywithhostfixtures/sanitizerdiagnostics. ExactdownloadablesourceZIPrun will be linked in release notes after packaging. This source snapshot adds only evidence/doc updates after the tested source commit.
+
+https://github.com/afkDen/PPL_Group1_LexicalAnalyzer/actions/runs/40909793774
+
+Independentproposal/DFAreview Archimedes andnative reviewer Volta closedallfindings. Sourcecurrenthash47d63444ef7268895376475e30b53774a8c9826587a9d7e237184be255e70c8d stayedunchanged. NoIDEGUI orLeakSanitizerclaim.

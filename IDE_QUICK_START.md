@@ -79,7 +79,7 @@ and run `./ternfold-lexer.exe` followed by the relative demonstration arguments.
 
 These settings follow Apple's scheme/build documentation. **Direct Xcode GUI
 execution is unverified.** Apple Clang source builds and report comparisons
-were verified for earlier source releases on actual Apple Silicon and Intel Macs. Current-candidate runs are pending; see VERIFICATION.md.
+were verified for earlier source releases on actual Apple Silicon and Intel Macs. Current-candidate actual native compiler/check/sanitizer runs have now also passed; see VERIFICATION.md. Direct Xcode GUI execution remains unverified.
 
 1. In Xcode choose **File > New > Project > macOS > Command Line Tool**; select
    **C** as the language. Save it outside the extracted folder if you wish.

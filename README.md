@@ -137,7 +137,7 @@ The215name states and all outgoing edges are static const C initializers in src/
   Usage, allocation, file-read and output failures return 2.
 - **Report/input alias:** choose a different directory; source protection rejects it.
 - **Platforms:** Current candidate Windows x64 Clang23.1.4 strict/sanitizer gates pass.
-  Actual current-candidate Mac/Ubuntu runs remain pending in VERIFICATION.md.
+  Actual current-candidate Mac ARM/Intel AppleClang17 and Ubuntu GCC13.3 strict/sanitizer runs passed; see VERIFICATION.md.
   Earlier releases passed those platforms; those results are historical, not new-candidate evidence.
   MSVC is not currently a supported build workflow.
 
